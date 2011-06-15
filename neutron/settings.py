@@ -85,6 +85,7 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    'compressor.finders.CompressorFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -118,7 +119,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     #'django.contrib.admindocs',
-    'south',
+    'south', #http://south.aeracode.org/
+    "compressor", #http://django_compressor.readthedocs.org/en/latest/
     'ide',
 )
 
@@ -145,7 +147,17 @@ LOGGING = {
     }
 }
 
-LOAD_FROM_D = True
+TEMPLATE_CONTEXT_PROCESSORS = (
+  "django.contrib.auth.context_processors.auth",
+  "django.core.context_processors.debug",
+  #"django.core.context_processors.i18n",
+  "django.core.context_processors.media",
+  "django.core.context_processors.static",
+  "django.contrib.messages.context_processors.messages",
+  'django.core.context_processors.request'
+)
+
+COMPRESS_PARSER =	'compressor.parser.BeautifulSoupParser'
 
 try:
   from neutron.settings_local import *
@@ -157,12 +169,3 @@ except:
   except:
     pass
     
-if SPATH not in sys.path:
-  sys.path.insert(0, SPATH)
-  
-if LOAD_FROM_D:
-  dpath = os.path.normpath(os.path.join(SPATH, '..', 'depends'))
-  if dpath not in sys.path:
-    if dpath not in sys.path:
-      sys.path.insert(0, dpath)
-      

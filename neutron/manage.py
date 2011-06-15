@@ -1,4 +1,21 @@
 #!/usr/bin/env python
+
+import os
+import sys
+
+SFILE = __file__
+SPATH = os.path.normpath(os.path.dirname(SFILE))
+
+for k in [k for k in sys.modules if k.startswith('django')]:
+  del sys.modules[k]
+  
+if SPATH not in sys.path:
+  sys.path.insert(0, SPATH)
+  
+dpath = os.path.normpath(os.path.join(SPATH, '..', 'depends'))
+if dpath not in sys.path:
+  sys.path.insert(0, dpath)
+  
 from django.core.management import execute_manager
 import imp
 try:
