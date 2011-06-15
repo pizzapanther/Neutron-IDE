@@ -157,8 +157,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
   'django.core.context_processors.request'
 )
 
-COMPRESS_PARSER =	'compressor.parser.BeautifulSoupParser'
-
 try:
   from neutron.settings_local import *
   

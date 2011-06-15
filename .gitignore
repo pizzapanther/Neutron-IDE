@@ -1,3 +1,4 @@
 *.pyc
 neutron.sql3
+neutron/settings_local.py
 
