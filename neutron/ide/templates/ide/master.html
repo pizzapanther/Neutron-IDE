@@ -8,6 +8,9 @@
     {% compress css %}
     <link href='{{ STATIC_URL }}ide/css/default.css' rel='stylesheet' type='text/css'>
     {% endcompress %}
+    {% compress js %}
+    <script type="text/javascript" src='{{ STATIC_URL }}ide/js/jquery.js'></script>
+    {% endcompress %}
     {% block head %}{% endblock %}
   </head>
   <body>
