@@ -1,4 +1,13 @@
 {% extends "ide/master.html" %}
 {% block content %}
-narf: {{ request.path }}
+<div class="ui-layout-north" onmouseover="myLayout.allowOverflow('north')" onmouseout="myLayout.resetOverflow(this)">
+  pulldown
+</div>
+<div id="tabs" class="ui-layout-center">
+  <div id="tabsinner">
+    <ul></ul>
+  </div>
+</div>
+<div id="file_browser" class="ui-layout-west"></div>
 {% endblock %}
+{% block footer %}{% endblock %}

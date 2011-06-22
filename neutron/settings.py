@@ -157,6 +157,9 @@ TEMPLATE_CONTEXT_PROCESSORS = (
   'django.core.context_processors.request'
 )
 
+SESSION_COOKIE_AGE = 12 * 60 * 60
+SESSION_SAVE_EVERY_REQUEST = True
+
 try:
   from neutron.settings_local import *
   
