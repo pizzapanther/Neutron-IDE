@@ -67,3 +67,14 @@ ul.jqueryFileTree {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.ui-tabs .ui-tabs-nav li a {
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected a, .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .ui-tabs .ui-tabs-nav li.ui-state-processing a {
+  cursor: pointer;
+}
+

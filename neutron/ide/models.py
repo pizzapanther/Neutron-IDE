@@ -4,22 +4,22 @@ from django.db import models
 from django.contrib.auth.models import User
 
 THEMES = (
-  ('ace/theme/textmate', 'TextMate'),
-  ('ace/theme/eclipse', 'Eclipse'),
-  ('ace/theme/dawn', 'Dawn'),
-  ('ace/theme/idle_fingers', 'idleFingers'),
-  ('ace/theme/pastel_on_dark', 'Pastel on dark'),
-  ('ace/theme/twilight', 'Twilight'),
-  ('ace/theme/clouds', 'Clouds'),
-  ('ace/theme/clouds_midnight', 'Clouds Midnight'),
-  ('ace/theme/kr_theme', 'krTheme'),
-  ('ace/theme/mono_industrial', 'Mono Industrial'),
-  ('ace/theme/monokai', 'Monokai'),
-  ('ace/theme/merbivore', 'Merbivore'),
-  ('ace/theme/merbivore_soft', 'Merbivore Soft'),
-  ('ace/theme/vibrant_ink', 'Vibrant Ink'),
-  ('ace/theme/solarized_dark', 'Solarized Dark'),
-  ('ace/theme/solarized_light', 'Solarized Light')
+  ('textmate', 'TextMate'),
+  ('eclipse', 'Eclipse'),
+  ('dawn', 'Dawn'),
+  ('idle_fingers', 'idleFingers'),
+  ('pastel_on_dark', 'Pastel on dark'),
+  ('twilight', 'Twilight'),
+  ('clouds', 'Clouds'),
+  ('clouds_midnight', 'Clouds Midnight'),
+  ('kr_theme', 'krTheme'),
+  ('mono_industrial', 'Mono Industrial'),
+  ('monokai', 'Monokai'),
+  ('merbivore', 'Merbivore'),
+  ('merbivore_soft', 'Merbivore Soft'),
+  ('vibrant_ink', 'Vibrant Ink'),
+  ('solarized_dark', 'Solarized Dark'),
+  ('solarized_light', 'Solarized Light')
 )
 
 SIZES = (
@@ -58,7 +58,7 @@ class Preferences (models.Model):
 
   basedir = models.CharField('Base Directory', max_length=255)
 
-  theme = models.CharField(choices=THEMES, max_length=50, default='ace/theme/textmate')
+  theme = models.CharField(choices=THEMES, max_length=25, default='textmate')
   fontsize = models.CharField('Font Size', choices=SIZES, max_length=10, default='12px')
   keybind = models.CharField('Key Bindings', choices=KBINDS, max_length=10, default='ace')
   swrap = models.CharField('Soft Wrap', choices=WRAPS, max_length=10, default='off')

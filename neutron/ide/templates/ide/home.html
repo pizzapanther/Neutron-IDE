@@ -1,4 +1,11 @@
 {% extends "ide/master.html" %}
+{% block head %}
+{% with pref=request.user.preferences %}
+<script type="text/javascript">
+  var pref = {theme: '{{ pref.theme }}'};
+</script>
+{% endwith %}
+{% endblock %}
 {% block content %}
 <div class="ui-layout-north" onmouseover="myLayout.allowOverflow('north')" onmouseout="myLayout.resetOverflow(this)">
   <input type="button" value="Save" onclick="SaveCurrentTab()"/>

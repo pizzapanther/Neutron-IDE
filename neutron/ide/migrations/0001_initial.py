@@ -13,16 +13,17 @@ class Migration(SchemaMigration):
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('user', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['auth.User'], unique=True)),
             ('basedir', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('theme', self.gf('django.db.models.fields.CharField')(default='ace/theme/textmate', max_length=50)),
+            ('theme', self.gf('django.db.models.fields.CharField')(default='textmate', max_length=25)),
             ('fontsize', self.gf('django.db.models.fields.CharField')(default='12px', max_length=10)),
-            ('hactive', self.gf('django.db.models.fields.BooleanField')(default=True)),
-            ('invisibles', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('keybind', self.gf('django.db.models.fields.CharField')(default='ace', max_length=10)),
             ('swrap', self.gf('django.db.models.fields.CharField')(default='off', max_length=10)),
+            ('tabsize', self.gf('django.db.models.fields.IntegerField')(default=4)),
+            ('hactive', self.gf('django.db.models.fields.BooleanField')(default=True)),
+            ('hword', self.gf('django.db.models.fields.BooleanField')(default=True)),
+            ('invisibles', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('gutter', self.gf('django.db.models.fields.BooleanField')(default=True)),
             ('pmargin', self.gf('django.db.models.fields.BooleanField')(default=True)),
             ('softab', self.gf('django.db.models.fields.BooleanField')(default=True)),
-            ('hword', self.gf('django.db.models.fields.BooleanField')(default=True)),
         ))
         db.send_create_signal('ide', ['Preferences'])
 
@@ -83,7 +84,8 @@ class Migration(SchemaMigration):
             'pmargin': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'softab': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'swrap': ('django.db.models.fields.CharField', [], {'default': "'off'", 'max_length': '10'}),
-            'theme': ('django.db.models.fields.CharField', [], {'default': "'ace/theme/textmate'", 'max_length': '50'}),
+            'tabsize': ('django.db.models.fields.IntegerField', [], {'default': '4'}),
+            'theme': ('django.db.models.fields.CharField', [], {'default': "'textmate'", 'max_length': '25'}),
             'user': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['auth.User']", 'unique': 'True'})
         }
     }

@@ -99,6 +99,8 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    'django.middleware.gzip.GZipMiddleware',
+    'ide.middleware.Logging',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -162,8 +164,11 @@ SESSION_SAVE_EVERY_REQUEST = True
 
 JSON_MIME = 'application/json'
 
-SERVER_CERT = os.path.join(settings.SPATH, '..', 'cert', 'server.crt')
-SERVER_KEY = os.path.join(settings.SPATH, '..', 'cert', 'server.key')
+CERT_DIR = os.path.normpath(os.path.join(SPATH, '..', 'cert'))
+SERVER_CSR = os.path.join(CERT_DIR, 'server.csr')
+SERVER_CERT = os.path.join(CERT_DIR, 'server.crt')
+SERVER_KEY = os.path.join(CERT_DIR, 'server.key')
+SERVER_PIDFILE = os.path.normpath(os.path.join(SPATH, '..', 'server.pid'))
 
 try:
   from neutron.settings_local import *

@@ -6,6 +6,12 @@ MODES_DEFAULT = (
   'ruby', 'svg'
 )
 
+THEMES_DEFAULT = (
+  'clouds', 'cobalt', 'eclipse', 'kr_theme', 'merbivore_soft',
+  'monokai', 'twilight', 'clouds_midnight', 'dawn', 'idle_fingers',
+  'merbivore', 'mono_industrial', 'pastel_on_dark', 'vibrant_ink'
+)
+
 TEXT_EXTENSIONS_DEFAULT = {
   'clj': 'clojure',
   
@@ -40,3 +46,4 @@ TEXT_EXTENSIONS_DEFAULT = {
 
 TEXT_EXTENSIONS = getattr(settings, 'TEXT_EXTENSIONS', TEXT_EXTENSIONS_DEFAULT)
 MODES = getattr(settings, 'MODES', MODES_DEFAULT)
+THEMES = getattr(settings, 'THEMES', THEMES_DEFAULT)

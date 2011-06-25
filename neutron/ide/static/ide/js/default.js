@@ -79,6 +79,7 @@ function create_tab (data) {
       $tabs.tabs('select', "#tabs-" + tab_counter);
       
       var editor = ace.edit("editor_" + tab_counter);
+      editor.setTheme("ace/theme/" + pref.theme);
       
       if (data.mode) {
         var Mode = require("ace/mode/" + data.mode).Mode;

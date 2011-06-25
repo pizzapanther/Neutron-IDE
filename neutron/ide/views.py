@@ -10,6 +10,7 @@ import django.contrib.auth.views as auth_views
 
 import ide.utils
 import ide.settings
+import ide.models
 
 def login (request):
   return auth_views.login(request)
@@ -22,7 +23,7 @@ def home (request):
   except:
     return TemplateResponse(request, 'ide/message.html', {'message': 'Please fill out a user preference.'})
     
-  return TemplateResponse(request, 'ide/home.html', {'MODES': ide.settings.MODES})
+  return TemplateResponse(request, 'ide/home.html', {'MODES': ide.settings.MODES, 'THEMES': ide.settings.THEMES})
   
 @login_required
 def filesave (request):
