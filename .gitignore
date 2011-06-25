@@ -2,4 +2,4 @@
 neutron.sql3
 neutron/settings_local.py
 neutron/static/CACHE/
-
+cert/*.*
