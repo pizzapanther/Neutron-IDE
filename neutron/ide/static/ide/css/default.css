@@ -52,6 +52,18 @@ textarea {
   padding: 0;
 }
 
+ul.jqueryFileTree {
+  font-family: 'Ubuntu', arial, sans-serif;
+}
+
 #tabsinner ul {
   font-size: 11px;
+}
+
+#status {
+  float: right;
+  color: #f00;
+  width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

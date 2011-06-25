@@ -160,6 +160,11 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 SESSION_COOKIE_AGE = 12 * 60 * 60
 SESSION_SAVE_EVERY_REQUEST = True
 
+JSON_MIME = 'application/json'
+
+SERVER_CERT = os.path.join(settings.SPATH, 'cert', 'server.crt')
+SERVER_KEY = os.path.join(settings.SPATH, 'cert', 'server.key')
+
 try:
   from neutron.settings_local import *
   

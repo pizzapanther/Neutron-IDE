@@ -1,7 +1,8 @@
 {% extends "ide/master.html" %}
 {% block content %}
 <div class="ui-layout-north" onmouseover="myLayout.allowOverflow('north')" onmouseout="myLayout.resetOverflow(this)">
-  pulldown
+  <input type="button" value="Save" onclick="SaveCurrentTab()"/>
+  <div id="status"></div>
 </div>
 <div id="tabs" class="ui-layout-center">
   <div id="tabsinner">

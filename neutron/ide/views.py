@@ -2,12 +2,14 @@ import os
 import urllib
 
 from django import http
+from django.conf import settings
 from django.template.response import TemplateResponse
 import django.utils.simplejson as json
 from django.contrib.auth.decorators import login_required
 import django.contrib.auth.views as auth_views
 
 import ide.utils
+import ide.settings
 
 def login (request):
   return auth_views.login(request)
@@ -20,8 +22,37 @@ def home (request):
   except:
     return TemplateResponse(request, 'ide/message.html', {'message': 'Please fill out a user preference.'})
     
-  return TemplateResponse(request, 'ide/home.html', {})
+  return TemplateResponse(request, 'ide/home.html', {'MODES': ide.settings.MODES})
   
+@login_required
+def filesave (request):
+  ret = 'bad'
+  error = None
+  
+  path = request.POST.get('path', '')
+  contents = request.POST.get('contents', '')
+    
+  if path == '':
+    error = 'Bad Request'
+    
+  else:
+    if request.user.preferences.valid_path(path):
+      try:
+        fh = open(path, 'w')
+        fh.write(contents)
+        
+      except:
+        error = 'Error writing file to disk.'
+        
+      else:
+        fh.close()
+        ret = 'good'
+        
+    else:
+      error = 'File Access Denied'
+      
+  return http.HttpResponse(json.dumps({'result': ret, 'error': error}), mimetype=settings.JSON_MIME)
+    
 @login_required
 def fileget (request):
   try:
@@ -33,14 +64,27 @@ def fileget (request):
       raise http.Http404
       
     fh = open(f, 'rb')
+    mode = None
+    
     if ide.utils.istext(fh.read(512)):
       fh.seek(0)
-      ret = {'fileType': 'text', 'data': fh.read(), 'path': f, 'filename': os.path.basename(f)}
+      
+      root, ext = os.path.splitext(f)
+      if ext[1:].lower() in ide.settings.TEXT_EXTENSIONS.keys():
+        mode = ide.settings.TEXT_EXTENSIONS[ext[1:].lower()]
+        
+      ret = {
+        'fileType': 'text',
+        'data': fh.read(),
+        'path': f,
+        'filename': os.path.basename(f),
+        'mode': mode
+      }
       
     else:
       ret = {'fileType': 'binary', }
       
-    return http.HttpResponse(json.dumps(ret), mimetype='application/json')
+    return http.HttpResponse(json.dumps(ret), mimetype=settings.JSON_MIME)
     
   except:
     import traceback
