@@ -2,7 +2,10 @@
 {% block head %}
 {% with pref=request.user.preferences %}
 <script type="text/javascript">
-  var pref = {theme: '{{ pref.theme }}'};
+  var pref = {
+    theme: '{{ pref.theme }}',
+    tabsize: {{ pref.tabsize }},
+  };
 </script>
 {% endwith %}
 {% endblock %}

@@ -86,6 +86,8 @@ function create_tab (data) {
         editor.getSession().setMode(new Mode());
       }
       
+      editor.getSession().setTabSize(pref.tabsize);
+      
       var h = $("#tabs").height() - 29;
       $("#editor_" + tab_counter).css('height', h + 'px');
       editor.resize();
