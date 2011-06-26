@@ -29,7 +29,6 @@ textarea {
 
 #tabs {
   padding: 0;
-  border: 0;
   overflow:hidden;
 }
 
@@ -68,13 +67,36 @@ ul.jqueryFileTree {
   text-overflow: ellipsis;
 }
 
+.logo { font-family: 'VT323', arial, serif; }
+#logo {
+  font-size: 20px;
+  padding-right: 15px;
+}
+
 .ui-tabs .ui-tabs-nav li a {
   max-width: 120px;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
+.ui-layout-pane {
+  padding: 2px;
+}
+
+.ui-layout-north.ui-layout-pane {
+  padding: 2px 5px 0 5px;
+  background: #DDD;
+  border: 0;
+}
+
+.ui-layout-resizer.ui-layout-resizer-north {
+  height: 2px;
+}
+
 .ui-tabs .ui-tabs-nav li.ui-tabs-selected a, .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .ui-tabs .ui-tabs-nav li.ui-state-processing a {
   cursor: pointer;
 }
 
+.ui-widget-header {
+  background: #ddd;
+}
