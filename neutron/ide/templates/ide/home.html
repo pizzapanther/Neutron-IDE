@@ -5,13 +5,16 @@
   var pref = {
     theme: '{{ pref.theme }}',
     tabsize: {{ pref.tabsize }},
+    hactive: {% if pref.hactive %}true{% else %}false{% endif %}
   };
 </script>
 {% endwith %}
 {% endblock %}
 {% block content %}
 <div class="ui-layout-north" onmouseover="myLayout.allowOverflow('north')" onmouseout="myLayout.resetOverflow(this)">
+  <span id="logo" class="logo">Neutron IDE</span>
   <input type="button" value="Save" onclick="SaveCurrentTab()"/>
+  <input type="button" value="About" onclick="about()"/>
   <div id="status"></div>
 </div>
 <div id="tabs" class="ui-layout-center">

@@ -80,6 +80,7 @@ function create_tab (data) {
       
       var editor = ace.edit("editor_" + tab_counter);
       editor.setTheme("ace/theme/" + pref.theme);
+      editor.setHighlightActiveLine(pref.hactive);
       
       if (data.mode) {
         var Mode = require("ace/mode/" + data.mode).Mode;
@@ -105,6 +106,20 @@ function create_tab (data) {
   }
 }
 
+function resize_editor () {
+  var dp = CurrentTab();
+  var href = $("ul.ui-tabs-nav li.ui-tabs-selected a").attr('href');
+  var cnt = split_href(href);
+  
+  var h = $("#tabs").height();
+  $("#editor_" + cnt).height(h - 29);
+  try {
+    tab_paths[dp].editor.resize();
+  }
+  
+  catch (e) {}
+}
+
 function split_href (href) {
   var cnt = href.split('-');
   return cnt[cnt.length - 1];
@@ -117,6 +132,18 @@ function remove_tab (ui) {
   delete tab_counts[cnt];
 }
 
+var isCtrl = false;
+
+$(document).keyup(function (e) {
+	if(e.which == 17) isCtrl=false;
+}).keydown(function (e) {
+	if(e.which == 17) isCtrl=true;
+	if(e.which == 83 && isCtrl == true) {
+		SaveCurrentTab();
+		return false;
+	}
+});
+
 $(document).ready( function() {
     $('#file_browser').fileTree({ root: '', script: '/filetree/', expandSpeed: 200, collapseSpeed: 200 }, function(file) {
         $.post('/fileget/', {f: file}, create_tab);
@@ -124,6 +151,7 @@ $(document).ready( function() {
     
     $tabs = $("#tabsinner").tabs({
       tabTemplate: "<li><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close'>Remove Tab</span></li>",
+      show: function( event, ui) { resize_editor(); },
 			add: function( event, ui) {
         $(ui.panel).append( "<div class=\"editor\" id=\"editor_" + tab_counter + "\">" + load_data + "</div>" );
       },
@@ -140,5 +168,5 @@ $(document).ready( function() {
 var myLayout;
   
 $(document).ready(function () {
-  myLayout = $('body').layout({north__resizable: false, north__closable: false});
+  myLayout = $('body').layout({onresize_end: resize_editor, north__resizable: false, north__closable: false});
 });
