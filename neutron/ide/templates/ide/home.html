@@ -5,7 +5,8 @@
   var pref = {
     theme: '{{ pref.theme }}',
     tabsize: {{ pref.tabsize }},
-    hactive: {% if pref.hactive %}true{% else %}false{% endif %}
+    hactive: {% if pref.hactive %}true{% else %}false{% endif %},
+    softab: {% if pref.softab %}true{% else %}false{% endif %},
   };
 </script>
 {% endwith %}

@@ -70,7 +70,7 @@ class Preferences (models.Model):
   invisibles = models.BooleanField('Show Invisibles', default=False)
   gutter = models.BooleanField('Show Gutter', default=True)
   pmargin = models.BooleanField('Show Print Margin', default=True)
-  softab = models.BooleanField('User Soft Tab', default=True)
+  softab = models.BooleanField('Use Soft Tab', default=True)
   
   def valid_path (self, path):
     path = os.path.normpath(path)

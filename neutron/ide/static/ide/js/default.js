@@ -87,6 +87,7 @@ function create_tab (data) {
       }
       
       editor.getSession().setTabSize(pref.tabsize);
+      editor.getSession().setUseSoftTabs(pref.softab);
       
       var h = $("#tabs").height() - 29;
       $("#editor_" + tab_counter).css('height', h + 'px');
