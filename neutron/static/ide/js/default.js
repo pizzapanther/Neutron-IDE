@@ -74,7 +74,6 @@ function create_tab (data) {
   
   else {
     if (data.fileType == 'text') {
-      load_data = data.data;
       $tabs.tabs("add", "#tabs-" + tab_counter, data.filename);
       $tabs.tabs('select', "#tabs-" + tab_counter);
       
@@ -92,7 +91,7 @@ function create_tab (data) {
       var h = $("#tabs").height() - 29;
       $("#editor_" + tab_counter).css('height', h + 'px');
       editor.resize();
-      
+      editor.getSession().setValue(data.data);
       
       tab_paths[data.path] = {tab: tab_counter, editor: editor, filename: data.filename}
       tab_counts[tab_counter] = data.path
@@ -153,7 +152,7 @@ $(document).ready( function() {
       tabTemplate: "<li><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close'>Remove Tab</span></li>",
       show: function( event, ui) { resize_editor(); },
 			add: function( event, ui) {
-        $(ui.panel).append( "<div class=\"editor\" id=\"editor_" + tab_counter + "\">" + load_data + "</div>" );
+        $(ui.panel).append( "<div class=\"editor\" id=\"editor_" + tab_counter + "\"></div>" );
       },
       remove: function (event, ui) { remove_tab(ui); }
     });
