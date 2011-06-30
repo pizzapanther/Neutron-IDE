@@ -1,4 +1,5 @@
 import os
+import codecs
 import urllib
 
 from django import http
@@ -39,7 +40,7 @@ def filesave (request):
   else:
     if request.user.preferences.valid_path(path):
       try:
-        fh = open(path, 'wb')
+        fh = codecs.open(path, encoding='utf-8', mode='w')
         fh.write(contents)
         
       except:
