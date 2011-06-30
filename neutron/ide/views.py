@@ -39,7 +39,7 @@ def filesave (request):
   else:
     if request.user.preferences.valid_path(path):
       try:
-        fh = open(path, 'w')
+        fh = open(path, 'wb')
         fh.write(contents)
         
       except:
