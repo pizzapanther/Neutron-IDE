@@ -1,1 +1,18 @@
-My GitHub Page
+---
+layout: default
+title: Home
+---
+
+{% for post in site.posts %}
+<div class="post">
+	<div class="post-bgtop">
+		<div class="post-bgbtm">
+			<h2 class="title"><a href="{{ post.url }}">{{ post.title }}</a></h2>
+			<p class="meta"><span class="date">{{ post.date|date:"%A, %B %d, %Y" }}</span></p>
+			<div class="entry">
+				<p>{{ post.content|strip_html|truncatewords:70 }}</p>
+			</div>
+		</div>
+	</div>
+</div>
+{% endfor %}

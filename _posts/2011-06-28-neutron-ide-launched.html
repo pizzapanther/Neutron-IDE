@@ -1,0 +1,28 @@
+---
+layout: post
+title: Version 0.3 Released
+categories:
+- release
+---
+
+<p>
+  The next release of Church Source is available!  This is a small update that allows you to tweak the Screen and Print CSS. 
+  This is necessary if you need to tweak the checkout labels for a different printer size than what I designed for.  If you wish 
+  to tweak the CSS, copy the existing CSS files to the uploads directory and edit away.  Then update the PRINT_CSS and SCREEN_CSS 
+  configuration settings in the admin with the paths to your new CSS.
+</p>
+<p>
+  To migrate from version 0.2 follow these steps:<br/>
+  <ol>
+    <li>Download and extract Version 0.3.</li>
+    <li>Move the directories <strong>static/uploads</strong> and <strong>static/cache</strong> from your old install to the V0.3 install.</li>
+    <li>Run <strong>./manage.py migrate</strong></li>
+  </ol>
+</p>
+<p>
+  <a href="https://docs.google.com/leaf?id=0B-GD95vnz4VFZjhlNjc5MTItNWFkOC00YjVmLTliMjctMjk5ZTkzNDM3NmJj&hl=en">Download the tarball</a> 
+  or go <a href="https://github.com/pizzapanther/Church-Source">check out the source</a>.
+</p>
+<p>
+  Please <a href="https://github.com/pizzapanther/Church-Source/issues">file issues</a> if you run into any problems.
+</p>

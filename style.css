@@ -1,0 +1,17 @@
+body {
+  background-image: url('img/neutron.jpg');
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-attachment:fixed;
+  background-position:center;
+  margin: 0;
+  color: #fff;
+}
+
+.bodyinner {
+ width: 980px;
+ margin: 5px auto;
+ background: rgba(75, 75, 75, 0.7);
+ border-radius: 20px;
+ padding: 20px;
+}

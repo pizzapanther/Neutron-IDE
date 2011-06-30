@@ -1,0 +1,108 @@
+<!DOCTYPE html> 
+<html> 
+  <head> 
+    <meta charset="utf-8" /> 
+    <meta http-equiv="X-UA-Compatible" content="chrome=1"/>
+    <title>{{ page.title }} &sdot; Neutron IDE</title>
+	  <meta name="keywords" content="" />
+	  <meta name="description" content="" />
+	  <link href="/favicon.ico" rel="shortcut icon" />
+	  <link href="/style.css" rel="stylesheet" type="text/css" media="screen" />
+	  <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/atom.xml"/> 
+  </head>
+  <body>
+    <div class="bodyinner">
+    <div id="header">
+    	<div id="menu">
+    		<ul>
+    			<li{% if page.url == "/index.html" %} class="current_page_item"{% endif %}><a href="/" class="first">Homepage</a></li>
+    			<li{% if page.url == "/about.html" %} class="current_page_item"{% endif %}><a href="/about.html">About</a></li>
+    			<li><a href="https://github.com/pizzapanther/Neutron-IDE/wiki">Wiki</a></li>
+    			<li><a href="https://github.com/pizzapanther/Neutron-IDE">Source Code</a></li>
+    			<li><a href="http://groups.google.com/group/neutronide">Google Group</a></li>
+    			<li><a href="https://github.com/pizzapanther/Neutron-IDE/issues">Submit Bugs</a></li>
+    		</ul>
+    	</div>
+    	<!-- end #menu -->
+    </div>
+    <!-- end #header -->
+    <div id="logo">
+    	<h1><a href="/">Neutron IDE</a></h1>
+    	<p><em>A Personal Web Based IDE</em></p>
+    </div>
+    <hr />
+    <!-- end #logo -->
+    <div id="page">
+    	<div id="page-bgtop">
+    		<div id="page-bgbtm">
+    			<div id="content">
+    				{{ content }}
+    			</div>
+    			<!-- end #content -->
+    			<div id="sidebar">
+    				<ul>
+    					<li>
+    						<h2>Social Sharing</h2>
+    						<ul>
+    							<li><a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="pizzapanther">Tweet</a></li>
+    							<li>
+    								<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fneutronide.com{{ page.url }}&amp;layout=standard&amp;show_faces=false&amp;width=238&amp;action=like&amp;font&amp;colorscheme=light&amp;height=35" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:238px; height:35px;" allowTransparency="true"></iframe>
+    							</li>
+    						</ul>
+    					</li>
+    					{% if page.url == "/index.html" or page.url == "/about.html" or page.url == "/releases.html"%}{% else %}
+    					<li>
+    						<h2>Related Posts</h2>
+    						<ul>
+    							{% for post in site.related_posts limit:5 %}
+    							<li><span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{ post.url }}">{{ post.title }}</a></li>
+    							{% endfor %}
+    						</ul>
+    					</li>
+    					{% endif %}
+    					<li class="ad">
+    						<script type="text/javascript"><!--
+                  google_ad_client = "ca-pub-4141710993863700";
+                  /* Neutron IDE 1 */
+                  google_ad_slot = "9835371640";
+                  google_ad_width = 300;
+                  google_ad_height = 250;
+                  //-->
+                </script>
+                <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+    					</li>
+    					<li class="ad">
+    						<script type="text/javascript"><!--
+                  google_ad_client = "ca-pub-4141710993863700";
+                  /* Neutron IDE 2 */
+                  google_ad_slot = "7927402795";
+                  google_ad_width = 300;
+                  google_ad_height = 250;
+                  //-->
+                </script>
+                <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+    					</li>
+    				</ul>
+    			</div>
+    			<!-- end #sidebar -->
+    		</div>
+    	</div>
+    </div>
+    <div id="footer">
+    	<p>Copyright &copy; 2011 neutronide.com. All rights reserved.</p>
+    </div>
+    </div>
+    <!-- end #footer -->
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-4108685-11']);
+      _gaq.push(['_trackPageview']);
+    
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+  </body>
+</html>
