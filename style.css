@@ -6,12 +6,91 @@ body {
   background-position:center;
   margin: 0;
   color: #fff;
+  font-family: 'Ubuntu', arial, serif;
+}
+
+a {
+  text-decoration: none;
+  color: #45d364;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.clear {
+  clear: both;  
 }
 
 .bodyinner {
  width: 980px;
  margin: 5px auto;
- background: rgba(75, 75, 75, 0.7);
+ background: rgba(75, 75, 75, 0.8);
  border-radius: 20px;
  padding: 20px;
+}
+
+#logo p {
+  margin: 0 0 10px 0;
+}
+
+#logo h1 {
+ font-family: 'VT323', arial, serif;
+ letter-spacing: 3px;
+ font-size: 2.8em;
+ margin: 0 0;
+}
+
+#logo h1 a {
+  color: #fff;  
+}
+
+#header ul {
+  float: right;
+  margin: 10px 0 0 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+#header ul li {
+  display: block;
+  float: right;
+  padding: 0;
+  margin: 0;
+}
+
+#header ul li a {
+  display: block;
+  padding: 8px;
+  margin: 0 5px;
+  border: 2px solid #fff;
+  border-radius: 10px;
+}
+
+#content {
+ float: left;
+ width: 660px;
+ margin: 0 20px 0 0;
+}
+
+#sidebar {
+  float: left;
+  width: 300px;
+  padding-top: 15px;
+}
+
+#sidebar ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+#sidebar ul li {
+ margin: 0 0 15px 0;
+ padding: 0;
+}
+
+.post .date {
+  font-size: 90%;
+  font-style: italic;
 }

@@ -7,6 +7,8 @@
 	  <meta name="keywords" content="" />
 	  <meta name="description" content="" />
     <meta name="google-site-verification" content="fYhunKWg2dmNiRkqRUNocJ_HeJ6P_30KTMb3ScqXY1M" />
+    <link href='http://fonts.googleapis.com/css?family=VT323&v1' rel='stylesheet' type='text/css'/>
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu:regular,italic,bold,bolditalic&v1' rel='stylesheet' type='text/css'/>
 	  <link href="/favicon.ico" rel="shortcut icon" />
 	  <link href="/style.css" rel="stylesheet" type="text/css" media="screen" />
 	  <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/atom.xml"/> 
@@ -16,12 +18,12 @@
     <div id="header">
     	<div id="menu">
     		<ul>
-    			<li{% if page.url == "/index.html" %} class="current_page_item"{% endif %}><a href="/" class="first">Homepage</a></li>
-    			<li{% if page.url == "/about.html" %} class="current_page_item"{% endif %}><a href="/about.html">About</a></li>
+    			<li><a href="https://github.com/pizzapanther/Neutron-IDE/issues">Submit Bugs</a></li>
+    			<li><a href="http://groups.google.com/group/neutronide">Google Group</a></li>
     			<li><a href="https://github.com/pizzapanther/Neutron-IDE/wiki">Wiki</a></li>
     			<li><a href="https://github.com/pizzapanther/Neutron-IDE">Source Code</a></li>
-    			<li><a href="http://groups.google.com/group/neutronide">Google Group</a></li>
-    			<li><a href="https://github.com/pizzapanther/Neutron-IDE/issues">Submit Bugs</a></li>
+    			<li{% if page.url == "/about.html" %} class="current_page_item"{% endif %}><a href="/about.html">About</a></li>
+          <li{% if page.url == "/index.html" %} class="current_page_item"{% endif %}><a href="/" class="first">Home</a></li>
     		</ul>
     	</div>
     	<!-- end #menu -->
@@ -43,12 +45,17 @@
     			<div id="sidebar">
     				<ul>
     					<li>
-    						<h2>Social Sharing</h2>
     						<ul>
-    							<li><a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="pizzapanther">Tweet</a></li>
     							<li>
-    								<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fneutronide.com{{ page.url }}&amp;layout=standard&amp;show_faces=false&amp;width=238&amp;action=like&amp;font&amp;colorscheme=light&amp;height=35" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:238px; height:35px;" allowTransparency="true"></iframe>
+                    <a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="pizzapanther">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+                  </li>
+    							<li>
+    								<div id="fb-root"></div><script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script><fb:like href="http://neutronide.com{{ page.url }}" send="true" layout="button_count" width="300" show_faces="false" colorscheme="dark" font=""></fb:like>
     							</li>
+                  <li>
+                    <script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+                    <g:plusone size="medium"></g:plusone>
+                  </li>
     						</ul>
     					</li>
     					{% if page.url == "/index.html" or page.url == "/about.html" or page.url == "/releases.html"%}{% else %}
@@ -86,6 +93,7 @@
     				</ul>
     			</div>
     			<!-- end #sidebar -->
+          <div class="clear"></div>
     		</div>
     	</div>
     </div>
