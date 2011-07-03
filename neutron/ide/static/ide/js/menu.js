@@ -1,4 +1,4 @@
 
 function about () {
-  alert('Neutron IDE by Paul M Bailey - paul.m.bailey@gmail.com\n\nhttps://profiles.google.com/Paul.M.Bailey/about\n\nLicense: GPLv3');
+  alert('Neutron IDE v0.1 by Paul M Bailey - paul.m.bailey@gmail.com\n\nhttp://neutronide.com/\n\nLicense: GPLv3');
 }
