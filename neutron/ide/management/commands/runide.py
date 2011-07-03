@@ -187,16 +187,20 @@ def start_server (options):
       request_queue_size = int(options['request_queue_size'])
     )
     
-  if not os.path.exists(options['ssl_certificate']) or not os.path.exists(options['ssl_private_key']):
-    if options['ssl_certificate'] == settings.SERVER_CERT and options['ssl_private_key'] == settings.SERVER_KEY:
-      generate_cert()
-      
-    else:
-      raise Exception('Invalid Certificate or Key Path')
-      
-  SERVER.ssl_certificate = options['ssl_certificate']
-  SERVER.ssl_private_key = options['ssl_private_key'] 
-  
+  if options['ssl_certificate'].lower() == 'none' or options['ssl_private_key'].lower() == 'none':
+    pass
+    
+  else:
+    if not os.path.exists(options['ssl_certificate']) or not os.path.exists(options['ssl_private_key']):
+      if options['ssl_certificate'] == settings.SERVER_CERT and options['ssl_private_key'] == settings.SERVER_KEY:
+        generate_cert()
+        
+      else:
+        raise Exception('Invalid Certificate or Key Path')
+        
+    SERVER.ssl_certificate = options['ssl_certificate']
+    SERVER.ssl_private_key = options['ssl_private_key'] 
+    
   try:
     SERVER.start()
     
