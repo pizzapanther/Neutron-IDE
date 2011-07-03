@@ -170,3 +170,7 @@ var myLayout;
 $(document).ready(function () {
   myLayout = $('body').layout({onresize_end: resize_editor, north__resizable: false, north__closable: false});
 });
+
+window.onbeforeunload = function() {
+    return 'Are you sure you wish to leave this page?';
+}
