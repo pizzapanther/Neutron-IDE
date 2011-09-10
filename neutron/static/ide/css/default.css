@@ -178,3 +178,8 @@ ul.jqueryFileTree {
 .right_menu ul li a.cancel {
   background-image: url(/static/ide/img/cancel.png);
 }
+
+.right_menu ul li a.refresh {
+  background-image: url(/static/ide/img/refresh.png);
+}
+
