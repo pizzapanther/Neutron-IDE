@@ -270,3 +270,24 @@ def remove (request):
     
   return ide.utils.good_json(did)
   
+@login_required
+@ide.utils.valid_dir
+def rename (request):
+  path = request.REQUEST.get('dir')
+  name = request.REQUEST.get('name')
+  
+  d = os.path.dirname(path)
+  newpath = os.path.join(d, name)
+  
+  if os.path.exists(newpath):
+    return ide.utils.bad_json('Destination Exists Already')
+    
+  os.rename(path, newpath)
+  if d == request.user.preferences.basedir:
+    did = 'file_browser'
+    
+  else:
+    did = hashstr(d)
+    
+  return ide.utils.good_json(did)
+  

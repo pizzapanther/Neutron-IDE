@@ -111,3 +111,36 @@ function delete_me (path, did) {
   close_right(did);
 }
 
+function rename (path, did) {
+  var tmp = path.split("/");
+  if (tmp[tmp.length - 1] == '') {
+    var name = tmp[tmp.length - 2];
+  }
+  
+  else {
+    var name = tmp[tmp.length - 1];
+  }
+  
+  var newname = prompt('Rename', name);
+  if (newname) {
+    $.ajax({
+       type: "POST",
+       dataType: 'json',
+       url: "/rename/",
+       data: {dir: path, name: newname},
+       success: function (data, textStatus, jqXHR) {
+         if (data.result) {
+          refresh_dir(data.message);
+         }
+         
+         else {
+           alert(data.message);
+         }
+       },
+       error: function (jqXHR, textStatus, errorThrown) {
+         alert('Error renaming ' + path);
+       }
+    });
+  }
+  close_right(did);
+}
