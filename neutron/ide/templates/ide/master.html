@@ -3,7 +3,7 @@
   <head>
 	{% block mainhead %}
     <meta charset="utf-8"/> 
-    <meta http-equiv="X-UA-Compatible" content="chrome=1"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <title>{% block title %}Neutron IDE &sdot; {{ request.get_host }}{% endblock %}</title>
     <link rel="shortcut icon" href="{{ STATIC_URL }}ide/img/favicon.ico" />
     <link href='http://fonts.googleapis.com/css?family=Ubuntu:regular,italic,bold,bolditalic&v1' rel='stylesheet' type='text/css'/>
@@ -17,6 +17,7 @@
     {% endcompress %}
     {% compress js %}
     <script type="text/javascript" src='{{ STATIC_URL }}ide/js/jquery.1.4.4.js'></script>
+    <script type="text/javascript" src='{{ STATIC_URL }}ide/js/jquery.rightClick.js'></script>
     <script type="text/javascript" src='{{ STATIC_URL }}ide/js/jqueryFileTree/jqueryFileTree.js'></script>
     <script type="text/javascript" src='{{ STATIC_URL }}ide/js/jquery-ui/js/jquery-ui-1.8.13.custom.min.js'></script>
     <script type="text/javascript" src='{{ STATIC_URL }}ide/js/jquery.layout.js'></script>
@@ -27,6 +28,7 @@
     {% endfor %}
     <script type="text/javascript" src='{{ STATIC_URL }}ide/js/default.js'></script>
     <script type="text/javascript" src='{{ STATIC_URL }}ide/js/menu.js'></script>
+    <script type="text/javascript" src='{{ STATIC_URL }}ide/js/modals.js'></script>
     {% endcompress %}
     {% endblock %}
     {% block head %}{% endblock %}
@@ -34,5 +36,8 @@
   <body>
     {% block content %}{% endblock %}
     {% block footer %}{% endblock %}
+    <div style="display: none;">
+      {% include "ide/modals.html" %}
+    </div>
   </body>
 </html>

@@ -1,0 +1,28 @@
+<div id="new_stuff">
+  <form onsubmit="return create_new()" enctype="multipart/form-data">
+    New Type:
+    <div class="indent">
+      <input type="radio" name="new_type" value="file" id="new_type_file" checked="checked" onclick="show_new_fn()"/> 
+      <label for="new_type_file">Empty File</label><br/>
+      <input type="radio" name="new_type" value="url" id="new_type_url" onclick="show_new_fn()"/> 
+      <label for="new_type_url">File by URL</label><br/>
+      <input type="radio" name="new_type" value="up" id="new_type_up" onclick="show_new_upload()"/> 
+      <label for="new_type_up">File by Upload</label><br/>
+      <input type="radio" name="new_type" value="dir" id="new_type_dir" onclick="show_new_fn()"/> 
+      <label for="new_type_dir">Directory</label>
+    </div>
+    <p></p>
+    <p id="new_filename">
+      <label>Name/URL:</label>&nbsp; <input type="text" name="new_file" id="new_file" value="" style="width: 350px"/>
+    </p>
+    <p id="new_upload" style="display: none;">
+      <label>File:</label>&nbsp; <input type="file" name="new_upload_file" id="new_upload_file"/> <span id="span_new_upload_file"></span>
+    </p>
+    <p>
+      <input type="button" name="create_new_file" id="create_new_file" value="Create" class="floatr" onclick="create_new()"/>
+    </p>
+    <input type="hidden" name="create_new_dpath" id="create_new_dpath" value=""/>
+    <input type="hidden" name="create_new_did" id="create_new_did" value=""/>
+    <input type="hidden" name="temp_file" id="temp_file" value=""/>
+  </form>
+</div>

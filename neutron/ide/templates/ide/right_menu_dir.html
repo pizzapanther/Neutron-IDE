@@ -1,0 +1,19 @@
+<script type="text/javascript">
+  $('body').append(
+  '<div id="{{ did }}_right" class="right_menu">\
+  <ul>\
+    <li class="fd">{{ d }}</li>\
+    <li class="btop"><a href="javascript: void(0)" onclick="new_stuff(\'{{ d }}\', \'{{ dir|escapejs }}\', \'{{ did }}\')" class="new">New File/Dir</a></li>\
+    <li><a href="javascript: void(0)" onclick="refresh_dir(\'{{ did }}\')" class="refresh">Refresh</a></li>\
+    <li class="btop"><a href="javascript: void(0)" onclick="$(\'#{{ did }}_right\').css(\'display\', \'none\')" class="cancel">Cancel</a>\
+  </ul>\
+</div>' 
+  );
+  $("#{{ did }}").rightClick( function(e) {
+    var offset = $("#{{ did }}").offset();
+    $("#{{ did }}_right").css("display", 'block');
+    $("#{{ did }}_right").css("top", offset.top + 'px');
+    var ol = offset.left + 20;
+    $("#{{ did }}_right").css("left", ol + 'px');
+  });
+</script>

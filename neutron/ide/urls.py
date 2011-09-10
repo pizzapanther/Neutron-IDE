@@ -8,5 +8,7 @@ urlpatterns = patterns('ide.views',
   url('^filesave/$', 'filesave', name='ide-filesave'),
   url('^accounts/login/$', 'login', name='ide-login'),
   url('^favicon.ico$', redirect_to, {'url': settings.STATIC_URL + 'ide/img/favicon.ico'}, name='ide-favicon.ico'),
+  url('^new/$', 'new', name='ide-new'),
+  url('^temp_file/$', 'temp_file', name='ide-temp-file'),
   url('^$', 'home', name='ide-home'),
 )

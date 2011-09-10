@@ -1,4 +1,4 @@
-Neutron IDE v0.1 is a web based integrated development environment.
+Neutron IDE v0.2 is a web based integrated development environment.
 
 With release of Chrome OS and the advancement to a more web based society, I thought it only fitting to start using a web based IDE.  There are already quite a few web based IDE services out there.  While these are great, you often can't edit code directly off a development server you run, or if you can, it loads files painfully slow.  I also believe in using free and open source tools for development.
 

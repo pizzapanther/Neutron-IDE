@@ -1,19 +1,20 @@
-$(document).ajaxSend(function(event, xhr, settings) {
-    function getCookie(name) {
-        var cookieValue = null;
-        if (document.cookie && document.cookie != '') {
-            var cookies = document.cookie.split(';');
-            for (var i = 0; i < cookies.length; i++) {
-                var cookie = jQuery.trim(cookies[i]);
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
             }
         }
-        return cookieValue;
     }
+    return cookieValue;
+}
+
+$(document).ajaxSend(function(event, xhr, settings) {
     function sameOrigin(url) {
         // url could be relative or scheme relative or absolute
         var host = document.location.host; // host + port
@@ -130,6 +131,28 @@ function remove_tab (ui) {
   var dp = tab_counts[cnt];
   delete tab_paths[dp];
   delete tab_counts[cnt];
+}
+
+function uploadProgress(id, evt) {
+  if (evt.lengthComputable) {
+    var pc = Math.round(evt.loaded * 100 / evt.total);
+    
+    $('#span_' + id).html('Uploading ' + pc + '%');
+  }
+}
+
+function uploadFile(id, onComplete) {
+  var xhr = new XMLHttpRequest();
+  var fd = document.getElementById(id).files[0];
+  
+  xhr.upload.addEventListener("progress", function (evt) { uploadProgress(id, evt); }, false);
+  xhr.addEventListener("load", function (evt) { onComplete(evt); }, false);
+  xhr.addEventListener("error", function (evt) { alert('Upload Failed'); }, false);
+  xhr.addEventListener("abort", function (evt) { alert('Upload Cancel'); }, false);
+  
+  xhr.open("POST", "/temp_file/?name=" + encodeURIComponent(fd.fileName));
+  xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+  xhr.send(fd);
 }
 
 var isCtrl = false;

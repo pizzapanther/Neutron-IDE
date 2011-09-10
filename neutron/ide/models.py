@@ -53,6 +53,10 @@ WRAPS = (
   ('free', 'Free')
 )
 
+class TempFile (models.Model):
+  user = models.ForeignKey(User)
+  file = models.FileField(upload_to='tmp')
+  
 class Preferences (models.Model):
   user = models.OneToOneField(User)
 

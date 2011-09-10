@@ -1,6 +1,11 @@
 import os
+import time
+import shutil
 import codecs
 import urllib
+import mimetypes
+
+mimetypes.init()
 
 from django import http
 from django.conf import settings
@@ -8,10 +13,13 @@ from django.template.response import TemplateResponse
 import django.utils.simplejson as json
 from django.contrib.auth.decorators import login_required
 import django.contrib.auth.views as auth_views
+from django.template.loader import render_to_string
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 import ide.utils
 import ide.settings
 import ide.models
+from ide.templatetags.ntags import hashstr
 
 def login (request):
   return auth_views.login(request)
@@ -25,6 +33,86 @@ def home (request):
     return TemplateResponse(request, 'ide/message.html', {'message': 'Please fill out a user preference.'})
     
   return TemplateResponse(request, 'ide/home.html', {'MODES': ide.settings.MODES, 'THEMES': ide.settings.THEMES})
+  
+@login_required
+def temp_file (request):
+  fn = request.GET.get('name')
+  
+  mt, enc = mimetypes.guess_type(fn)
+  if mt is None:
+    mt = 'application/octet-stream'
+    
+  f = SimpleUploadedFile(fn, request.raw_post_data, mt)
+  
+  t = ide.models.TempFile(file=f, user=request.user)
+  t.save()
+  
+  return ide.utils.good_json(t.id)
+  
+@login_required
+@ide.utils.valid_dir
+def new (request):
+  d = request.REQUEST.get('dir', '')
+  new_type = request.REQUEST.get('new_type', '')
+  name = request.REQUEST.get('name', '')
+  
+  fp = os.path.join(d, name)
+  
+  if new_type == 'file':
+    if os.path.exists(fp):
+      return ide.utils.bad_json('File Exists Already')
+      
+    fh = open(fp, 'w')
+    fh.close()
+    
+  elif new_type == 'dir':
+    if os.path.exists(fp):
+      return ide.utils.bad_json('Directory Exists Already')
+      
+    os.mkdir(fp)
+    
+  elif new_type == 'url':
+    uh = urllib.urlopen(name)
+    
+    if uh.info().has_key('Content-Disposition'):
+      fn = uh.info()['Content-Disposition']
+      
+    else:
+      fn = name.split('/')[-1]
+      if fn == '':
+        fn = time.strftime("%Y%m%d_%H%M%S.file", time.gmtime())
+        
+    fp = os.path.join(d, fn)
+    if os.path.exists(fp):
+      return ide.utils.bad_json('File Exists Already')
+      
+    fh = open(fp, 'wb')
+    while 1:
+      data = uh.read()
+      fh.write(data)
+      
+      if not data:
+        break
+        
+    fh.close()
+    uh.close()
+    
+  else:
+    tf = request.REQUEST.get('temp_file')
+    tf = ide.models.TempFile.objects.get(id=tf, user=request.user)
+    
+    name = os.path.basename(tf.file.path)
+    
+    fp = os.path.join(d, name)
+    if os.path.exists(fp):
+      tf.file.delete()
+      tf.delete()
+      return ide.utils.bad_json('File Exists Already')
+      
+    shutil.move(tf.file.path, fp)
+    tf.delete()
+    
+  return ide.utils.good_json()
   
 @login_required
 def filesave (request):
@@ -134,10 +222,14 @@ def filetree (request):
           files.append((e,ff,f))
           
     for d in dirs:
-      r.append('<li class="directory collapsed"><a href="#" rel="%s/">%s</a></li>' % (d[0], d[1]))
+      did = hashstr(d[0])
+      rm = render_to_string('ide/right_menu_dir.html', {'dir': d[0], 'did': did, 'd': os.path.basename(d[0])})
+      r.append('<li class="directory collapsed" id="%s" title="%s">%s<a href="#" rel="%s/">%s</a></li>' % (did, d[0], rm, d[0], d[1]))
       
     for f in files:
-      r.append('<li class="file ext_%s"><a href="#" rel="%s">%s</a></li>' % (f[0], f[1], f[2]))
+      fid = hashstr(f[1])
+      rm = render_to_string('ide/right_menu_file.html', {'f': f[2], 'fid': fid})
+      r.append('<li class="file ext_%s" id="%s">%s<a href="#" rel="%s">%s</a></li>' % (f[0], fid, rm, f[1], f[2]))
       
     r.append('</ul>')
     
@@ -145,5 +237,4 @@ def filetree (request):
     r.append('Could not load directory: %s' % str(e))
     
   r.append('</ul>')
-  
   return http.HttpResponse(''.join(r))

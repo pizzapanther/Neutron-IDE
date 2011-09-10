@@ -12,6 +12,10 @@ textarea {
   font-family: 'Droid Sans Mono', "Courier New", courier, monospace;
 }
 
+.floatr {
+  float: right;
+}
+
 #file_browser {
   height: 500px;
 }
@@ -39,6 +43,7 @@ textarea {
 
 #tabs .ui-widget-header {
   border: 0;
+  border-bottom: 1px solid #ddd;
 }
 
 #tabs .ui-corner-all {
@@ -65,6 +70,7 @@ ul.jqueryFileTree {
   width: 200px;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .logo { font-family: 'VT323', arial, serif; }
@@ -99,4 +105,68 @@ ul.jqueryFileTree {
 
 .ui-widget-header {
   background: #ddd;
+}
+
+.indent {
+  padding-left: 40px;
+}
+
+.right_menu {
+  border: solid 1px #bbb;
+  background-color: #DDD;
+  position: absolute;
+  display: none;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.right_menu a {
+  color: #333;
+  font-size: 11px;
+  line-height: 18px;
+  text-decoration: none;
+}
+
+.right_menu a:hover {
+  background-color: #BDF;
+}
+
+.right_menu ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.right_menu ul li {
+  padding: 2px;
+  margin: 0;
+}
+
+.right_menu ul li.btop {
+  border-top: solid 1px #bbb;
+}
+
+.right_menu ul li.fd {
+  font-size: 10px;
+  text-align: center;
+}
+
+.right_menu ul li a {
+  display: block;
+  width: 120px;
+  padding: 3px 0 0 23px;
+}
+
+.right_menu ul li a {
+  background-repeat: no-repeat;
+  background-position: 0px 3px;
+}
+
+.right_menu ul li a.new {
+  background-image: url(/static/ide/img/new.png);
+}
+
+.right_menu ul li a.cancel {
+  background-image: url(/static/ide/img/cancel.png);
 }
