@@ -92,3 +92,55 @@ function show_new_upload () {
   $("#new_upload").css('display', 'block');
 }
 
+function delete_me (path, did) {
+  if (confirm('Are you sure you want to delete: ' + path + '?')) {
+    $.ajax({
+       type: "POST",
+       dataType: 'json',
+       url: "/delete/",
+       data: {dir: path},
+       success: function (data, textStatus, jqXHR) {
+         refresh_dir(data.message);
+       },
+       error: function (jqXHR, textStatus, errorThrown) {
+         alert('Error deleting ' + path);
+       }
+    });
+  }
+  
+  close_right(did);
+}
+
+function rename (path, did) {
+  var tmp = path.split("/");
+  if (tmp[tmp.length - 1] == '') {
+    var name = tmp[tmp.length - 2];
+  }
+  
+  else {
+    var name = tmp[tmp.length - 1];
+  }
+  
+  var newname = prompt('Rename', name);
+  if (newname) {
+    $.ajax({
+       type: "POST",
+       dataType: 'json',
+       url: "/rename/",
+       data: {dir: path, name: newname},
+       success: function (data, textStatus, jqXHR) {
+         if (data.result) {
+          refresh_dir(data.message);
+         }
+         
+         else {
+           alert(data.message);
+         }
+       },
+       error: function (jqXHR, textStatus, errorThrown) {
+         alert('Error renaming ' + path);
+       }
+    });
+  }
+  close_right(did);
+}

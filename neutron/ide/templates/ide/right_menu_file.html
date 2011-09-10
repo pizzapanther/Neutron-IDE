@@ -14,6 +14,12 @@
     
     $("#{{ fid }}_right").css("display", 'block');
     var t = e.pageY - 20;
+    var h = $("#{{ fid }}_right").height();
+    var bottom = t + h;
+    var doch = $('body').height();
+    if (bottom > doch) {
+      t = doch - h;
+    }
     $("#{{ fid }}_right").css("top", t + 'px');
     
     var ol = e.pageX - 20;

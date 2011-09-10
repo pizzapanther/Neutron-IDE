@@ -29,6 +29,11 @@ textarea {
   height: 500px;
 }
 
+#file_browser > a {
+  text-align: center;
+  border-bottom: solid 1px #bbb;
+}
+
 #tabs li .ui-icon-close { float: left; margin: 0.4em 0.2em 0 0; cursor: pointer; }
 
 .editor {
@@ -182,5 +187,9 @@ ul.jqueryFileTree {
 
 .right_menu ul li a.refresh {
   background-image: url(/static/ide/img/refresh.png);
+}
+
+.right_menu ul li a.delete {
+  background-image: url(/static/ide/img/remove.png);
 }
 
