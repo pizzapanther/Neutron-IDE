@@ -38,14 +38,20 @@ def mimetype (fp):
     
   return mt
   
+def valid_path (request, d):
+  base_dir = request.user.preferences.basedir
+  d = os.path.normpath(d)
+  
+  if d.startswith(base_dir):
+    return True
+    
+  return False
+  
 def valid_dir (target):
   def wrapper (*args, **kwargs):
-    request = args[0]
-    base_dir = request.user.preferences.basedir
-    d = request.REQUEST.get('dir', '')
-    d = os.path.normpath(d)
+    d = args[0].REQUEST.get('dir', '')
     
-    if d.startswith(base_dir):
+    if valid_path(args[0], d):
       return target(*args, **kwargs)
       
     raise http.Http404
@@ -54,12 +60,9 @@ def valid_dir (target):
   
 def valid_file (target):
   def wrapper (*args, **kwargs):
-    request = args[0]
-    base_dir = request.user.preferences.basedir
-    f = request.REQUEST.get('file', '')
-    f = os.path.normpath(f)
+    f = args[0].REQUEST.get('file', '')
     
-    if f.startswith(base_dir):
+    if valid_path(args[0], f):
       return target(*args, **kwargs)
       
     raise http.Http404

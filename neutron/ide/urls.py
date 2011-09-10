@@ -12,6 +12,6 @@ urlpatterns = patterns('ide.views',
   url('^delete/$', 'remove', name='ide-delete'),
   url('^rename/$', 'rename', name='ide-rename'),
   url('^temp_file/$', 'temp_file', name='ide-temp-file'),
-  url('^view_file/$', 'view_file', name='ide-view-file'),
+  url('^view_file(?P<fp>.+)$', 'view_file', name='ide-view-file'),
   url('^$', 'home', name='ide-home'),
 )

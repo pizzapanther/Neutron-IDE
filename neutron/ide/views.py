@@ -243,13 +243,14 @@ def filetree (request):
   return http.HttpResponse(''.join(r))
   
 @login_required
-@ide.utils.valid_file
-def view_file (request):
-  fp = request.REQUEST.get('file')
-  fn = os.path.basename(fp)
-  ret = serve(request, fp, document_root="/")
-  ret['Content-Disposition'] = 'filename=%s' % fn
-  return ret
+def view_file (request, fp=None):
+  if ide.utils.valid_path(request, fp):
+    fn = os.path.basename(fp)
+    ret = serve(request, fp, document_root="/")
+    ret['Content-Disposition'] = 'filename=%s' % fn
+    return ret
+    
+  raise http.Http404
   
 @login_required
 @ide.utils.valid_dir

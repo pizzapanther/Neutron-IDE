@@ -3,7 +3,7 @@
   '<div id="{{ fid }}_right" class="right_menu">\
   <ul>\
     <li class="fd">{{ f }}</li>\
-    <li class="btop"><a href="/view_file/?file={{ file|urlencode }}" target="_blank" onclick="close_right(\'{{ fid }}\')">View File</a></li>\
+    <li class="btop"><a href="/view_file{{ file|urlencode }}" target="_blank" onclick="close_right(\'{{ fid }}\')">View File</a></li>\
     <li><a href="javascript: rename(\'{{ file }}\', \'{{ fid }}\')" class="rename">Rename</a></li>\
     <li><a href="javascript: delete_me(\'{{ file }}\', \'{{ fid }}\')" class="delete">Delete</a></li>\
     <li class="btop"><a href="javascript: void(0)" onclick="$(\'#{{ fid }}_right\').css(\'display\', \'none\')" class="cancel">Cancel</a>\
