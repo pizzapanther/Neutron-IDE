@@ -13,18 +13,10 @@
     var did = "{{ did }}";
     
     $("#{{ did }}_right").css("display", 'block');
-    if ("{{ did }}" == 'file_browser') {
-      var offset = $(".jqueryFileTree").offset();
-      var top = ($(".jqueryFileTree").height() + offset.top) - 70;
-      $("#{{ did }}_right").css("top", top + 'px');
-    }
+    var t = e.pageY - 20;
+    $("#{{ did }}_right").css("top", t + 'px');
     
-    else {
-      var offset = $("#{{ did }}").offset();
-      $("#{{ did }}_right").css("top", offset.top + 'px');
-    }
-    
-    var ol = offset.left + 20;
+    var ol = e.pageX - 20;
     $("#{{ did }}_right").css("left", ol + 'px');
   });
 </script>

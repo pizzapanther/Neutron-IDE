@@ -191,7 +191,7 @@ $(document).keyup(function (e) {
 });
 
 function file_browser () {
-  $('#file_browser').fileTree({ root: '', script: '/filetree/', expandSpeed: 200, collapseSpeed: 200 }, function(file) {
+  $('#file_browser > div.inner').fileTree({ root: '', script: '/filetree/', expandSpeed: 200, collapseSpeed: 200 }, function(file) {
     $.post('/fileget/', {f: file}, create_tab);
   });
 }

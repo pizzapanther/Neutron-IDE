@@ -3,9 +3,6 @@ import time
 import shutil
 import codecs
 import urllib
-import mimetypes
-
-mimetypes.init()
 
 from django import http
 from django.conf import settings
@@ -15,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 import django.contrib.auth.views as auth_views
 from django.template.loader import render_to_string
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.views.static import serve
 
 import ide.utils
 import ide.settings
@@ -46,10 +44,7 @@ def home (request):
 def temp_file (request):
   fn = request.GET.get('name')
   
-  mt, enc = mimetypes.guess_type(fn)
-  if mt is None:
-    mt = 'application/octet-stream'
-    
+  mt = ide.util.mimetype(fn)
   f = SimpleUploadedFile(fn, request.raw_post_data, mt)
   
   t = ide.models.TempFile(file=f, user=request.user)
@@ -236,7 +231,7 @@ def filetree (request):
       
     for f in files:
       fid = hashstr(f[1])
-      rm = render_to_string('ide/right_menu_file.html', {'f': f[2], 'fid': fid})
+      rm = render_to_string('ide/right_menu_file.html', {'f': f[2], 'fid': fid, 'file': f[1]})
       r.append('<li class="file ext_%s" id="%s">%s<a href="#" rel="%s">%s</a></li>' % (f[0], fid, rm, f[1], f[2]))
       
     r.append('</ul>')
@@ -246,3 +241,32 @@ def filetree (request):
     
   r.append('</ul>')
   return http.HttpResponse(''.join(r))
+  
+@login_required
+@ide.utils.valid_file
+def view_file (request):
+  fp = request.REQUEST.get('file')
+  fn = os.path.basename(fp)
+  ret = serve(request, fp, document_root="/")
+  ret['Content-Disposition'] = 'filename=%s' % fn
+  return ret
+  
+@login_required
+@ide.utils.valid_dir
+def remove (request):
+  path = request.REQUEST.get('dir')
+  if os.path.isdir(path):
+    shutil.rmtree(path)
+    
+  else:
+    os.remove(path)
+  
+  d = os.path.dirname(path)
+  if d == request.user.preferences.basedir:
+    did = 'file_browser'
+    
+  else:
+    did = hashstr(d)
+    
+  return ide.utils.good_json(did)
+  

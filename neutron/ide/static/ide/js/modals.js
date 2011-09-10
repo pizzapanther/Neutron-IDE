@@ -92,3 +92,22 @@ function show_new_upload () {
   $("#new_upload").css('display', 'block');
 }
 
+function delete_me (path, did) {
+  if (confirm('Are you sure you want to delete: ' + path + '?')) {
+    $.ajax({
+       type: "POST",
+       dataType: 'json',
+       url: "/delete/",
+       data: {dir: path},
+       success: function (data, textStatus, jqXHR) {
+         refresh_dir(data.message);
+       },
+       error: function (jqXHR, textStatus, errorThrown) {
+         alert('Error deleting ' + path);
+       }
+    });
+  }
+  
+  close_right(did);
+}
+

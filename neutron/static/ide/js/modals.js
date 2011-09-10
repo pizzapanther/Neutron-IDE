@@ -72,8 +72,14 @@ function close_right (did) {
 
 function refresh_dir (did) {
   close_right(did);
-  $('#' + did + ' > a').click();
-  $('#' + did + ' > a').click();
+  if (did == 'file_browser') {
+    file_browser();
+  }
+  
+  else {
+    $('#' + did + ' > a').click();
+    $('#' + did + ' > a').click();
+  }
 }
 
 function show_new_fn () {

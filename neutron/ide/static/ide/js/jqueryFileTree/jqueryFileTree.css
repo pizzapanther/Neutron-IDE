@@ -1,4 +1,4 @@
-UL.jqueryFileTree {
+UL.jqueryFileTree, #file_browser > a {
 	font-family: Verdana, sans-serif;
 	font-size: 11px;
 	line-height: 18px;
@@ -14,7 +14,7 @@ UL.jqueryFileTree LI {
 	white-space: nowrap;
 }
 
-UL.jqueryFileTree A {
+UL.jqueryFileTree A, #file_browser > a {
 	color: #333;
 	text-decoration: none;
 	display: block;

@@ -15,7 +15,7 @@
 {% endblock %}
 {% block content %}
 <div class="ui-layout-north" onmouseover="myLayout.allowOverflow('north')" onmouseout="myLayout.resetOverflow(this)">
-  <span id="logo" class="logo">Neutron IDE</span>
+  <span id="logo" class="logo">Neutron IDE V0.2</span>
   <input type="button" value="Save" onclick="SaveCurrentTab()"/>
   <input type="button" value="About" onclick="about()"/> 
   <div id="current_edit">Welcome to Neutron IDE</div>
@@ -26,7 +26,10 @@
     <ul></ul>
   </div>
 </div>
-<div id="file_browser" class="ui-layout-west"></div>
+<div id="file_browser" class="ui-layout-west">
+  <a href="javascript: void(0)">File Browser</a>
+  <div class="inner"></div>
+</div>
 {% include "ide/right_menu_dir.html" %}
 {% endblock %}
 {% block footer %}{% endblock %}

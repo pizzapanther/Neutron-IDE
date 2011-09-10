@@ -22,6 +22,7 @@ textarea {
   text-overflow: ellipsis;
   width: 300px;
   display: inline-block;
+  white-space: nowrap;
 }
 
 #file_browser {

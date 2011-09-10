@@ -1,4 +1,7 @@
+import os
 import string
+import mimetypes
+mimetypes.init()
 
 from django import http
 from django.conf import settings
@@ -6,6 +9,8 @@ import django.utils.simplejson as json
 
 text_characters = "".join(map(chr, range(32, 127)) + list("\n\r\t\b"))
 _null_trans = string.maketrans("", "")
+
+DEFAULT_MT = 'application/octet-stream'
 
 def istext (s):
   if "\0" in s:
@@ -25,13 +30,36 @@ def istext (s):
     
   return 1
   
+  
+def mimetype (fp):
+  mt, enc = mimetypes.guess_type(fp)
+  if mt is None:
+    mt = DEFAULT_MT
+    
+  return mt
+  
 def valid_dir (target):
   def wrapper (*args, **kwargs):
     request = args[0]
     base_dir = request.user.preferences.basedir
     d = request.REQUEST.get('dir', '')
+    d = os.path.normpath(d)
     
     if d.startswith(base_dir):
+      return target(*args, **kwargs)
+      
+    raise http.Http404
+    
+  return wrapper
+  
+def valid_file (target):
+  def wrapper (*args, **kwargs):
+    request = args[0]
+    base_dir = request.user.preferences.basedir
+    f = request.REQUEST.get('file', '')
+    f = os.path.normpath(f)
+    
+    if f.startswith(base_dir):
       return target(*args, **kwargs)
       
     raise http.Http404
