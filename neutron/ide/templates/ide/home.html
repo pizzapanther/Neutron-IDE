@@ -8,6 +8,8 @@
     hactive: {% if pref.hactive %}true{% else %}false{% endif %},
     softab: {% if pref.softab %}true{% else %}false{% endif %},
   };
+  
+  var basedir = "{{ pref.basedir }}";
 </script>
 {% endwith %}
 {% endblock %}
@@ -15,7 +17,8 @@
 <div class="ui-layout-north" onmouseover="myLayout.allowOverflow('north')" onmouseout="myLayout.resetOverflow(this)">
   <span id="logo" class="logo">Neutron IDE</span>
   <input type="button" value="Save" onclick="SaveCurrentTab()"/>
-  <input type="button" value="About" onclick="about()"/>
+  <input type="button" value="About" onclick="about()"/> 
+  <div id="current_edit">Welcome to Neutron IDE</div>
   <div id="status"></div>
 </div>
 <div id="tabs" class="ui-layout-center">

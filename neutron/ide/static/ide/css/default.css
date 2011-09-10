@@ -16,6 +16,14 @@ textarea {
   float: right;
 }
 
+#current_edit {
+  font-size: 0.8em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 300px;
+  display: inline-block;
+}
+
 #file_browser {
   height: 500px;
 }

@@ -99,6 +99,8 @@ function create_tab (data) {
       tab_counts[tab_counter] = data.path
       
       tab_counter++;
+      
+      current_edit(data.path);
     }
     
     else if (data.fileType == 'binary') {
@@ -107,8 +109,20 @@ function create_tab (data) {
   }
 }
 
+function current_edit (path) {
+  try {
+    path = path.replace(basedir + '/', '');
+    
+    $("#current_edit").html(path);
+  }
+  
+  catch (e) {}
+}
+
 function resize_editor () {
   var dp = CurrentTab();
+  current_edit(dp);
+  
   var href = $("ul.ui-tabs-nav li.ui-tabs-selected a").attr('href');
   var cnt = split_href(href);
   
@@ -127,10 +141,19 @@ function split_href (href) {
 }
 
 function remove_tab (ui) {
+  $("#current_edit").html('');
+  
   var cnt = split_href(ui.tab.href);
   var dp = tab_counts[cnt];
   delete tab_paths[dp];
   delete tab_counts[cnt];
+  
+  try {
+    var dp = CurrentTab();
+    current_edit(dp);
+  }
+  
+  catch (e) {}
 }
 
 function uploadProgress(id, evt) {
