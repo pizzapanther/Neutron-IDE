@@ -7,7 +7,7 @@
   </ul>\
 </div>' 
   );
-  $("#{{ fid }}").rightClick( function(e) {
+  $("#{{ fid }} > a").rightClick( function(e) {
     var offset = $("#{{ fid }}").offset();
     $("#{{ fid }}_right").css("display", 'block');
     $("#{{ fid }}_right").css("top", offset.top + 'px');

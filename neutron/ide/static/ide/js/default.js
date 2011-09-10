@@ -190,10 +190,14 @@ $(document).keyup(function (e) {
 	}
 });
 
+function file_browser () {
+  $('#file_browser').fileTree({ root: '', script: '/filetree/', expandSpeed: 200, collapseSpeed: 200 }, function(file) {
+    $.post('/fileget/', {f: file}, create_tab);
+  });
+}
+
 $(document).ready( function() {
-    $('#file_browser').fileTree({ root: '', script: '/filetree/', expandSpeed: 200, collapseSpeed: 200 }, function(file) {
-        $.post('/fileget/', {f: file}, create_tab);
-    });
+    file_browser();
     
     $tabs = $("#tabsinner").tabs({
       tabTemplate: "<li><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close'>Remove Tab</span></li>",

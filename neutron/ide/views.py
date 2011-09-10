@@ -32,7 +32,15 @@ def home (request):
   except:
     return TemplateResponse(request, 'ide/message.html', {'message': 'Please fill out a user preference.'})
     
-  return TemplateResponse(request, 'ide/home.html', {'MODES': ide.settings.MODES, 'THEMES': ide.settings.THEMES})
+  c = {
+    'MODES': ide.settings.MODES,
+    'THEMES': ide.settings.THEMES,
+    'dir': base_dir,
+    'did': 'file_browser',
+    'd': base_dir,
+  }
+  
+  return TemplateResponse(request, 'ide/home.html', c)
   
 @login_required
 def temp_file (request):

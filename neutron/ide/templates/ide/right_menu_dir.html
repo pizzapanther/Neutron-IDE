@@ -9,10 +9,21 @@
   </ul>\
 </div>' 
   );
-  $("#{{ did }}").rightClick( function(e) {
-    var offset = $("#{{ did }}").offset();
+  $("#{{ did }} > a").rightClick( function(e) {
+    var did = "{{ did }}";
+    
     $("#{{ did }}_right").css("display", 'block');
-    $("#{{ did }}_right").css("top", offset.top + 'px');
+    if ("{{ did }}" == 'file_browser') {
+      var offset = $(".jqueryFileTree").offset();
+      var top = ($(".jqueryFileTree").height() + offset.top) - 70;
+      $("#{{ did }}_right").css("top", top + 'px');
+    }
+    
+    else {
+      var offset = $("#{{ did }}").offset();
+      $("#{{ did }}_right").css("top", offset.top + 'px');
+    }
+    
     var ol = offset.left + 20;
     $("#{{ did }}_right").css("left", ol + 'px');
   });
