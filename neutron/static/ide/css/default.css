@@ -193,3 +193,10 @@ ul.jqueryFileTree {
   background-image: url(/static/ide/img/remove.png);
 }
 
+.right_menu ul li a.view {
+  background-image: url(/static/ide/img/view.png);
+}
+
+.right_menu ul li a.rename {
+  background-image: url(/static/ide/img/rename.png);
+}

@@ -178,18 +178,6 @@ function uploadFile(id, onComplete) {
   xhr.send(fd);
 }
 
-var isCtrl = false;
-
-$(document).keyup(function (e) {
-	if(e.which == 17) isCtrl=false;
-}).keydown(function (e) {
-	if(e.which == 17) isCtrl=true;
-	if(e.which == 83 && isCtrl == true) {
-		SaveCurrentTab();
-		return false;
-	}
-});
-
 function file_browser () {
   $('#file_browser > div.inner').fileTree({ root: '', script: '/filetree/', expandSpeed: 200, collapseSpeed: 200 }, function(file) {
     $.post('/fileget/', {f: file}, create_tab);
@@ -224,3 +212,16 @@ $(document).ready(function () {
 window.onbeforeunload = function() {
     return 'Are you sure you wish to leave this page?';
 }
+
+var canon = require('pilot/canon')
+
+canon.addCommand({
+    name: 'SaveFile',
+    bindKey: {
+      win: 'Ctrl-S',
+      mac: 'Command-S',
+      sender: 'editor'
+    },
+    exec: function(env, args, request) { SaveCurrentTab(); }
+})
+
