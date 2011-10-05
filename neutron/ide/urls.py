@@ -13,5 +13,8 @@ urlpatterns = patterns('ide.views',
   url('^rename/$', 'rename', name='ide-rename'),
   url('^temp_file/$', 'temp_file', name='ide-temp-file'),
   url('^view_file(?P<fp>.+)$', 'view_file', name='ide-view-file'),
+  url('^external_open(?P<fp>.+)$', 'external_open', name='ide-ext-open'),
+  url('^save_image(?P<fp>.+)$', 'save_image', name='ide-save-image'),
+  url('^external_request/(?P<key>.+)/fp(?P<fp>.+)$', 'external_request', name='ide-ext-req'),
   url('^$', 'home', name='ide-home'),
 )

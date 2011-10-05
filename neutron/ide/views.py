@@ -3,6 +3,7 @@ import time
 import shutil
 import codecs
 import urllib
+import datetime
 
 from django import http
 from django.conf import settings
@@ -13,6 +14,7 @@ import django.contrib.auth.views as auth_views
 from django.template.loader import render_to_string
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.views.static import serve
+from django.shortcuts import get_object_or_404
 
 import ide.utils
 import ide.settings
@@ -233,7 +235,7 @@ def filetree (request):
       fid = hashstr(f[1])
       rm = render_to_string('ide/right_menu_file.html', {'f': f[2], 'fid': fid, 'file': f[1]})
       r.append('<li class="file ext_%s" id="%s">%s<a href="#" rel="%s">%s</a></li>' % (f[0], fid, rm, f[1], f[2]))
-      
+        
     r.append('</ul>')
     
   except Exception,e:
@@ -250,6 +252,40 @@ def view_file (request, fp=None):
     ret['Content-Disposition'] = 'filename=%s' % fn
     return ret
     
+  raise http.Http404
+  
+@login_required
+def external_open (request, fp=None):
+  if ide.utils.valid_path(request, fp):
+    return ide.utils.external_service(request, fp)
+    
+  raise http.Http404
+  
+@login_required
+def save_image (request, fp=None):
+  print fp
+  if ide.utils.valid_path(request, fp):
+    fw = open(fp, 'wb')
+    url = request.REQUEST.get(ide.settings.IMG_EDITOR_READ)
+    fr = urllib.urlopen(url)
+    fw.write(fr.read())
+    fw.close()
+    fr.close()
+    
+    return TemplateResponse(request, 'ide/close.html', {})
+    
+  raise http.Http404
+  
+def external_request (request, key=None, fp=None):
+  efr = get_object_or_404(ide.models.ExtFileRequest, secret=key, path=fp)
+  old = datetime.datetime.now() - datetime.timedelta(seconds=30)
+  if efr.created > old:
+    ret = serve(request, fp, document_root="/")
+    efr.delete()
+    
+    return ret
+    
+  efr.delete()
   raise http.Http404
   
 @login_required

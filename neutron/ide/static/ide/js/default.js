@@ -178,10 +178,20 @@ function uploadFile(id, onComplete) {
   xhr.send(fd);
 }
 
-function file_browser () {
-  $('#file_browser > div.inner').fileTree({ root: '', script: '/filetree/', expandSpeed: 200, collapseSpeed: 200 }, function(file) {
+function get_file (file) {
+  var img_patt = /\.(jpg|jpeg|png|bmp|pxd)$/i;
+  
+  if (img_patt.test(file)) {
+    window.open('/external_open' + encodeURI(file), '_blank');
+  }
+  
+  else {
     $.post('/fileget/', {f: file}, create_tab);
-  });
+  }
+}
+
+function file_browser () {
+  $('#file_browser > div.inner').fileTree({ root: '', script: '/filetree/', expandSpeed: 200, collapseSpeed: 200 }, get_file);
 }
 
 $(document).ready( function() {

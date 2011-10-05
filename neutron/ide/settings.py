@@ -44,6 +44,27 @@ TEXT_EXTENSIONS_DEFAULT = {
   'xml': 'xml', 'rss': 'xml', 'atom': 'xml',
 }
 
+SITE_NAME_DEFAULT = 'Neutron IDE'
+
+IMG_EXTENSIONS_DEFAULT = ('.jpg', '.jpeg', '.png', '.bmp', '.pxd')
+IMG_EDITOR_URL_DEFAULT = 'http://pixlr.com/editor/'
+IMG_EDITOR_READ_DEFAULT = 'image'
+IMG_PARAMS_DEFAULT = {
+  'service_name': 'referrer',
+  'image_url': 'image',
+  'filename': 'title',
+  'method': 'method',
+  'save_url': 'target',
+}
+
 TEXT_EXTENSIONS = getattr(settings, 'TEXT_EXTENSIONS', TEXT_EXTENSIONS_DEFAULT)
 MODES = getattr(settings, 'MODES', MODES_DEFAULT)
 THEMES = getattr(settings, 'THEMES', THEMES_DEFAULT)
+
+SITE_NAME = getattr(settings, 'SITE_NAME', SITE_NAME_DEFAULT)
+
+IMG_EXTENSIONS = getattr(settings, 'IMG_EXTENSIONS', IMG_EXTENSIONS_DEFAULT)
+IMG_EDITOR_URL = getattr(settings, 'IMG_EDITOR_URL', IMG_EDITOR_URL_DEFAULT)
+IMG_EDITOR_READ = getattr(settings, 'IMG_EDITOR_READ', IMG_EDITOR_READ_DEFAULT)
+IMG_PARAMS = getattr(settings, 'IMG_PARAMS', IMG_PARAMS_DEFAULT)
+

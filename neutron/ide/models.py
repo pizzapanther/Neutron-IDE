@@ -57,6 +57,11 @@ class TempFile (models.Model):
   user = models.ForeignKey(User)
   file = models.FileField(upload_to='tmp')
   
+class ExtFileRequest (models.Model):
+  secret = models.CharField(max_length=255)
+  path = models.TextField(max_length=255)
+  created = models.DateTimeField(auto_now_add=True)
+  
 class Preferences (models.Model):
   user = models.OneToOneField(User)
 
