@@ -46,7 +46,7 @@ def home (request):
 def temp_file (request):
   fn = request.GET.get('name')
   
-  mt = ide.util.mimetype(fn)
+  mt = ide.utils.mimetype(fn)
   f = SimpleUploadedFile(fn, request.raw_post_data, mt)
   
   t = ide.models.TempFile(file=f, user=request.user)
