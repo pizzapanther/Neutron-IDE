@@ -11,6 +11,7 @@
 </div>' 
   );
   $("#{{ fid }} > a").rightClick( function(e) {
+    $(".right_menu").css("display", 'none');
     
     $("#{{ fid }}_right").css("display", 'block');
     var t = e.pageY - 20;

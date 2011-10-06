@@ -12,6 +12,8 @@
 </div>' 
   );
   $("#{{ did }} > a").rightClick( function(e) {
+    $(".right_menu").css("display", 'none');
+    
     var did = "{{ did }}";
     
     $("#{{ did }}_right").css("display", 'block');
