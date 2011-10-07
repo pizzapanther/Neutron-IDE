@@ -223,7 +223,7 @@ window.onbeforeunload = function() {
     return 'Are you sure you wish to leave this page?';
 }
 
-var canon = require('pilot/canon')
+var canon = require('pilot/canon');
 
 canon.addCommand({
     name: 'SaveFile',
