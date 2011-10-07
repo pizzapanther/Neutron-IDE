@@ -1,27 +1,23 @@
-Neutron IDE v0.2 is a web based integrated development environment.
+Neutron IDE is a web based integrated development environment.
 
-With release of Chrome OS and the advancement to a more web based society, I thought it only fitting to start using a web based IDE.  There are already quite a few web based IDE services out there.  While these are great, you often can't edit code directly off a development server you run, or if you can, it loads files painfully slow.  I also believe in using free and open source tools for development.
+Neutron IDE was created to be a web IDE that satisfies the following:
+  1. Is free and open source
+  2. Is able to install on an existing development server for both performance and privacy of your code.
+  3. Is easy to install and secure out of the box.
 
-So to sum it up, I would like a web based editor that is the following:
-  1. Free and open source
-  2. Able to install on an existing development server for speed.
-  3. Easy to install and secure out of the box.
-
-After reviewing web based editors, I was left with only the Ecplise Orion project at http://www.eclipse.org/orion/.
-
-Orion, while promising, right now only lets you edit Javascript and CSS. Major Fail!
-
-So I created Neutron IDE.  A web based IDE that you can quickly install on a development server to edit your code in the cloud.
-
-Neutron IDE will be in heavy development the next few months but should have enough features to keep you coding happy for now.
-
-Currently, the IDE should let you edit any text file and save it.  Some of the editor customizations work, but a lot do not.
+Neutron IDE is based on Ace Editor (http://ace.ajax.org/) and currentely has the following features:
+  * Syntax highlighting
+  * Auto indentation and outdent
+  * Themes
+  * Image editing via Pixlr: http://pixlr.com/
+  * File browser
+  * Tabbed interface
 
 In the near future I hope to:
-  * Support all editor customizations and allow easy access to them.
-  * Integrate 3rd Party tools for editing images and other binary files.
+  * Support all Ace Editor customizations and allow easy access to them.
+  * Integrate more 3rd Party tools for editing binary files.
   * Integrate project support.
   * Integrate features like search, replace, directoy search, etc.
   * Integrate a native client ssh client.
 
---- This file edited in Neutron IDE ---
+--- This file was edited in Neutron IDE :-) ---
