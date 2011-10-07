@@ -3,13 +3,14 @@ from django.conf import settings
 MODES_DEFAULT = (
   'c_cpp', 'coffee', 'css', 'java', 'perl', 'python',
   'scss', 'xml', 'clojure', 'csharp', 'html', 'javascript', 'php',
-  'ruby', 'svg'
+  'ruby', 'svg', 'groovy', 'json', 'ocaml', 'scad', 'scala', 'textile'
 )
 
 THEMES_DEFAULT = (
   'clouds', 'cobalt', 'eclipse', 'kr_theme', 'merbivore_soft',
   'monokai', 'twilight', 'clouds_midnight', 'dawn', 'idle_fingers',
-  'merbivore', 'mono_industrial', 'pastel_on_dark', 'vibrant_ink'
+  'merbivore', 'mono_industrial', 'pastel_on_dark', 'vibrant_ink',
+  'textmate', 'crimson_editor', 'solarized_dark', 'solarized_light'
 )
 
 TEXT_EXTENSIONS_DEFAULT = {
@@ -27,7 +28,9 @@ TEXT_EXTENSIONS_DEFAULT = {
   
   'java': 'java', 'class': 'java', 'jsp': 'java',
   
-  'js': 'javascript', 'json': 'javascript',
+  'js': 'javascript',
+  
+  'json': 'json',
   
   'php': 'php',
   
@@ -42,6 +45,16 @@ TEXT_EXTENSIONS_DEFAULT = {
   'svg': 'svg',
   
   'xml': 'xml', 'rss': 'xml', 'atom': 'xml',
+  
+  'groovy': 'groovy',
+  
+  'ml': 'ocaml', 'mli': 'ocaml', 'mll': 'ocaml',
+  
+  'scad': 'scad',
+  
+  'scala': 'scala', 
+  
+  'textile': 'textile',
 }
 
 SITE_NAME_DEFAULT = 'Neutron IDE'

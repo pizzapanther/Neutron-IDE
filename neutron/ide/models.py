@@ -12,6 +12,7 @@ THEMES = (
   ('twilight', 'Twilight'),
   ('clouds', 'Clouds'),
   ('clouds_midnight', 'Clouds Midnight'),
+  ('crimson_editor', 'Crimson'),
   ('kr_theme', 'krTheme'),
   ('mono_industrial', 'Mono Industrial'),
   ('monokai', 'Monokai'),
@@ -19,7 +20,7 @@ THEMES = (
   ('merbivore_soft', 'Merbivore Soft'),
   ('vibrant_ink', 'Vibrant Ink'),
   ('solarized_dark', 'Solarized Dark'),
-  ('solarized_light', 'Solarized Light')
+  ('solarized_light', 'Solarized Light'),
 )
 
 SIZES = (
