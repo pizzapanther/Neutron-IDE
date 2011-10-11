@@ -1,0 +1,43 @@
+---
+layout: post
+title: Optimizing Python iCal
+categories:
+- development
+- ical
+- python
+---
+
+<p>
+  Recently while trying to boost performance of 
+  <a href="http://culturemap.com/">CultureMap.com</a>, I noticed our iCal feed 
+  was really slow.  It was taking almost 20 seconds to generate the feed.  So 
+  first I checked database queries.  Only 1 query was executing with a fairly 
+  large amount of data, but it was quick.  Then I figured since our calendar of 
+  events had grown maybe it was due to the amount of data being processed.  So 
+  I turned down the query range from 366 days to 90 days.  The request was 
+  faster but still too slow.  Next I started timing different parts of the code 
+  to see what was taking the longest.
+</p>
+<p>
+  By far what was taking the longest was one line:<br/>
+  <code>icalstream = calObj.serialize()</code>
+</p>
+<p>
+  This line generates the text for the iCal feed for the 
+  <a href="http://vobject.skyhouseconsulting.com/">Python VObject</a> library. 
+  VObject lets you create iCal feeds fairly easy, and I have used it a lot in the
+  past.  But from my tests I have found it very inefficient.
+</p>
+<p>
+  So I tried out another Python library called 
+  <a href="http://pypi.python.org/pypi/icalendar/">icalendar</a>.  Switching 
+  over was fairly easy since both libraries work in a similar manner.  The same 
+  request that took 20 seconds in VObject took less than 2 seconds in icalendar.
+  I went ahead and reduced the number of days queried and have the request down 
+  to less than a second now.
+</p>
+<p>
+  Lesson learned: if you have an iCal feed of any good size use 
+  <a href="http://pypi.python.org/pypi/icalendar/">icalendar</a> and stay away 
+  from VObject.
+</p>
