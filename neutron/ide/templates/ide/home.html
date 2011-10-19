@@ -14,10 +14,17 @@
 {% endwith %}
 {% endblock %}
 {% block content %}
-<div class="ui-layout-north" onmouseover="myLayout.allowOverflow('north')" onmouseout="myLayout.resetOverflow(this)">
-  <span id="logo" class="logo">Neutron IDE V11.10</span>
+<div class="ui-layout-north">
+  <span id="logo" class="logo">Neutron IDE V11.11</span>
   <input type="button" value="Save" onclick="SaveCurrentTab()"/>
-  <input type="button" value="About" onclick="about()"/> 
+  <input type="button" value="Save All" onclick="SaveAll()"/>
+  <input type="button" value="Close All" onclick="alert('narf')"/>
+  <button id="menu_button" onclick="show_menu()"><img src="{{ STATIC_URL }}ide/img/menu.png" alt="Menu" title="Menu"/></button>
+  <div id="main_menu">
+    <ul>
+      <li><a href="javascript: void(0)" onclick="about()">About</a></li>
+    </ul>
+  </div>
   <div id="current_edit">Welcome to Neutron IDE</div>
   <div id="status"></div>
 </div>
@@ -32,4 +39,6 @@
 </div>
 {% include "ide/right_menu_dir.html" %}
 {% endblock %}
-{% block footer %}{% endblock %}
+{% block footer %}
+<div id="saveall"></div>
+{% endblock %}

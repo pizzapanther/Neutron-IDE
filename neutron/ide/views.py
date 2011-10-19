@@ -146,7 +146,7 @@ def filesave (request):
     else:
       error = 'File Access Denied'
       
-  return http.HttpResponse(json.dumps({'result': ret, 'error': error}), mimetype=settings.JSON_MIME)
+  return http.HttpResponse(json.dumps({'result': ret, 'error': error, 'uid': hashstr(path)}), mimetype=settings.JSON_MIME)
     
 @login_required
 def fileget (request):
@@ -173,7 +173,8 @@ def fileget (request):
         'data': fh.read(),
         'path': f,
         'filename': os.path.basename(f),
-        'mode': mode
+        'mode': mode,
+        'uid': hashstr(f)
       }
       
     else:

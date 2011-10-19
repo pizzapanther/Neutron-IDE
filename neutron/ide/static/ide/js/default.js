@@ -95,7 +95,7 @@ function create_tab (data) {
       editor.resize();
       editor.getSession().setValue(data.data);
       
-      tab_paths[data.path] = {tab: tab_counter, editor: editor, filename: data.filename}
+      tab_paths[data.path] = {tab: tab_counter, editor: editor, filename: data.filename, uid: data.uid}
       tab_counts[tab_counter] = data.path
       
       tab_counter++;
@@ -127,7 +127,7 @@ function resize_editor () {
   var cnt = split_href(href);
   
   var h = $("#tabs").height();
-  $("#editor_" + cnt).height(h - 29);
+  $("#editor_" + cnt).height(h - 27);
   try {
     tab_paths[dp].editor.resize();
   }

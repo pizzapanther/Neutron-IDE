@@ -16,6 +16,26 @@ textarea {
   float: right;
 }
 
+img {
+  border: 0;
+}
+
+button img {
+  display: inline-block;
+}
+
+.ui-layout-north {
+  
+}
+
+#main_menu {
+  border: solid 1px #bbb;
+  background-color: #DDD;
+  position: absolute;
+  z-index: 1000;
+  display: none;
+}
+
 #current_edit {
   font-size: 0.8em;
   overflow: hidden;
@@ -104,9 +124,10 @@ ul.jqueryFileTree {
 }
 
 .ui-layout-north.ui-layout-pane {
-  padding: 2px 5px 0 5px;
+  padding: 2px 5px;
   background: #DDD;
   border: 0;
+  overflow: hidden;
 }
 
 .ui-layout-resizer.ui-layout-resizer-north {
@@ -125,6 +146,15 @@ ul.jqueryFileTree {
   padding-left: 40px;
 }
 
+#saveall {
+  display: none;
+}
+
+#saveall p {
+  padding: 0;
+  margin: 2px 0;
+}
+
 .right_menu {
   border: solid 1px #bbb;
   background-color: #DDD;
@@ -135,29 +165,29 @@ ul.jqueryFileTree {
   z-index: 1000;
 }
 
-.right_menu a {
+.right_menu a, #main_menu a {
   color: #333;
   font-size: 11px;
   line-height: 18px;
   text-decoration: none;
 }
 
-.right_menu a:hover {
+.right_menu a:hover, #main_menu a:hover {
   background-color: #BDF;
 }
 
-.right_menu ul {
+.right_menu ul, #main_menu ul {
   margin: 0;
   padding: 0;
   list-style-type: none;
 }
 
-.right_menu ul li {
+.right_menu ul li, #main_menu ul li {
   padding: 2px;
   margin: 0;
 }
 
-.right_menu ul li.btop {
+.right_menu ul li.btop, #main_menu ul li.btop {
   border-top: solid 1px #bbb;
 }
 
@@ -166,13 +196,13 @@ ul.jqueryFileTree {
   text-align: center;
 }
 
-.right_menu ul li a {
+.right_menu ul li a, #main_menu ul li a {
   display: block;
   width: 120px;
   padding: 3px 0 0 23px;
 }
 
-.right_menu ul li a {
+.right_menu ul li a, #main_menu ul li a {
   background-repeat: no-repeat;
   background-position: 0px 3px;
 }
