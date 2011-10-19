@@ -220,7 +220,7 @@ $(document).ready(function () {
 });
 
 window.onbeforeunload = function() {
-    return 'Are you sure you wish to leave this page?';
+    return 'Leaving so soon!';
 }
 
 var canon = require('pilot/canon');
@@ -233,5 +233,7 @@ canon.addCommand({
       sender: 'editor'
     },
     exec: function(env, args, request) { SaveCurrentTab(); }
-})
+});
+
+
 

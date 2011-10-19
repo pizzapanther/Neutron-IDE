@@ -1,6 +1,23 @@
 
 function about () {
-  alert('Neutron IDE v11.11 by Paul M Bailey - paul.m.bailey@gmail.com\n\nneutronide.com\n\nLicense: GPLv3');
+  alert('Neutron IDE v11.11 by Paul M Bailey - paul.m.bailey@gmail.com\n\nneutronide.com\n\nLicense: BSD');
+  hide_menu();
+}
+
+function show_menu () {
+  var offset = $("#menu_button").offset();
+  $("#main_menu").css('display', 'block');
+  $("#main_menu").offset({top: offset.top + 7, left: offset.left + 7});
+}
+
+function hide_menu () {
+  $("#main_menu").css('display', 'none');
+}
+
+function CloseAll () {
+  if (confirm('Are you sure you wish to close all tabs?')) {
+    $('#tabs span.ui-icon-close').click();
+  }
 }
 
 function SaveAll () {
@@ -37,3 +54,13 @@ function SaveAll () {
     });
   }
 }
+
+canon.addCommand({
+    name: 'SaveFile',
+    bindKey: {
+      win: 'Ctrl-shift-S',
+      mac: 'Command-shift-S',
+      sender: 'editor'
+    },
+    exec: function(env, args, request) { SaveAll(); }
+});

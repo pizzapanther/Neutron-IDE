@@ -211,7 +211,7 @@ ul.jqueryFileTree {
   background-image: url(/static/ide/img/new.png);
 }
 
-.right_menu ul li a.cancel {
+.right_menu ul li a.cancel, #main_menu ul li a.cancel {
   background-image: url(/static/ide/img/cancel.png);
 }
 
@@ -229,4 +229,8 @@ ul.jqueryFileTree {
 
 .right_menu ul li a.rename {
   background-image: url(/static/ide/img/rename.png);
+}
+
+#main_menu ul li a.about {
+  background-image: url(/static/ide/img/about.png);
 }
