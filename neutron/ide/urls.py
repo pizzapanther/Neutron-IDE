@@ -16,5 +16,6 @@ urlpatterns = patterns('ide.views',
   url('^external_open(?P<fp>.+)$', 'external_open', name='ide-ext-open'),
   url('^save_image(?P<fp>.+)$', 'save_image', name='ide-save-image'),
   url('^external_request/(?P<key>.+)/fp(?P<fp>.+)$', 'external_request', name='ide-ext-req'),
+  url('^save_session/$', 'save_session', name='ide-save-session'),
   url('^$', 'home', name='ide-home'),
 )

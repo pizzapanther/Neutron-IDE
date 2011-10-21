@@ -2,6 +2,7 @@ import os
 
 from django.db import models
 from django.contrib.auth.models import User
+import django.utils.simplejson as json
 
 THEMES = (
   ('textmate', 'TextMate'),
@@ -82,6 +83,15 @@ class Preferences (models.Model):
   pmargin = models.BooleanField('Show Print Margin', default=True)
   softab = models.BooleanField('Use Soft Tab', default=True)
   
+  save_session = models.BooleanField('Save Session', default=True)
+  session = models.TextField(blank=True, null=True)
+  
+  def last_session (self):
+    if self.session:
+      return json.dumps(self.session.split("\n"))
+      
+    return '[]';
+    
   def valid_path (self, path):
     path = os.path.normpath(path)
     if path.startswith(self.basedir):

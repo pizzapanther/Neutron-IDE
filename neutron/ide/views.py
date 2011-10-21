@@ -279,14 +279,21 @@ def save_image (request, fp=None):
   
 def external_request (request, key=None, fp=None):
   efr = get_object_or_404(ide.models.ExtFileRequest, secret=key, path=fp)
-  old = datetime.datetime.now() - datetime.timedelta(seconds=30)
+  if settings.DEBUG:
+    old = datetime.datetime.now() - datetime.timedelta(seconds=300)
+    
+  else:
+    old = datetime.datetime.now() - datetime.timedelta(seconds=30)
+    
   if efr.created > old:
     ret = serve(request, fp, document_root="/")
     efr.delete()
     
     return ret
     
-  efr.delete()
+  if not setting.DEBUG:
+    efr.delete()
+    
   raise http.Http404
   
 @login_required
@@ -328,4 +335,17 @@ def rename (request):
     did = hashstr(d)
     
   return ide.utils.good_json(did)
+  
+@login_required
+def save_session (request):
+  if request.user.preferences.save_session:
+    files = request.POST.get('files', '')
+    request.user.preferences.session = files
+    
+  else:
+    request.user.preferences.session = ''
+    
+  request.user.preferences.save()
+  
+  return ide.utils.good_json()
   

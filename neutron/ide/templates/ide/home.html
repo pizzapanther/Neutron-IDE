@@ -7,8 +7,11 @@
     tabsize: {{ pref.tabsize }},
     hactive: {% if pref.hactive %}true{% else %}false{% endif %},
     softab: {% if pref.softab %}true{% else %}false{% endif %},
+    save_session: {% if pref.save_session %}true{% else %}false{% endif %},
   };
   
+  var init_session = {{ pref.last_session|safe }};
+  var skip_session = true;
   var basedir = "{{ pref.basedir }}";
 </script>
 {% endwith %}
