@@ -101,6 +101,10 @@ function create_tab (data) {
       tab_counter++;
       
       current_edit(data.path);
+      
+      if (pref.save_session) {
+        save_session();
+      }
     }
     
     else if (data.fileType == 'binary') {
@@ -127,7 +131,7 @@ function resize_editor () {
   var cnt = split_href(href);
   
   var h = $("#tabs").height();
-  $("#editor_" + cnt).height(h - 27);
+  $("#editor_" + cnt).height(h - 29);
   try {
     tab_paths[dp].editor.resize();
   }
@@ -147,6 +151,10 @@ function remove_tab (ui) {
   var dp = tab_counts[cnt];
   delete tab_paths[dp];
   delete tab_counts[cnt];
+  
+  if (pref.save_session) {
+    save_session();
+  }
   
   try {
     var dp = CurrentTab();
@@ -186,7 +194,14 @@ function get_file (file) {
   }
   
   else {
-    $.post('/fileget/', {f: file}, create_tab);
+    $.ajax({
+      type: 'POST',
+      async: false,
+      url: '/fileget/',
+      data: {f: file},
+      success: create_tab,
+      error: function (jqXHR, textStatus, errorThrown) { alert('Error Opening: ' + file); },
+    });
   }
 }
 
@@ -194,6 +209,34 @@ function file_browser () {
   $('#file_browser > div.inner').fileTree({ root: '', script: '/filetree/', expandSpeed: 200, collapseSpeed: 200 }, get_file);
 }
 
+function save_session () {
+  if (skip_session) {}
+  
+  else {
+    var files = '';
+    $("ul.ui-tabs-nav > li > a").each(function (index, ele) {
+      var cnt = split_href(ele.href);
+      var dp = tab_counts[cnt];
+      files = files + dp + "\n";
+    });
+    
+    files = files.substring(0, files.length-1);
+    
+    $.ajax({
+      type: 'POST',
+      url: '/save_session/',
+      data: {'files': files},
+      success: function (data, textStatus, jqXHR) {},
+      error: function (jqXHR, textStatus, errorThrown) { alert('Error Saving Session'); },
+    });
+  }
+}
+
+function sort_change (event, ui) {
+  if (pref.save_session) {
+    save_session();
+  }
+}
 $(document).ready( function() {
     file_browser();
     
@@ -205,7 +248,7 @@ $(document).ready( function() {
       },
       remove: function (event, ui) { remove_tab(ui); }
     });
-    $tabs.find( ".ui-tabs-nav" ).sortable({ axis: "x" });
+    $tabs.find( ".ui-tabs-nav" ).sortable({ axis: "x", update: sort_change});
     $( "#tabs span.ui-icon-close" ).live( "click", function() {
       var p = $(this).parent();
       var index = $( "li", $tabs ).index(p);
@@ -214,9 +257,17 @@ $(document).ready( function() {
 });
 
 var myLayout;
-  
+
 $(document).ready(function () {
   myLayout = $('body').layout({onresize_end: resize_editor, north__resizable: false, north__closable: false});
+  
+  if (pref.save_session) {
+    for (i in init_session) {
+      get_file(init_session[i]);
+    }
+    
+    skip_session = false;
+  }
 });
 
 window.onbeforeunload = function() {
