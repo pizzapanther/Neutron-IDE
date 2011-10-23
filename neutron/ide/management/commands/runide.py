@@ -26,6 +26,8 @@ Optional CherryPy server settings: (setting=value)
                         Defaults to localhost
   port=PORTNUM          port to listen on
                         Defaults to 8000
+  eport=PORTNUM         External port to listen on (for insecure image requests)
+                        Defaults to 8001
   server_name=STRING    CherryPy's SERVER_NAME environ entry
                         Defaults to localhost
   daemonize=BOOL        whether to detach from terminal
@@ -44,8 +46,8 @@ Examples:
   Run a "standard" CherryPy server server
     $ manage.py runide
 
-  Run a CherryPy server on port 80
-    $ manage.py runide
+  Run a CherryPy server on port 8005 on all IPs
+    $ manage.py runide port=8005 host=0.0.0.0
 
   Run a CherryPy server as a daemon and write the spawned PID in a file
     $ manage.py runide daemonize=true pidfile=/var/run/django-cpserver.pid
@@ -55,6 +57,7 @@ Examples:
 DEFAULT_OPTIONS = {
   'host': 'localhost',
   'port': 8000,
+  'eport': 8001,
   'server_name': 'localhost',
   'threads': 10, 
   'daemonize': 0,
@@ -187,6 +190,16 @@ def start_server (options):
       request_queue_size = int(options['request_queue_size'])
     )
     
+  SERVER2 = Server(
+      (options['host'], int(options['eport'])),
+      d, 
+      numthreads=int(options['threads']),
+      max=int(options['threads']), 
+      server_name=options['server_name'],
+      shutdown_timeout = int(options['shutdown_timeout']),
+      request_queue_size = int(options['request_queue_size'])
+    )
+    
   if options['ssl_certificate'].lower() == 'none' or options['ssl_private_key'].lower() == 'none':
     pass
     
@@ -200,13 +213,26 @@ def start_server (options):
         
     SERVER.ssl_certificate = options['ssl_certificate']
     SERVER.ssl_private_key = options['ssl_private_key'] 
-    
+  
   try:
-    SERVER.start()
-    
+    if options['ssl_certificate'].lower() == 'none' or options['ssl_private_key'].lower() == 'none':
+      SERVER.start()
+      
+    else:
+      from multiprocessing import Process
+      p = Process(target=SERVER.start)
+      p.start()
+      
+      SERVER2.start()
+      
   except KeyboardInterrupt:
     SERVER.stop()
-    
+    if options['ssl_certificate'].lower() == 'none' or options['ssl_private_key'].lower() == 'none':
+      pass
+      
+    else:
+      SERVER2.stop()
+      
 def systemcmd (cmd):
   p = subprocess.Popen(cmd, shell=True)
   sts = os.waitpid(p.pid, 0)[1]

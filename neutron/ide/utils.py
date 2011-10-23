@@ -5,6 +5,7 @@ import mimetypes
 import base64
 import random
 import hashlib
+import re
 mimetypes.init()
 
 from django import http
@@ -30,12 +31,20 @@ def external_service (request, fp):
     temp_url = 'http://'
     if request.is_secure():
       save_url = 'https://'
-      temp_url = 'https://'
       
     key = api_key()
     save_url += request.get_host() + reverse('ide-save-image', args=[fp])
-    temp_url += request.get_host() + reverse('ide-ext-req', args=[key, fp])
-    
+    if request.is_secure():
+      host = request.get_host()
+      host = re.sub(':\d+', '', host)
+      if ide.settings.IMG_EDITOR_PORT:
+        host += ':' + ide.settings.IMG_EDITOR_PORT
+        
+      temp_url += host + reverse('ide-ext-req', args=[key, fp])
+      
+    else:
+      temp_url += request.get_host() + reverse('ide-ext-req', args=[key, fp])
+      
     efr = ide.models.ExtFileRequest(secret=key, path=fp)
     efr.save()
     
