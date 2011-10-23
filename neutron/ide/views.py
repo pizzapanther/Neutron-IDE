@@ -15,6 +15,7 @@ from django.template.loader import render_to_string
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.views.static import serve
 from django.shortcuts import get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
 
 import ide.utils
 import ide.settings
@@ -263,9 +264,9 @@ def external_open (request, fp=None):
     
   raise http.Http404
   
+@csrf_exempt
 @login_required
 def save_image (request, fp=None):
-  print fp
   if ide.utils.valid_path(request, fp):
     fw = open(fp, 'wb')
     url = request.REQUEST.get(ide.settings.IMG_EDITOR_READ)
@@ -288,7 +289,6 @@ def external_request (request, key=None, fp=None):
     
   if efr.created > old:
     ret = serve(request, fp, document_root="/")
-    efr.delete()
     
     return ret
     

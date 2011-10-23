@@ -60,14 +60,18 @@ TEXT_EXTENSIONS_DEFAULT = {
 SITE_NAME_DEFAULT = 'Neutron IDE'
 
 IMG_EXTENSIONS_DEFAULT = ('.jpg', '.jpeg', '.png', '.bmp', '.pxd')
-IMG_EDITOR_URL_DEFAULT = 'http://pixlr.com/editor/'
-IMG_EDITOR_READ_DEFAULT = 'image'
+IMG_EDITOR_URL_DEFAULT = 'http://www.aviary.com/online/image-editor'
+IMG_EDITOR_READ_DEFAULT = 'imageurl'
+IMG_EDITOR_API_KEY_DEFAULT = '324cd8fc0'
+IMG_EDITOR_METHOD_DEFAULT = 'client'
+
 IMG_PARAMS_DEFAULT = {
-  'service_name': 'referrer',
-  'image_url': 'image',
-  'filename': 'title',
-  'method': 'method',
-  'save_url': 'target',
+  'service_name': 'sitename',
+  'image_url': 'loadurl',
+  'filename': 'defaultfilename',
+  'method': 'postagent',
+  'save_url': 'posturl',
+  'api_key': 'apil'
 }
 
 TEXT_EXTENSIONS = getattr(settings, 'TEXT_EXTENSIONS', TEXT_EXTENSIONS_DEFAULT)
@@ -80,4 +84,6 @@ IMG_EXTENSIONS = getattr(settings, 'IMG_EXTENSIONS', IMG_EXTENSIONS_DEFAULT)
 IMG_EDITOR_URL = getattr(settings, 'IMG_EDITOR_URL', IMG_EDITOR_URL_DEFAULT)
 IMG_EDITOR_READ = getattr(settings, 'IMG_EDITOR_READ', IMG_EDITOR_READ_DEFAULT)
 IMG_PARAMS = getattr(settings, 'IMG_PARAMS', IMG_PARAMS_DEFAULT)
+IMG_EDITOR_API_KEY = getattr(settings, 'IMG_EDITOR_API_KEY', IMG_EDITOR_API_KEY_DEFAULT)
+IMG_EDITOR_METHOD = getattr(settings, 'IMG_EDITOR_METHOD', IMG_EDITOR_METHOD_DEFAULT)
 

@@ -43,8 +43,9 @@ def external_service (request, fp):
       'service_name': 'Neutron IDE',
       'image_url': temp_url,
       'filename': os.path.basename(fp),
-      'method': 'GET',
-      'save_url': save_url
+      'method': ide.settings.IMG_EDITOR_METHOD,
+      'save_url': save_url,
+      'api_key': ide.settings.IMG_EDITOR_API_KEY
     }
     
     for key, value in values.items():
