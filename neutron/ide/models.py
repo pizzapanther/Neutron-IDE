@@ -25,6 +25,10 @@ THEMES = (
 )
 
 SIZES = (
+  ('6px', '6px'),
+  ('7px', '7px'),
+  ('8px', '8px'),
+  ('9px', '9px'),
   ('10px', '10px'),
   ('11px', '11px'),
   ('12px', '12px'),
@@ -82,6 +86,7 @@ class Preferences (models.Model):
   gutter = models.BooleanField('Show Gutter', default=True)
   pmargin = models.BooleanField('Show Print Margin', default=True)
   softab = models.BooleanField('Use Soft Tab', default=True)
+  behave = models.BooleanField('Enable Behaviors', default=True)
   
   save_session = models.BooleanField('Save Session', default=True)
   session = models.TextField(blank=True, null=True)

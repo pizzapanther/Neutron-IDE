@@ -17,5 +17,6 @@ urlpatterns = patterns('ide.views',
   url('^save_image(?P<fp>.+)$', 'save_image', name='ide-save-image'),
   url('^external_request/(?P<key>.+)/fp(?P<fp>.+)$', 'external_request', name='ide-ext-req'),
   url('^save_session/$', 'save_session', name='ide-save-session'),
+  url('^editor_pref/$', 'editor_pref', name='ide-editor-pref'),
   url('^$', 'home', name='ide-home'),
 )

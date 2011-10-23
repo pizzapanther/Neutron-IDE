@@ -1,19 +1,34 @@
-{% extends "ide/master.html" %}
+{% extends "ide/master.html" %}{% load ntags %}
 {% block head %}
 {% with pref=request.user.preferences %}
 <script type="text/javascript">
   var pref = {
     theme: '{{ pref.theme }}',
+    fontsize: '{{ pref.fontsize }}',
+    keybind: '{{ pref.keybind }}',
+    swrap: '{{ pref.swrap }}',
     tabsize: {{ pref.tabsize }},
-    hactive: {% if pref.hactive %}true{% else %}false{% endif %},
-    softab: {% if pref.softab %}true{% else %}false{% endif %},
-    save_session: {% if pref.save_session %}true{% else %}false{% endif %},
+    
+    hactive: {{ pref.hactive|js_bool }},
+    hword: {{ pref.hword|js_bool }},
+    invisibles: {{ pref.invisibles|js_bool }},
+    gutter: {{ pref.gutter|js_bool }},
+    pmargin: {{ pref.pmargin|js_bool }},
+    softab: {{ pref.softab|js_bool }},
+    behave: {{ pref.behave|js_bool }},
+    
+    save_session: {{ pref.save_session|js_bool }},
   };
   
   var init_session = {{ pref.last_session|safe }};
   var skip_session = true;
   var basedir = "{{ pref.basedir }}";
+  var loaded_themes = ['{{ pref.theme }}'];
+  var static_url = '{{ STATIC_URL }}';
 </script>
+<style type="text/css">
+  .ace_editor { font-size: {{ pref.fontsize }}; }
+</style>
 {% endwith %}
 {% endblock %}
 {% block content %}
@@ -40,6 +55,7 @@
 {% block footer %}
 <div id="main_menu">
   <ul>
+    <li><a href="javascript: void(0)" onclick="show_pref()" class="pref">Editor Preferences</a></li>
     <li><a href="javascript: void(0)" onclick="about()" class="about">About</a></li>
     <li class="btop"><a href="javascript: void(0)" onclick="hide_menu()" class="cancel">Cancel</a>
   </ul>

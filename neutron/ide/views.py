@@ -19,6 +19,7 @@ from django.shortcuts import get_object_or_404
 import ide.utils
 import ide.settings
 import ide.models
+import ide.forms
 from ide.templatetags.ntags import hashstr
 
 def login (request):
@@ -348,4 +349,33 @@ def save_session (request):
   request.user.preferences.save()
   
   return ide.utils.good_json()
+  
+@login_required
+def editor_pref (request):
+  form = ide.forms.EditorPref(request.POST or None, instance=request.user.preferences)
+  
+  if request.method == 'POST' and form.is_valid():
+    form.save()
+    
+    p = request.user.preferences
+    new_prefs = {
+      'theme': p.theme,
+      'fontsize': p.fontsize,
+      'keybind': p.keybind,
+      'swrap': p.swrap,
+      'tabsize': p.tabsize,
+      
+      'hactive': p.hactive,
+      'hword': p.hword,
+      'invisibles': p.invisibles,
+      'gutter': p.gutter,
+      'pmargin': p.pmargin,
+      'softab': p.softab,
+      'behave': p.behave,
+      
+      'save_session': p.save_session,
+    }
+    return TemplateResponse(request, 'ide/editor_pref_success.html', {'new_prefs': json.dumps(new_prefs)})
+    
+  return TemplateResponse(request, 'ide/editor_pref.html', {'form': form})
   

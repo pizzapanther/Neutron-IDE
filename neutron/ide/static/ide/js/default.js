@@ -68,6 +68,84 @@ function SaveCurrentTab () {
   });
 }
 
+function set_all_pref () {
+  for (dp in tab_paths) {
+    set_edit_pref(tab_paths[dp].editor, "editor_" + tab_paths[dp].tab);
+  }
+}
+
+function set_edit_pref (editor, id) {
+  load_theme = true;
+  for (i in loaded_themes) {
+    if (loaded_themes[i] == pref.theme) {
+      load_theme = false;
+      break;
+    }
+  }
+  
+  if (load_theme) {
+    $.ajax({
+      url: static_url + 'ide/js/ace/theme-' + pref.theme + '.js',
+      dataType: "script",
+      async: false,
+    });
+    loaded_themes.push(pref.theme);
+  }
+  
+  editor.setTheme("ace/theme/" + pref.theme);
+  
+  var handler = null;
+  if (pref.keybind == 'emacs') {
+    handler = require("ace/keyboard/keybinding/emacs").Emacs;
+  }
+  
+  else if (pref.keybind == 'vim') {
+    handler = require("ace/keyboard/keybinding/vim").Vim;
+  }
+  
+  editor.setKeyboardHandler(handler);
+  
+  editor.setHighlightActiveLine(pref.hactive);
+  editor.setHighlightSelectedWord(pref.hword);
+  editor.setShowInvisibles(pref.invisibles);
+  editor.setBehavioursEnabled(pref.behave);
+  
+  editor.renderer.setShowGutter(pref.gutter);
+  editor.renderer.setShowPrintMargin(pref.pmargin);
+  
+  var sess = editor.getSession()
+  
+  sess.setTabSize(pref.tabsize);
+  sess.setUseSoftTabs(pref.softab);
+  
+  switch (pref.swrap) {
+    case "off":
+      sess.setUseWrapMode(false);
+      editor.renderer.setPrintMarginColumn(80);
+      break;
+      
+    case "40":
+      sess.setUseWrapMode(true);
+      sess.setWrapLimitRange(40, 40);
+      editor.renderer.setPrintMarginColumn(40);
+      break;
+      
+    case "80":
+      sess.setUseWrapMode(true);
+      sess.setWrapLimitRange(80, 80);
+      editor.renderer.setPrintMarginColumn(80);
+      break;
+      
+    case "free":
+      sess.setUseWrapMode(true);
+      sess.setWrapLimitRange(null, null);
+      editor.renderer.setPrintMarginColumn(80);
+      break;
+  }
+  
+  $("#" + id).css('font-size', pref.fontsize);
+}
+
 function create_tab (data) {
   if (data.path in tab_paths) {
     $tabs.tabs('select', "#tabs-" + tab_paths[data.path].tab);
@@ -79,16 +157,13 @@ function create_tab (data) {
       $tabs.tabs('select', "#tabs-" + tab_counter);
       
       var editor = ace.edit("editor_" + tab_counter);
-      editor.setTheme("ace/theme/" + pref.theme);
-      editor.setHighlightActiveLine(pref.hactive);
       
       if (data.mode) {
         var Mode = require("ace/mode/" + data.mode).Mode;
         editor.getSession().setMode(new Mode());
       }
       
-      editor.getSession().setTabSize(pref.tabsize);
-      editor.getSession().setUseSoftTabs(pref.softab);
+      set_edit_pref(editor, "editor_" + tab_counter);
       
       var h = $("#tabs").height() - 29;
       $("#editor_" + tab_counter).css('height', h + 'px');

@@ -1,0 +1,75 @@
+{% extends "ide/master_iframe.html" %}
+{% block content %}
+<form action="" method="post" class="pref_form">
+  {% csrf_token %}
+  <table>
+    <tr>
+      <td>
+        {% if form.errors.theme %}{{ form.errors.theme }}{% endif %}
+        Theme: {{ form.theme }}
+      </td>
+      <td>
+        {% if form.errors.fontsize %}{{ form.errors.fontsize }}{% endif %}
+        Font Size: {{ form.fontsize }}
+      </td>
+    </tr>
+    <tr>
+      <td>
+        {% if form.errors.keybind %}{{ form.errors.keybind }}{% endif %}
+        Key Bindings: {{ form.keybind }}
+      </td>
+      <td>
+        {% if form.errors.swrap %}{{ form.errors.swrap }}{% endif %}
+        Soft Wrap: {{ form.swrap }}
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        {% if form.errors.tabsize %}{{ form.errors.tabsize }}{% endif %}
+        Tab Size: {{ form.tabsize }}
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <table>
+          <tr>
+            <td>
+              {{ form.hactive }} <label for="id_hactive">Highlight Active Line</label>
+            </td>
+            <td>
+              {{ form.hword }} <label for="id_hword">Highlight Selected Word</label>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              {{ form.invisibles }} <label for="id_invisibles">Show Invisibles</label>
+            </td>
+            <td>
+              {{ form.gutter }} <label for="id_gutter">Show Gutter</label>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              {{ form.pmargin }} <label for="id_pmargin">Show Print Margin</label>
+            </td>
+            <td>
+              {{ form.softab }} <label for="id_softab">Use Soft Tab</label>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              {{ form.behave }} <label for="id_behave">Enable Behaviors</label>
+            </td>
+            <td>{{ form.save_session }} <label for="id_save_session">Save Session</label></td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <input type="submit" name="task" value="Save"/>
+      </td>
+    </tr>
+  </table>
+</form>
+{% endblock %}

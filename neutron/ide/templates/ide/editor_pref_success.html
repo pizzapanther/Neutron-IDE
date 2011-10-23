@@ -1,0 +1,9 @@
+{% extends "ide/master_iframe.html" %}
+{% block content %}
+<h1 class="message">So Long And Thanks<br/>For All The Fish!</h1>
+{% endblock %}
+{% block footer %}
+<script type="text/javascript">
+  parent.update_prefs({{ new_prefs|safe }});
+</script>
+{% endblock %}

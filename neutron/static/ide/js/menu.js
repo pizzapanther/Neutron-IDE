@@ -14,6 +14,23 @@ function hide_menu () {
   $("#main_menu").css('display', 'none');
 }
 
+function show_pref () {
+  hide_menu();
+  $( "#editor_pref" ).dialog({
+    title: 'Editor Preferences',
+    modal: true,
+    width: 600,
+	});
+  
+  $("#editor_pref iframe").attr('src', '/editor_pref/');
+}
+
+function update_prefs (new_prefs) {
+  $("#editor_pref").dialog('close');
+  pref = new_prefs;
+  set_all_pref();
+}
+
 function CloseAll () {
   if (confirm('Are you sure you wish to close all tabs?')) {
     $('#tabs span.ui-icon-close').click();

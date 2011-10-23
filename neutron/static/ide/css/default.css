@@ -234,3 +234,8 @@ ul.jqueryFileTree {
 #main_menu ul li a.about {
   background-image: url(/static/ide/img/about.png);
 }
+
+#main_menu ul li a.pref {
+  background-image: url(/static/ide/img/menu.png);
+}
+
