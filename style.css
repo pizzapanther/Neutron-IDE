@@ -94,3 +94,12 @@ a:hover {
   font-size: 90%;
   font-style: italic;
 }
+
+h3, h2 {
+  margin: 1em 0 0 0;
+}
+
+p {
+  margin: 0 0 1em 0;
+}
+

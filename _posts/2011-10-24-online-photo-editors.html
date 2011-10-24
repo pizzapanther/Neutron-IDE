@@ -1,0 +1,82 @@
+---
+layout: post
+title: Online Photo Editors
+categories:
+- review
+---
+
+<p>
+  The development version of Neutron recently switched the default image editor 
+  from <a href="http://pixlr.com/">Pixlr</a> to 
+  <a href="http://www.aviary.com/online/image-editor">Phoenix</a>. Even though I
+  like Pixlr better, its API seems to poop out often.  I actually had this same 
+  problem several years ago with Pixlr with another project and had to switch off
+  it then too.  With that said, I thought would write a summary of all the online
+  photo editors I looked at why I chose Phoenix.
+</p>
+<p>
+  To start, here were the criteria I used to pick a photo editor for Neutron:
+  <ul>
+    <li>
+      Advanced Tools: The editor needed to have more than just cropping and 
+      effects.  I wanted an editor that could be used seriously for daily 
+      development tasks.
+    </li>
+    <li>
+      Transparency and Layers: The editor should be able to handle PNG
+      transparency and layers.  PNGs are just about all I work with nowadays if I
+      have a say in it.
+    </li>
+    <li>
+      API: The editor needed to have a simple API to get images into the service
+      and then save them back to Neutron IDE.
+    </li>
+  </ul>
+  
+  With these criteria I narrowed down the choices to the following editors:
+  <ul>
+    <li>Picnik: http://www.picnik.com/</li>
+    <li>Pixlr: http://pixlr.com/</li>
+    <li>Sumo Paint: http://www.sumopaint.com/home/</li>
+    <li>Splashup: http://www.splashup.com/</li>
+    <li>Phoenix: http://www.aviary.com/online/image-editor</li>
+  </ul>
+</p>
+<h3>Picnik</h3>
+<p>
+  Picnik (now owned by Google) is every easy to use and has a great API, but
+  unless you pay for the premium account, you don't get support for layers. 
+  I really wanted to stay away from a paid service if I could for default 
+  integration into Neutron IDE.  However, even with the premium service, it did
+  not handle PNG transparency and I couldn't figure out how to use layers easily.
+</p>
+<h3>Pixlr</h3>
+<p>
+  Pixlr had everything I was looking for, but it seems that their API is hit or 
+  miss. I had the same problem in the past and tried them out again hoping this 
+  would not be the case now but it still was.
+</p>
+<h3>Sumo Paint</h3>
+<p>
+  Sumo Paint was another great and highly advanced online photo editor. Sumo 
+  Paint has an API, but requires user interaction to setup. For Neutron IDE's 
+  purposes I was hoping to avoid this, but I highly recommend this photo editor.
+</p>
+<h3>Splashup</h3>
+<p>
+  Splashup again was another great and highly advanced online photo editor, but 
+  no API.  This editor is another highly recommended tool to try though.
+</p>
+<h3>Phoenix</h3>
+<p>
+  Phoenix seemed to offer all the functionality needed and has a decent API. When
+  importing tranparent PNGs, it does add a white background layer, but it is 
+  trivial to delete the layer and continue editing.
+</p>
+<h3>Conclusions</h3>
+<p>
+  Phoenix definitely rose from the ashes and beat all the rest. However, several
+  of these editors are still great if your not taking into consideration an API
+  and integrating them into another project.  Leave a comment and let me know
+  what your favorite is.
+</p>
