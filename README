@@ -9,15 +9,14 @@ Neutron IDE is based on Ace Editor (http://ace.ajax.org/) and currentely has the
   * Syntax highlighting
   * Auto indentation and outdent
   * Themes
-  * Image editing via Pixlr: http://pixlr.com/
+  * Image editing via Phoenix: http://www.aviary.com/online/image-editor
   * File browser
   * Tabbed interface
 
 In the near future I hope to:
-  * Support all Ace Editor customizations and allow easy access to them.
   * Integrate more 3rd Party tools for editing binary files.
   * Integrate project support.
   * Integrate features like search, replace, directoy search, etc.
-  * Integrate a native client ssh client.
+  * Integrate an ssh client.
 
 --- This file was edited in Neutron IDE :-) ---
