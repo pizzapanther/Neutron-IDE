@@ -12,6 +12,7 @@ function show_menu () {
 
 function hide_menu () {
   $("#main_menu").css('display', 'none');
+  return true;
 }
 
 function show_pref () {

@@ -165,14 +165,32 @@ ul.jqueryFileTree {
   z-index: 1000;
 }
 
-.right_menu a, #main_menu a {
+.right_menu a, #main_menu a, .right_menu span, #main_menu span {
   color: #333;
   font-size: 11px;
   line-height: 18px;
   text-decoration: none;
 }
 
-.right_menu a:hover, #main_menu a:hover {
+#main_menu span.arrow {
+  width: auto;
+  float: right;
+  padding: 0 10px 0 0;
+}
+
+#main_menu span.submenu ul {
+  display: none;
+  position: absolute;
+  border: solid 1px #bbb;
+  background-color: #DDD;
+  margin: -22px 0 0 100px;
+}
+
+#main_menu span.submenu:hover > ul {
+  display: block;
+}
+
+.right_menu a:hover, #main_menu a:hover, .right_menu span:hover, #main_menu span:hover{
   background-color: #BDF;
 }
 
@@ -196,7 +214,7 @@ ul.jqueryFileTree {
   text-align: center;
 }
 
-.right_menu ul li a, #main_menu ul li a {
+.right_menu ul li a, #main_menu ul li a, .right_menu ul li span, #main_menu ul li span {
   display: block;
   width: 120px;
   padding: 3px 0 0 23px;
@@ -238,4 +256,9 @@ ul.jqueryFileTree {
 #main_menu ul li a.pref {
   background-image: url(/static/ide/img/menu.png);
 }
+
+#main_menu ul li a.link {
+  background-image: url(/static/ide/img/link.png);
+}
+
 
