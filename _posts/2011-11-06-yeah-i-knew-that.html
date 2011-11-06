@@ -1,0 +1,57 @@
+---
+layout: post
+title: Yeah I Knew That, Web Development Tips
+categories:
+- web development
+---
+
+<p>
+  This post was inspired from the moment when you are developing and someone 
+  shows you or you find a tool that makes your job 100 times easier.  Here are a
+  few of those tools I've found lately.
+</p>
+<h3>Disable Cache in Chrome</h3>
+<p>
+  Chrome is a crazy caching fiend.  This is one of the reasons it is crazy fast.
+  However, when developing, this can be annoying. I accidentally stumbled across
+  how to easily disable cache and just about slapped myself in the face because
+  it was so easy.  In the developer tools there is a gear at the bottom right.  
+  Click that and voila, there's the disable cache option!  See image below.<br/>
+  <img src="https://lh4.googleusercontent.com/-laxa_q1R_S4/Trav1mAh1uI/AAAAAAAAGck/hyU9-RgURR8/s660/disable_cache.png" alt="disable chrome cache"/>
+</p>
+<h3>Ripple Emulator</h3>
+<p>
+  <a href="http://ripple.tinyhippos.com/">Ripple</a> is a mobile emulator
+  extension for Chrome.  Ripple emulates or supports WebWorks, Mobile Web, and 
+  PhoneGap.  I believe HTML is still rendered by Chrome so will still have to 
+  test your mobile web site/app on real hardware, but it gives you a great way to
+  start testing in your browser.
+</p>
+<h3>Kendo UI</h3>
+<p>
+  While jQueryUI is awesome, it kind of sucks in terms of design aesthetic. 
+  Currently, Neutron IDE is implemented via jQueryUI.  I set out to find some UI
+  framework that would look better.  I was not dead set on a jQuery compatible 
+  framework but that would definitely be a plus.  My top choices were 
+  <a href="http://www.sencha.com/">Sencha</a>, <a href="http://cappuccino.org/">Cappuccino</a>, 
+  and <a href="http://www.kendoui.com/">Kendo UI</a>.  There are other great 
+  frameworks like backbone.js but decided against them because I was more 
+  concerned with having a good set of UI widgets, than having more structured
+  javascript code.  The UI for Neutron IDE at the end of the day is not
+  complicated, except for the editor which is provided by the 
+  <a href="http://ace.ajax.org/">Ace Editor Project</a>.
+</p>
+<p>
+  I decided to go with <a href="http://www.kendoui.com/">Kendo UI</a> because it
+  looked decent and was jQuery compatible.  Basically, it is a better looking than
+  jQueryUI with a few more widgets.  <a href="http://cappuccino.org/">Cappuccino</a>
+  was more about programming in Objective-J which I didn't want to do.  And while
+  <a href="http://www.sencha.com/">Sencha</a> was more complete in terms of 
+  widgets, it did not look too much better than Kendo UI, so the jQuery
+  compatibility gave it the edge.
+</p>
+<p>
+  <a href="http://www.kendoui.com/">Kendo UI</a> is fairly new but looks good so
+  far.  I'm almost done implementing it in the development branch of Neutron IDE.
+  The next release of Neutron IDE will include this change.
+</p>
