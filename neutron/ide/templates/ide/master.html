@@ -31,14 +31,6 @@
     <script type="text/javascript" src='{{ STATIC_URL }}ide/js/modals.js'></script>
     {% endblock %}
     {% block head %}{% endblock %}
-  </head>
-  <body>
-    {% block content %}{% endblock %}
-    {% block footer %}{% endblock %}
-    <div style="display: none;">
-      {% include "ide/modals.html" %}
-    </div>
-    
     {% if request.track %}
     <script type="text/javascript">
       var _gaq = _gaq || [];
@@ -54,5 +46,12 @@
       })();
     </script>
     {% endif %}
+  </head>
+  <body>
+    {% block content %}{% endblock %}
+    {% block footer %}{% endblock %}
+    <div style="display: none;">
+      {% include "ide/modals.html" %}
+    </div>
   </body>
 </html>
