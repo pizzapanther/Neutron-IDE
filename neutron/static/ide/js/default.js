@@ -397,15 +397,14 @@ $(document).ready(function () {
   resize_editor();
   
   if (track_ajax) {
-    //setTimeout(track_ide, track_int);
+    setTimeout(track_ide, track_int);
   }
 });
 
 function track_ide () {
   var d = new Date();
   var ts = d.getYear() + '-' + d.getMonth() + '-' + d.getDay() + '-' + d.getHours() + '-' + d.getMinutes();
-  alert(ts);
-  //_gaq.push(['_trackPageview', "/?ts=" + ts]);
+  _gaq.push(['_trackPageview', "/?ts=" + ts]);
   setTimeout(track_ide, track_int);
 }
 
