@@ -30,7 +30,11 @@ $(document).ajaxSend(function(event, xhr, settings) {
     function safeMethod(method) {
         return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
     }
-
+    
+    if (track_ajax) {
+      _gaq.push(['_trackPageview', settings.url.split("?")[0]]);
+    }
+    
     if (!safeMethod(settings.type) && sameOrigin(settings.url)) {
         xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
     }
@@ -253,6 +257,7 @@ function remove_tab (ui) {
   var cnt = split_href(ui.tab.href);
   var dp = tab_counts[cnt];
   
+  tab_paths[dp].session.$stopWorker();
   delete tab_paths[dp].session;
   delete tab_paths[dp];
   delete tab_counts[cnt];
