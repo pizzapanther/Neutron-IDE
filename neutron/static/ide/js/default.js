@@ -402,7 +402,7 @@ $(document).ready(function () {
 });
 
 function track_ide () {
-  _gaq.push(['_trackPageview', "/"]);
+  _gaq.push(['_trackPageview', "/narf"]);
   setTimeout(track_ide, track_int);
 }
 
