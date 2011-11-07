@@ -402,8 +402,10 @@ $(document).ready(function () {
 });
 
 function track_ide () {
-  //getYear
-  _gaq.push(['_trackPageview', "/?ts=" + ts]);
+  var d = new Date();
+  var ts = d.getYear() + '-' + d.getMonth() + '-' + d.getDay() + '-' + d.getHours() + '-' + d.getMinutes();
+  alert(ts);
+  //_gaq.push(['_trackPageview', "/?ts=" + ts]);
   setTimeout(track_ide, track_int);
 }
 
