@@ -122,7 +122,6 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     #'django.contrib.admindocs',
     'south', #http://south.aeracode.org/
-    "compressor", #http://django_compressor.readthedocs.org/en/latest/
     'ide',
 )
 
