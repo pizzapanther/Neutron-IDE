@@ -14,8 +14,8 @@ Neutron IDE is based on Ace Editor (http://ace.ajax.org/) and currentely has the
   * Tabbed interface
 
 In the near future I hope to:
+  * Add a plugin system (integrate tools like Git, SVN via plugins)
   * Integrate more 3rd Party tools for editing binary files.
-  * Integrate project support.
   * Integrate features like search, replace, directoy search, etc.
   * Integrate an ssh client.
 
