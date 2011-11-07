@@ -45,7 +45,7 @@ var $tabs = null;
 var load_data = "";
 var tab_paths = {};
 var tab_counts = {};
-var track_int = 60000;
+var track_int = 600000;
 
 function CurrentTab () {
   try  {
