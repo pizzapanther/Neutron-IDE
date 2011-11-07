@@ -27,6 +27,7 @@
   var basedir = "{{ pref.basedir }}";
   var loaded_themes = ['{{ pref.theme }}'];
   var static_url = '{{ STATIC_URL }}';
+  var track_ajax = {% if request.track %}true{% else %}false{% endif %};
 </script>
 <style type="text/css">
   .ace_editor { font-size: {{ pref.fontsize }}; }

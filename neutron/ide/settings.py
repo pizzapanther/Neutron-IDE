@@ -76,6 +76,21 @@ IMG_PARAMS_DEFAULT = {
 }
 
 IDE_TRACK_DEFAULT = True
+IDE_TRACK_CODE_DEFAULT = """
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-4108685-13']);
+  _gaq.push(['_setDomainName', 'neutronide.com']);
+  _gaq.push(['_setAllowLinker', true]);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+"""
 
 TEXT_EXTENSIONS = getattr(settings, 'TEXT_EXTENSIONS', TEXT_EXTENSIONS_DEFAULT)
 MODES = getattr(settings, 'MODES', MODES_DEFAULT)
@@ -84,6 +99,7 @@ THEMES = getattr(settings, 'THEMES', THEMES_DEFAULT)
 SITE_NAME = getattr(settings, 'SITE_NAME', SITE_NAME_DEFAULT)
 
 IDE_TRACK = getattr(settings, 'IDE_TRACK', IDE_TRACK_DEFAULT)
+IDE_TRACK_CODE = getattr(settings, 'IDE_TRACK_CODE', IDE_TRACK_CODE_DEFAULT)
 
 IMG_EXTENSIONS = getattr(settings, 'IMG_EXTENSIONS', IMG_EXTENSIONS_DEFAULT)
 IMG_EDITOR_URL = getattr(settings, 'IMG_EDITOR_URL', IMG_EDITOR_URL_DEFAULT)
