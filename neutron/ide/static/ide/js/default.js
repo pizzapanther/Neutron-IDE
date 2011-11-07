@@ -159,6 +159,7 @@ function set_edit_pref (sess, id) {
 
 var editor_global = null;
 var EditSession = require('ace/edit_session').EditSession;
+var UndoManager = require("ace/undomanager").UndoManager;
 
 function create_tab (data) {
   if (data.path in tab_paths) {
@@ -175,6 +176,7 @@ function create_tab (data) {
       }
       
       var sess = new EditSession(data.data); 
+      sess.setUndoManager(new UndoManager());
       editor_global.setSession(sess);
       
       if (data.mode) {

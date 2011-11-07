@@ -1,0 +1,8 @@
+24c24
+< .k-picker-wrap.k-state-hover, .ui-tabs .ui-tabs-nav li
+---
+> .k-picker-wrap.k-state-hover,
+562c562
+< .k-panelbar .k-tabstrip-items .k-item, .ui-tabs .ui-tabs-nav li
+---
+> .k-panelbar .k-tabstrip-items .k-item

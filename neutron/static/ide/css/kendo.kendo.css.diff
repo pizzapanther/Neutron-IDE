@@ -1,0 +1,70 @@
+44c44
+< .k-progress, .ui-tabs .ui-tabs-nav li {
+---
+> .k-progress {
+59c59
+< .k-upload-files, #main_menu, .right_menu, #main_menu span.submenu ul {
+---
+> .k-upload-files {
+82c82
+< .k-picker-wrap.k-state-focused:hover, #tabsinner .ui-widget-header {
+---
+> .k-picker-wrap.k-state-focused:hover {
+90c90
+< .k-picker-wrap.k-state-focused .k-input, #main_menu span.submenu ul, #main_menu, .right_menu, .btop {
+---
+> .k-picker-wrap.k-state-focused .k-input {
+99c99
+< .k-content, ul.jqueryFileTree a, #file_browser > a, #tabsinner .ui-widget-header, #main_menu, #main_menu a, #main_menu span, .right_menu a, .right_menu span, li.fd, #status, .ui-tabs .ui-tabs-nav li a {
+---
+> .k-content {
+125,126c125,126
+< .k-tabstrip-items .k-item, .ui-tabs .ui-tabs-nav li {
+<   background-image: url('../img/Kendo/gradient.png');
+---
+> .k-tabstrip-items .k-item {
+>   background-image: url('/static/ide/img/Kendo/gradient.png');
+149c149
+<   background-image: url('../img/Kendo/sprite.png');
+---
+>   background-image: url('/static/ide/img/Kendo/sprite.png');
+155c155
+<   background-image: url('../img/Kendo/sprite-vertical.png');
+---
+>   background-image: url('/static/ide/img/Kendo/sprite-vertical.png');
+158c158
+<   background-image: url('../img/Kendo/editor.png');
+---
+>   background-image: url('/static/ide/img/Kendo/editor.png');
+161c161
+<   background-image: url('../img/Kendo/loading.gif');
+---
+>   background-image: url('/static/ide/img/Kendo/loading.gif');
+164c164
+<   background-image: url('../img/Kendo/loading-image.gif');
+---
+>   background-image: url('/static/ide/img/Kendo/loading-image.gif');
+181c181
+< .k-state-active, .k-state-active:hover, .k-active-filter, #splitter_left, .ui-widget-header .ui-state-active {
+---
+> .k-state-active, .k-state-active:hover, .k-active-filter {
+190c190
+< .k-marquee, UL.jqueryFileTree A:hover, #main_menu a:hover, #main_menu span:hover, .right_menu a:hover, .right_menu span:hover {
+---
+> .k-marquee {
+235c235
+<   background-image: url('../img/Kendo/slider-h.gif');
+---
+>   background-image: url('/static/ide/img/Kendo/slider-h.gif');
+238c238
+<   background-image: url('../img/Kendo/slider-v.gif');
+---
+>   background-image: url('/static/ide/img/Kendo/slider-v.gif');
+257c257
+<   background-image: url('../img/Kendo/gradient.png');
+---
+>   background-image: url('/static/ide/img/Kendo/gradient.png');
+266c266
+<   background-image: url('../img/Kendo/imagebrowser.png');
+---
+>   background-image: url('/static/ide/img/Kendo/imagebrowser.png');
