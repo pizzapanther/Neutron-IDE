@@ -15,19 +15,25 @@ function hide_menu () {
   return true;
 }
 
+var pref_win;
+var save_win;
+$(document).ready(function () {
+  pref_win = $("#editor_pref").kendoWindow({title: 'Editor Preferences', modal: true, width: "600px"}).data("kendoWindow");
+  save_win = $("#saveall").kendoWindow({title: 'Save All', modal: true, width: "400px", height: '200px', actions: false}).data("kendoWindow");
+  
+  //$(this).parent().children().children('.ui-dialog-titlebar-close').hide();
+  
+});
+
 function show_pref () {
   hide_menu();
-  $( "#editor_pref" ).dialog({
-    title: 'Editor Preferences',
-    modal: true,
-    width: 600,
-	});
-  
+  pref_win.center();
+  pref_win.open();
   $("#editor_pref iframe").attr('src', '/editor_pref/');
 }
 
 function update_prefs (new_prefs) {
-  $("#editor_pref").dialog('close');
+  pref_win.close();
   pref = new_prefs;
   set_all_pref();
 }
@@ -39,19 +45,14 @@ function CloseAll () {
 }
 
 function SaveAll () {
-  $( "#saveall" ).dialog({
-  	title: 'Save All',
-    modal: true,
-    closeOnEscape: false,
-    open: function(event, ui) {
-      $(this).parent().children().children('.ui-dialog-titlebar-close').hide();
-    },
-	});
+  save_win.center();
+  save_win.open();
   
+  $("#saveall").css('display', 'block');
+  $("#saveall").empty();
   for (dp in tab_paths) {
-    var contents = tab_paths[dp].editor.getSession().getValue();
+    var contents = tab_paths[dp].session.getValue();
     
-    $("#saveall").empty();
     $("#saveall").append('<p id="saveall_' + tab_paths[dp].uid + '">Saving ' + tab_paths[dp].filename + ' ...</p>');
     
     $.ajax({
@@ -65,7 +66,7 @@ function SaveAll () {
         }
         
         if ($('#saveall').children().size() == 0) {
-          $("#saveall").dialog('close');
+          save_win.close();
         }
       },
       error: function (jqXHR, textStatus, errorThrown) { alert('Error Saving: ' + dp); $("#status").html(''); },

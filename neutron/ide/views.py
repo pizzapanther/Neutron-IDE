@@ -359,6 +359,8 @@ def editor_pref (request):
     
     p = request.user.preferences
     new_prefs = {
+      'uitheme': p.uitheme,
+      
       'theme': p.theme,
       'fontsize': p.fontsize,
       'keybind': p.keybind,

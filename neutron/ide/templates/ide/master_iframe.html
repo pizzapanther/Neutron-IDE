@@ -6,20 +6,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <title>{% block title %}Neutron IDE &sdot; {{ request.get_host }}{% endblock %}</title>
     <link rel="shortcut icon" href="{{ STATIC_URL }}ide/img/favicon.ico" />
-    <link href='https://fonts.googleapis.com/css?family=Ubuntu:regular,italic,bold,bolditalic&v1' rel='stylesheet' type='text/css'/>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'/>
     <link href='https://fonts.googleapis.com/css?family=Droid+Sans+Mono&v1' rel='stylesheet' type='text/css'/>
     <link href='https://fonts.googleapis.com/css?family=VT323&v1' rel='stylesheet' type='text/css'>
     {% compress css %}
     <link href='{{ STATIC_URL }}ide/css/iframe.css' rel='stylesheet' type='text/css'>
+    <link href='{{ STATIC_URL }}ide/css/kendo.{{ request.user.preferences.uitheme }}.css' rel='stylesheet' type='text/css'/>
     {% endcompress %}
     {% compress js %}
-    <script type="text/javascript" src='{{ STATIC_URL }}ide/js/jquery.1.4.4.js'></script>
+    <script type="text/javascript" src='{{ STATIC_URL }}ide/js/jquery.js'></script>
     <script type="text/javascript" src='{{ STATIC_URL }}ide/js/iframe.js'></script>
     {% endcompress %}
     {% endblock %}
     {% block head %}{% endblock %}
   </head>
-  <body>
+  <body class="k-content">
     {% block content %}{% endblock %}
     {% block footer %}{% endblock %}
   </body>

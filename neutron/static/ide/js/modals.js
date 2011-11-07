@@ -1,15 +1,23 @@
+var new_stuff_win;
+
+$(document).ready(function () {
+  new_stuff_win = $("#new_stuff").kendoWindow({modal: true, width: "500px"}).data("kendoWindow");
+});
+
 function new_stuff (d, dir, did) {
   close_right(did);
-  var s = "#new_stuff";
-  $(s).attr('title', "New File/Dir: " + d);
-  $(s).dialog({width: 500, modal: true});
+  
+  new_stuff_win.title("New File/Dir: " + d);
+  new_stuff_win.center();
+  new_stuff_win.open();
+  
   $("#ui-dialog-title-new_stuff").html("New File/Dir: " + d);
   $('#span_new_upload_file').html('');
   
   $("#create_new_dpath").val(dir);
   $("#create_new_did").val(did);
   
-  $(s + ' input').attr("disabled", "");
+  $('#new_stuff input').removeAttr('disabled');
   
   $("#new_file").focus();
 }
@@ -57,7 +65,7 @@ function create_new_ret (data) {
   if (data.result) {
     var did = $("#create_new_did").val();
     refresh_dir(did);
-    $('#new_stuff').dialog('close');
+    new_stuff_win.close();
   }
   
   else {

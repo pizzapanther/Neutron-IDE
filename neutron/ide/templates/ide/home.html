@@ -3,6 +3,8 @@
 {% with pref=request.user.preferences %}
 <script type="text/javascript">
   var pref = {
+    uitheme: '{{ pref.uitheme }}',
+    
     theme: '{{ pref.theme }}',
     fontsize: '{{ pref.fontsize }}',
     keybind: '{{ pref.keybind }}',
@@ -32,23 +34,34 @@
 {% endwith %}
 {% endblock %}
 {% block content %}
-<div class="ui-layout-north">
-  <span id="logo" class="logo">Neutron IDE V11.11</span>
-  <input type="button" value="Save" onclick="SaveCurrentTab()"/>
-  <input type="button" value="Save All" onclick="SaveAll()"/>
-  <input type="button" value="Close All" onclick="CloseAll()"/>
-  <button id="menu_button" onclick="show_menu()"><img src="{{ STATIC_URL }}ide/img/menu.png" alt="Menu" title="Menu"/></button>
-  <div id="current_edit">Welcome to Neutron IDE</div>
-  <div id="status"></div>
-</div>
-<div id="tabs" class="ui-layout-center">
-  <div id="tabsinner">
-    <ul></ul>
+<div id="neutron_ui">
+  <div id="neutron_menubar">
+    <span id="logo" class="logo">Neutron IDE V11.11</span>
+    <button class="k-button" onclick="SaveCurrentTab()">Save</button>
+    <button class="k-button" onclick="SaveAll()">Save All</button>
+    <button class="k-button" onclick="CloseAll()">Close All</button>
+    <button id="menu_button" class="k-button" onclick="show_menu()"><img src="{{ STATIC_URL }}ide/img/menu.png" alt="Menu" title="Menu"/></button>
+    <div id="current_edit">Welcome to Neutron IDE</div>
+    <div id="status"></div>
   </div>
-</div>
-<div id="file_browser" class="ui-layout-west">
-  <a href="javascript: void(0)">File Browser</a>
-  <div class="inner"></div>
+  <div id="neutron_body">
+    <div id="splitter">
+      <div id="splitter_left">
+        <div id="file_browser">
+          <a href="javascript: void(0)">File Browser</a>
+          <div class="inner"></div>
+        </div>
+      </div>
+      <div id="splitter_right">
+        <div id="tabs">
+          <div id="tabsinner">
+            <ul></ul>
+          </div>
+        </div>
+        <div id="editor_global"></div>
+      </div>
+    </div>
+  </div>
 </div>
 {% include "ide/right_menu_dir.html" %}
 {% endblock %}

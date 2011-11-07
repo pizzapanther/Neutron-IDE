@@ -17,10 +17,11 @@
     var did = "{{ did }}";
     
     $("#{{ did }}_right").css("display", 'block');
+    
     var t = e.pageY - 20;
     var h = $("#{{ did }}_right").height();
     var bottom = t + h;
-    var doch = $('body').height();
+    var doch = $(window).height();
     if (bottom > doch) {
       t = doch - h;
     }

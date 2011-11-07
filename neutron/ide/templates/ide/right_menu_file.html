@@ -17,7 +17,7 @@
     var t = e.pageY - 20;
     var h = $("#{{ fid }}_right").height();
     var bottom = t + h;
-    var doch = $('body').height();
+    var doch = $(window).height();
     if (bottom > doch) {
       t = doch - h;
     }

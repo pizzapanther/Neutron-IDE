@@ -5,12 +5,12 @@
   <table>
     <tr>
       <td>
-        {% if form.errors.theme %}{{ form.errors.theme }}{% endif %}
-        Theme: {{ form.theme }}
+        {% if form.errors.uitheme %}{{ form.errors.uitheme }}{% endif %}
+        UI Theme: {{ form.uitheme }}
       </td>
       <td>
-        {% if form.errors.fontsize %}{{ form.errors.fontsize }}{% endif %}
-        Font Size: {{ form.fontsize }}
+        {% if form.errors.theme %}{{ form.errors.theme }}{% endif %}
+        Editor Theme: {{ form.theme }}
       </td>
     </tr>
     <tr>
@@ -24,7 +24,11 @@
       </td>
     </tr>
     <tr>
-      <td colspan="2">
+      <td>
+        {% if form.errors.fontsize %}{{ form.errors.fontsize }}{% endif %}
+        Font Size: {{ form.fontsize }}
+      </td>
+      <td>
         {% if form.errors.tabsize %}{{ form.errors.tabsize }}{% endif %}
         Tab Size: {{ form.tabsize }}
       </td>

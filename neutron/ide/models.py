@@ -24,6 +24,12 @@ THEMES = (
   ('solarized_light', 'Solarized Light'),
 )
 
+UI_THEMES = (
+  ('kendo', 'Kendo'),
+  ('black', 'Black'),
+  ('blueopal', 'Blue Opal'),
+)
+
 SIZES = (
   ('6px', '6px'),
   ('7px', '7px'),
@@ -72,8 +78,10 @@ class Preferences (models.Model):
   user = models.OneToOneField(User)
 
   basedir = models.CharField('Base Directory', max_length=255)
-
-  theme = models.CharField(choices=THEMES, max_length=25, default='textmate')
+  
+  uitheme = models.CharField('UI Theme', choices=UI_THEMES, max_length=25, default='kendo')
+  
+  theme = models.CharField('Editor Theme', choices=THEMES, max_length=25, default='textmate')
   fontsize = models.CharField('Font Size', choices=SIZES, max_length=10, default='12px')
   keybind = models.CharField('Key Bindings', choices=KBINDS, max_length=10, default='ace')
   swrap = models.CharField('Soft Wrap', choices=WRAPS, max_length=10, default='off')

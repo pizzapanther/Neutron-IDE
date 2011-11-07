@@ -43,14 +43,20 @@ var tab_paths = {};
 var tab_counts = {};
 
 function CurrentTab () {
-  var href = $("ul.ui-tabs-nav li.ui-tabs-selected a").attr('href');
-  var cnt = split_href(href);
-  return tab_counts[cnt];
+  try  {
+    var href = $("ul.ui-tabs-nav li.ui-tabs-selected a").attr('href');
+    var cnt = split_href(href);
+    return tab_counts[cnt];
+  }
+  
+  catch (e) {
+    return false;
+  }
 }
 
 function SaveCurrentTab () {
   var dp = CurrentTab();
-  var contents = tab_paths[dp].editor.getSession().getValue();
+  var contents = editor_global.getSession().getValue();
   
   $("#status").html('Saving ' + tab_paths[dp].filename);
   
@@ -70,11 +76,14 @@ function SaveCurrentTab () {
 
 function set_all_pref () {
   for (dp in tab_paths) {
-    set_edit_pref(tab_paths[dp].editor, "editor_" + tab_paths[dp].tab);
+    set_edit_pref(tab_paths[dp].session, "editor_" + tab_paths[dp].tab);
   }
+  
+  $("#kendoStyle").remove();
+  $('head').append('<link rel="stylesheet" href="' + static_url + 'ide/css/kendo.' + pref.uitheme + '.css" id="kendoStyle" type="text/css" />');
 }
 
-function set_edit_pref (editor, id) {
+function set_edit_pref (sess, id) {
   load_theme = true;
   for (i in loaded_themes) {
     if (loaded_themes[i] == pref.theme) {
@@ -92,7 +101,7 @@ function set_edit_pref (editor, id) {
     loaded_themes.push(pref.theme);
   }
   
-  editor.setTheme("ace/theme/" + pref.theme);
+  editor_global.setTheme("ace/theme/" + pref.theme);
   
   var handler = null;
   if (pref.keybind == 'emacs') {
@@ -103,17 +112,15 @@ function set_edit_pref (editor, id) {
     handler = require("ace/keyboard/keybinding/vim").Vim;
   }
   
-  editor.setKeyboardHandler(handler);
+  editor_global.setKeyboardHandler(handler);
   
-  editor.setHighlightActiveLine(pref.hactive);
-  editor.setHighlightSelectedWord(pref.hword);
-  editor.setShowInvisibles(pref.invisibles);
-  editor.setBehavioursEnabled(pref.behave);
+  editor_global.setHighlightActiveLine(pref.hactive);
+  editor_global.setHighlightSelectedWord(pref.hword);
+  editor_global.setShowInvisibles(pref.invisibles);
+  editor_global.setBehavioursEnabled(pref.behave);
   
-  editor.renderer.setShowGutter(pref.gutter);
-  editor.renderer.setShowPrintMargin(pref.pmargin);
-  
-  var sess = editor.getSession()
+  editor_global.renderer.setShowGutter(pref.gutter);
+  editor_global.renderer.setShowPrintMargin(pref.pmargin);
   
   sess.setTabSize(pref.tabsize);
   sess.setUseSoftTabs(pref.softab);
@@ -121,30 +128,33 @@ function set_edit_pref (editor, id) {
   switch (pref.swrap) {
     case "off":
       sess.setUseWrapMode(false);
-      editor.renderer.setPrintMarginColumn(80);
+      editor_global.renderer.setPrintMarginColumn(80);
       break;
       
     case "40":
       sess.setUseWrapMode(true);
       sess.setWrapLimitRange(40, 40);
-      editor.renderer.setPrintMarginColumn(40);
+      editor_global.renderer.setPrintMarginColumn(40);
       break;
       
     case "80":
       sess.setUseWrapMode(true);
       sess.setWrapLimitRange(80, 80);
-      editor.renderer.setPrintMarginColumn(80);
+      editor_global.renderer.setPrintMarginColumn(80);
       break;
       
     case "free":
       sess.setUseWrapMode(true);
       sess.setWrapLimitRange(null, null);
-      editor.renderer.setPrintMarginColumn(80);
+      editor_global.renderer.setPrintMarginColumn(80);
       break;
   }
   
   $("#" + id).css('font-size', pref.fontsize);
 }
+
+var editor_global = null;
+var EditSession = require('ace/edit_session').EditSession;
 
 function create_tab (data) {
   if (data.path in tab_paths) {
@@ -156,21 +166,24 @@ function create_tab (data) {
       $tabs.tabs("add", "#tabs-" + tab_counter, data.filename);
       $tabs.tabs('select', "#tabs-" + tab_counter);
       
-      var editor = ace.edit("editor_" + tab_counter);
+      if (!editor_global) {
+        editor_global = ace.edit("editor_global");
+      }
+      
+      var sess = new EditSession(data.data); 
+      editor_global.setSession(sess);
       
       if (data.mode) {
         var Mode = require("ace/mode/" + data.mode).Mode;
-        editor.getSession().setMode(new Mode());
+        sess.setMode(new Mode());
       }
       
-      set_edit_pref(editor, "editor_" + tab_counter);
+      set_edit_pref(sess, "editor_" + tab_counter);
       
-      var h = $("#tabs").height() - 29;
-      $("#editor_" + tab_counter).css('height', h + 'px');
-      editor.resize();
-      editor.getSession().setValue(data.data);
+      editor_global.resize();
+      editor_global.focus();
       
-      tab_paths[data.path] = {tab: tab_counter, editor: editor, filename: data.filename, uid: data.uid}
+      tab_paths[data.path] = {tab: tab_counter, session: sess, filename: data.filename, uid: data.uid}
       tab_counts[tab_counter] = data.path
       
       tab_counter++;
@@ -199,19 +212,34 @@ function current_edit (path) {
 }
 
 function resize_editor () {
+  var edith = $(window).height() - 33;
+  
+  ksplitter.size("#neutron_body", edith + "px");
+  $("#splitter, #splitter > div").height(edith - 2);
+  //$("#status").html(edith);
+  
+  var nbw = $("#neutron_body").width() + 1;
+  $("#neutron_body").width(nbw);
+  
   var dp = CurrentTab();
-  current_edit(dp);
-  
-  var href = $("ul.ui-tabs-nav li.ui-tabs-selected a").attr('href');
-  var cnt = split_href(href);
-  
-  var h = $("#tabs").height();
-  $("#editor_" + cnt).height(h - 29);
-  try {
-    tab_paths[dp].editor.resize();
+  if (dp) {
+    current_edit(dp);
+    if (tab_paths[dp]) {
+      editor_global.setSession(tab_paths[dp].session);
+    }
+    
+    var href = $("ul.ui-tabs-nav li.ui-tabs-selected a").attr('href');
+    var cnt = split_href(href);
   }
   
-  catch (e) {}
+  var h = $("#splitter_right").height();
+  $("#editor_global").height(h - $('.ui-widget-header').outerHeight());
+  $("#editor_global").width($("#splitter_right").width());
+  
+  if (editor_global) {
+    editor_global.resize();
+    editor_global.focus();
+  }
 }
 
 function split_href (href) {
@@ -224,6 +252,8 @@ function remove_tab (ui) {
   
   var cnt = split_href(ui.tab.href);
   var dp = tab_counts[cnt];
+  
+  delete tab_paths[dp].session;
   delete tab_paths[dp];
   delete tab_counts[cnt];
   
@@ -231,12 +261,16 @@ function remove_tab (ui) {
     save_session();
   }
   
-  try {
-    var dp = CurrentTab();
+  var dp = CurrentTab();
+  if (dp) {
     current_edit(dp);
+    resize_editor();
   }
   
-  catch (e) {}
+  else {
+    editor_global = null;
+    $('#editor_global').html('');
+  }
 }
 
 function uploadProgress(id, evt) {
@@ -316,7 +350,7 @@ $(document).ready( function() {
     file_browser();
     
     $tabs = $("#tabsinner").tabs({
-      tabTemplate: "<li><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close'>Remove Tab</span></li>",
+      tabTemplate: "<li><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close'><sup>x</sup></span></li>",
       show: function( event, ui) { resize_editor(); },
 			add: function( event, ui) {
         $(ui.panel).append( "<div class=\"editor\" id=\"editor_" + tab_counter + "\"></div>" );
@@ -331,10 +365,16 @@ $(document).ready( function() {
     });
 });
 
-var myLayout;
+var ksplitter;
+var tabstrip;
 
 $(document).ready(function () {
-  myLayout = $('body').layout({onresize_end: resize_editor, north__resizable: false, north__closable: false});
+  ksplitter = $("#neutron_ui").kendoSplitter({
+    panes: [{resizable: false, size: '35px', scrollable: false}, {scrollable:false, resizable: false, size: '311px'}],
+    orientation: 'vertical'
+  }).data("kendoSplitter");
+  
+  $("#splitter").kendoSplitter({panes: [{collapsible: true, size: '250px'}, {scrollable: false}]});
   
   if (pref.save_session) {
     for (i in init_session) {
@@ -343,6 +383,10 @@ $(document).ready(function () {
     
     skip_session = false;
   }
+  
+  //$(window).unbind();
+  $(window).resize(resize_editor);
+  resize_editor();
 });
 
 window.onbeforeunload = function() {
