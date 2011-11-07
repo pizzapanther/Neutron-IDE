@@ -45,7 +45,7 @@ var $tabs = null;
 var load_data = "";
 var tab_paths = {};
 var tab_counts = {};
-var track_int = 6;
+var track_int = 60;
 
 function CurrentTab () {
   try  {
@@ -397,12 +397,13 @@ $(document).ready(function () {
   resize_editor();
   
   if (track_ajax) {
-    setTimeout(track_ide, track_int);
+    //setTimeout(track_ide, track_int);
   }
 });
 
 function track_ide () {
-  _gaq.push(['_trackPageview', "/narf"]);
+  //getYear
+  _gaq.push(['_trackPageview', "/?ts=" + ts]);
   setTimeout(track_ide, track_int);
 }
 
