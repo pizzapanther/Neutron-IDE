@@ -388,7 +388,7 @@ $(document).ready( function() {
 
 function size_search (e) {
   setTimeout(function () {
-    var width = $("#splitter_left").width() - 73;
+    var width = $("#splitter_left").width() - 83;
     $("#search_panel_results a.expand").width(width);
   }, 400);
 }
