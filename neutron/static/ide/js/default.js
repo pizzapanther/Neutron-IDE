@@ -162,7 +162,7 @@ var editor_global = null;
 var EditSession = require('ace/edit_session').EditSession;
 var UndoManager = require("ace/undomanager").UndoManager;
 
-function create_tab (data) {
+function create_tab (data, textStatus, jqXHR, range) {
   if (data.path in tab_paths) {
     $tabs.tabs('select', "#tabs-" + tab_paths[data.path].tab);
   }
@@ -199,6 +199,10 @@ function create_tab (data) {
       
       if (pref.save_session) {
         save_session();
+      }
+      
+      if (range) {
+        sess.getSelection().setSelectionRange(range, false);
       }
     }
     
@@ -247,6 +251,15 @@ function resize_editor () {
     editor_global.resize();
     editor_global.focus();
   }
+  
+  resize_tabs();
+}
+
+function resize_tabs () {
+  var h = $('#tooltabs').height();
+  var t = $('#tooltabs > ul').height() + 2;
+  
+  $("#tooltabs > div").height(h - t);
 }
 
 function split_href (href) {
@@ -303,7 +316,7 @@ function uploadFile(id, onComplete) {
   xhr.send(fd);
 }
 
-function get_file (file) {
+function get_file (file, range) {
   var img_patt = /\.(jpg|jpeg|png|bmp|pxd)$/i;
   
   if (img_patt.test(file)) {
@@ -316,7 +329,7 @@ function get_file (file) {
       async: false,
       url: '/fileget/',
       data: {f: file},
-      success: create_tab,
+      success: function (data, textStatus, jqXHR) {create_tab(data, textStatus, jqXHR, range);},
       error: function (jqXHR, textStatus, errorThrown) { alert('Error Opening: ' + file); },
     });
   }
@@ -373,16 +386,33 @@ $(document).ready( function() {
     });
 });
 
+function size_search (e) {
+  setTimeout(function () {
+    var width = $("#splitter_left").width() - 73;
+    $("#search_panel_results a.expand").width(width);
+  }, 400);
+}
+
 var ksplitter;
+var esplitter;
 var tabstrip;
+var tooltabs;
+var search_panel;
 
 $(document).ready(function () {
+  search_panel = $("#search_panel").kendoPanelBar().data("kendoPanelBar");
+  $("#search_panel_search > span").click();
+  
+  tooltabs = $("#tooltabs").kendoTabStrip({animation: false}).data("kendoTabStrip");
+  tooltabs.select("#fbtab");
+  $("#tooltabs > ul li").click(resize_tabs);
+  
   ksplitter = $("#neutron_ui").kendoSplitter({
     panes: [{resizable: false, size: '35px', scrollable: false}, {scrollable:false, resizable: false, size: '311px'}],
     orientation: 'vertical'
   }).data("kendoSplitter");
   
-  $("#splitter").kendoSplitter({panes: [{collapsible: true, size: '250px'}, {scrollable: false}]});
+  esplitter = $("#splitter").kendoSplitter({panes: [{collapsible: true, size: '250px', scrollable: false}, {scrollable: false}], resize: size_search}).data("kendoSplitter");
   
   if (pref.save_session) {
     for (i in init_session) {
@@ -399,6 +429,7 @@ $(document).ready(function () {
   if (track_ajax) {
     setTimeout(track_ide, track_int);
   }
+  
 });
 
 function track_ide () {

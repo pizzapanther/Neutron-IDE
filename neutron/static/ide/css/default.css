@@ -13,6 +13,10 @@ textarea {
   font-family: 'Droid Sans Mono', "Courier New", courier, monospace;
 }
 
+a {
+  text-decoration: none;
+}
+
 .floatr {
   float: right;
 }
@@ -23,6 +27,10 @@ img {
 
 button img {
   display: inline-block;
+}
+
+.clear {
+  clear: both;
 }
 
 #editor_global {
@@ -80,8 +88,39 @@ button img {
   white-space: nowrap;
 }
 
+#tooltabs {
+  height: 100%;
+}
+
+#tooltabs.k-tabstrip .k-content {
+  margin: 0;
+  padding: 0;
+  border-left-width: 0;
+  border-right-width: 0;
+  border-bottom-width: 0;
+}
+
+#tooltabs > ul > li {
+  font-size: 11px;
+}
+
+#tooltabs > div {
+  overflow: auto;
+}
+
+#tooltabs .k-tabstrip-items .k-item {
+  -moz-border-radius: 0;
+  -webkit-border-radius: 0;
+  border-radius: 0;
+  margin: 0 0 -1px 0;
+}
+
+#tooltabs.k-tabstrip .k-tabstrip-items {
+  padding: 0;
+}
+
 #file_browser {
-  height: 500px;
+  
 }
 
 #file_browser > a {
@@ -334,3 +373,108 @@ ul.jqueryFileTree {
   padding-right: 0.8em;
   font-weight: bold;
 }
+
+#search_panel > li {
+  font-size: 0.7em;
+}
+
+#search_panel #search_panel_search > div.k-content  {
+  padding: 2px 5px;
+}
+
+#search_panel_search form > div {
+  padding: 3px 0;
+  margin: 0;
+}
+
+#search_panel_search input[type='text'] {
+  width: 90%;
+  min-width: 75px;
+}
+
+#search_panel .indent {
+  padding: 0 0 0 10px;
+}
+
+#search_panel .top_radio .opt {
+  float: left;
+  padding: 0 8px 0 0;
+}
+
+#search_panel .indent .opt {
+  float: left;
+  width: 125px;
+  padding: 0 8px 2px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#search_panel #dirchooser.indent {
+  padding-top: 5px;
+}
+
+#dirchooser {
+  white-space: nowrap;
+}
+
+#dirchooser button {
+  padding: 2px 5px 0px 5px;
+  vertical-align: text-top;
+  margin-top: -5px;
+}
+
+#search_panel_search #dirchooser input[type='text'] {
+  width: 80%;
+}
+
+#search_panel_results .title {
+  padding: 2px 4px;
+}
+
+#search_panel_results .title em {
+  display: block;
+  float: right;
+}
+
+#search_panel_results table {
+  border-collapse: collapse;
+  border: 0;
+  width: 100%;
+}
+
+#search_panel_results table td {
+  padding: 2px 4px;
+  border-top-width: 1px;
+  border-top-style: solid;
+  vertical-align: top;
+}
+
+#search_panel_results table tr td:nth-child(2) {
+  text-align: right;
+  width: 65px;
+}
+
+#search_panel_results table td div.lines {
+  padding: 2px 2px 2px 5px;
+}
+
+#search_panel_results a {
+  display: block;
+}
+
+#search_panel_results a.expand {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100px;
+}
+
+#search_panel_results table td div.lines a {
+  padding: 3px 0 3px 4px;
+  border-top-width: 1px;
+  border-top-style: dotted;
+}
+
+
+
