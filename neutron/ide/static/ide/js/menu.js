@@ -1,6 +1,6 @@
 
 function about () {
-  alert('Neutron IDE v11.11 by Paul M Bailey - paul.m.bailey@gmail.com\n\nneutronide.com\n\nLicense: BSD');
+  alert('Neutron IDE v11.12 by Paul M Bailey - paul.m.bailey@gmail.com\n\nneutronide.com\n\nLicense: BSD');
   hide_menu();
 }
 

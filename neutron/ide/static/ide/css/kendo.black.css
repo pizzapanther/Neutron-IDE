@@ -1,4 +1,9 @@
 /* Kendo skin */
+
+#search_panel_results a {
+  color: #0070e4;
+}
+
 /* main colors */
 .k-widget,
 .k-input,
@@ -63,7 +68,7 @@ td.k-group-cell,
   border-color: #2e2e2e;
   background-color: #272727;
 }
-.k-content, .k-editable-area, .k-tiles {
+.k-content, .k-editable-area, .k-tiles, #search_panel {
   background-color: #393939;
 }
 .k-alt, .k-separator {
@@ -87,7 +92,7 @@ div.k-picker-wrap.k-state-active,
 .k-dropdown-wrap .k-input,
 .k-autocomplete.k-state-focused .k-input,
 .k-dropdown-wrap.k-state-focused .k-input,
-.k-picker-wrap.k-state-focused .k-input, #main_menu span.submenu ul, #main_menu, .right_menu, .btop {
+.k-picker-wrap.k-state-focused .k-input, #main_menu span.submenu ul, #main_menu, .right_menu, .btop, #search_panel_results table td, #search_panel_results table td div.lines a {
   border-color: #2e2e2e;
 }
 .k-input {

@@ -37,7 +37,7 @@
 {% block content %}
 <div id="neutron_ui">
   <div id="neutron_menubar">
-    <span id="logo" class="logo">Neutron IDE - Version 11.11</span>
+    <span id="logo" class="logo">Neutron IDE - Version 11.12</span>
     <button class="k-button" onclick="SaveCurrentTab()">Save</button>
     <button class="k-button" onclick="SaveAll()">Save All</button>
     <button class="k-button" onclick="CloseAll()">Close All</button>
@@ -48,9 +48,20 @@
   <div id="neutron_body">
     <div id="splitter">
       <div id="splitter_left">
-        <div id="file_browser">
-          <a href="javascript: void(0)">File Browser</a>
-          <div class="inner"></div>
+        <div id="tooltabs">
+          <ul>
+            <li id="fbtab">Files</li>
+            <li id="searchtab">Search</li>
+          </ul>
+          <div>
+            <div id="file_browser">
+              <a href="javascript: void(0)">File Browser</a>
+              <div class="inner"></div>
+            </div>
+          </div>
+          <div>
+            {% include "ide/search_tab.html" %}
+          </div>
         </div>
       </div>
       <div id="splitter_right">

@@ -1,0 +1,106 @@
+<ul id="search_panel">
+  <li id="search_panel_search">
+    Search Options
+    <div>
+      <form onsubmit="return do_search()">
+        <div class="top_radio">
+          <div class="opt">
+            <input type="radio" id="stype_search" value="search" name="stype" checked="checked" onclick="search_ui('search')"/>
+            <label for="stype_search">Search</label>
+          </div>
+          <div class="opt">
+            <input type="radio" id="stype_replace" value="replace" name="stype" onclick="search_ui('replace')"/>
+            <label for="stype_replace">Search/Replace</label>
+          </div>
+          <div class="clear"></div>
+        </div>
+        <div>
+          Search:<br/>
+          <input type="text" id="search_term" name="search_term"/>
+        </div>
+        <div>
+          Replace:<br/>
+          <input type="text" id="replace_term" name="replace_term" disabled="disabled"/>
+        </div>
+        <div>
+          Search In:
+          <div class="indent">
+            <div class="opt">
+              <input type="radio" id="sin_current" value="current" name="sin" checked="checked" onclick="search_ui('sin_current')"/>
+              <label for="sin_current">Current Tab</label>
+            </div>
+            <div class="opt">
+              <input type="radio" id="sin_all" value="all" name="sin" onclick="search_ui('sin_all')"/>
+              <label for="sin_all">All Tabs</label>
+            </div>
+            <div class="opt">
+              <input type="radio" id="sin_dir" value="dir" name="sin" onclick="search_ui('sin_dir')"/>
+              <label for="sin_dir">Directory</label>
+            </div>
+            <div class="clear"></div>
+            <div id="dirchooser" class="indent" style="display: none;">
+              <input type="text" id="picked_dir" value="" name="picked_dir"/>
+              <button class="k-button" onclick="choose_search_dir()"><img src="{{ STATIC_URL }}ide/js/jqueryFileTree/images/directory.png" alt=""/></button>
+            </div>
+          </div>
+        </div>
+        <div>
+          Options:
+          <div class="indent">
+            <!--<div class="opt">
+              <input type="checkbox" id="search_select" value="ON" name="search_select"/>
+              <label for="search_select">Search Selection</label>
+            </div>-->
+            <div class="opt">
+              <input type="checkbox" id="search_wrap" value="ON" name="search_wrap" checked="checked"/>
+              <label for="search_wrap">Wrap Search</label>
+            </div>
+            <div class="opt">
+              <input type="checkbox" id="search_back" value="ON" name="search_back"/>
+              <label for="search_back">Search Backwards</label>
+            </div>
+            <div class="opt">
+              <input type="checkbox" id="search_sensitive" value="ON" name="search_sensitive"/>
+              <label for="search_sensitive">Case Sensitive</label>
+            </div>
+            <div class="opt">
+              <input type="checkbox" id="search_whole" value="ON" name="search_whole"/>
+              <label for="search_whole">Whole Word</label>
+            </div>
+            <div class="opt">
+              <input type="checkbox" id="search_regex" value="ON" name="search_regex"/>
+              <label for="search_regex">Regex</label>
+            </div>
+            <div class="clear"></div>
+          </div>
+        </div>
+        <div id="search_buttons">
+          <div id="search_submit">
+            <input type="submit" id="search_search" value="Search" name="search_search"/>
+          </div>
+          <div id="next_prev" style="display: none;">
+            <input type="button" value="&laquo; Prev" name="do_search_prev" onclick="search_next('back')"/>
+            <input type="button" value="Next &raquo;" name="do_search_next" onclick="search_next('forward')"/>
+            <input type="button" value="New Search" name="search_new" onclick="search_ui('new_search')"/>
+          </div>
+          <div id="replace_next" style="display: none;">
+            <input type="button" value="Next &raquo;" name="do_search_next" onclick="search_next('forward')"/>
+            <input type="button" value="Replace &amp; Next &raquo;" name="do_replace_next" onclick="replace_next()"/>
+            <input type="button" value="Replace All" name="do_replace_all" onclick="replace_all()"/>
+            <input type="button" value="New Search" name="search_new" onclick="search_ui('new_search')"/>
+          </div>
+          <div id="replace_all_tabs" style="display: none;">
+            <input type="button" value="Replace All" name="do_replace_all_tab" onclick="replace_all_tab()"/>
+            <input type="button" value="New Search" name="search_new" onclick="search_ui('new_search')"/>
+          </div>
+        </div>
+      </form>
+    </div>
+  </li>
+  <li id="search_panel_replace">
+    Search Results
+    <div id="search_panel_results">
+      <h2>No Search Started</h2>
+    </div>
+  </li>
+</ul>
