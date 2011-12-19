@@ -33,15 +33,23 @@
               <input type="radio" id="sin_all" value="all" name="sin" onclick="search_ui('sin_all')"/>
               <label for="sin_all">All Tabs</label>
             </div>
+            {% if CELERY_ON %}
             <div class="opt">
               <input type="radio" id="sin_dir" value="dir" name="sin" onclick="search_ui('sin_dir')"/>
               <label for="sin_dir">Directory</label>
             </div>
             <div class="clear"></div>
             <div id="dirchooser" class="indent" style="display: none;">
-              <input type="text" id="picked_dir" value="" name="picked_dir"/>
-              <button class="k-button" onclick="choose_search_dir()"><img src="{{ STATIC_URL }}ide/js/jqueryFileTree/images/directory.png" alt=""/></button>
+              <div>
+                <input type="text" id="picked_dir" value="" name="picked_dir"/> <button class="k-button" onclick="return choose_search_dir()"><img src="{{ STATIC_URL }}ide/js/jqueryFileTree/images/directory.png" alt=""/></button>
+              </div>
+              <div>
+                File Glob: <em>Ex: *.py, *.js, *.*, etc</em><br/><input type="text" id="file_glob" value="" name="file_glob"/>
+              </div>
             </div>
+            {% else %}
+            <div class="clear"></div>
+            {% endif %}
           </div>
         </div>
         <div>
@@ -92,6 +100,10 @@
           <div id="replace_all_tabs" style="display: none;">
             <input type="button" value="Replace All" name="do_replace_all_tab" onclick="replace_all_tab()"/>
             <input type="button" value="New Search" name="search_new" onclick="search_ui('new_search')"/>
+          </div>
+          <div id="search_status" style="display: none;">
+            <input type="button" value="Cancel" name="cancel" onclick="cancel_search()"/>
+            <span></span>
           </div>
         </div>
       </form>

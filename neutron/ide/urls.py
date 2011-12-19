@@ -4,6 +4,7 @@ from django.views.generic.simple import redirect_to
 
 urlpatterns = patterns('ide.views',
   url('^filetree/$', 'filetree', name='ide-filetree'),
+  url('^dirchooser/$', 'dirchooser', name='ide-dirchooser'),
   url('^fileget/$', 'fileget', name='ide-fileget'),
   url('^filesave/$', 'filesave', name='ide-filesave'),
   url('^accounts/login/$', 'login', name='ide-login'),
@@ -18,5 +19,6 @@ urlpatterns = patterns('ide.views',
   url('^external_request/(?P<key>.+)/fp(?P<fp>.+)$', 'external_request', name='ide-ext-req'),
   url('^save_session/$', 'save_session', name='ide-save-session'),
   url('^editor_pref/$', 'editor_pref', name='ide-editor-pref'),
+  url('^dir_search/$', 'submit_search', name='ide-dir-search'),
   url('^$', 'home', name='ide-home'),
 )

@@ -38,7 +38,7 @@ function search_ui (toggle) {
     $("#replace_all_tabs").css("display", "block");
   }
   
-  if (toggle == 'replace_next' || toggle == 'prev_next' || toggle == 'replace_all_tabs') {
+  if (toggle == 'replace_next' || toggle == 'prev_next' || toggle == 'replace_all_tabs' || toggle == 'search_status') {
     $("#search_submit").css("display", "none");
     $("input[type='text'], input[type='checkbox'], input[type='radio']").attr('disabled', 'disabled');
   }
@@ -47,12 +47,26 @@ function search_ui (toggle) {
     $("#next_prev").css("display", "none");
     $("#replace_next").css("display", "none");
     $("#replace_all_tabs").css("display", "none");
+    $("#search_status").css("display", "none");
+    $("#search_status span").html('');
     
     $("#search_submit").css("display", "block");
     $("input[type='text'], input[type='checkbox'], input[type='radio']").removeAttr('disabled');
     
     var stype = $("input[name='stype']:checked").val();
     search_ui(stype);
+  }
+  
+  if (toggle == 'search_status' || toggle == 'replace_status') {
+    $("#search_status").css("display", "block");
+    
+    if (toggle == 'search_status') {
+      $("#search_status span").html('Searching ...');
+    }
+    
+    else {
+      $("#search_status span").html('Replacing ...');
+    }
   }
 }
 
@@ -61,19 +75,20 @@ var current_replace;
 var current_range;
 var current_backwards;
 var search_options;
+var searchWorker;
 
 function do_search () {
   var needle = $("#search_term").val();
+  var sin = $("input[name='sin']:checked").val();
+  var stype = $("input[name='stype']:checked").val();
+  
   current_replace = $("#replace_term").val();
   
-  if (needle == '') {
+  if (needle == '' && sin != 'dir') {
     alert('If I search for nothing I may find the end of a black hole and kill us all.');
   }
   
   else {
-    var sin = $("input[name='sin']:checked").val();
-    var stype = $("input[name='stype']:checked").val();
-    
     search_options = {
       wrap: false,
       back: false,
@@ -156,9 +171,53 @@ function do_search () {
         search_ui('replace_all_tabs');
       }
     }
+    
+    else if (sin == 'dir') {
+      var glob = document.getElementById('file_glob').value;
+      if (needle == '' && glob == '') {
+        alert('If I search for nothing I may find the end of a black hole and kill us all.');
+      }
+      
+      else {
+        search_ui('search_status');
+        
+        var dpath = basedir + '/' + $("#picked_dir").val();
+        
+        $.ajax({
+           type: "POST",
+           dataType: 'json',
+           url: "/dir_search/",
+           data: {
+             dir: dpath,
+             'glob': glob,
+             'needle': needle,
+             caseSensitive: search_options['sensitive'],
+             wholeWord: search_options['whole'],
+             regExp: search_options['regex'],
+             'replace': current_replace,
+           },
+           success: function (data, textStatus, jqXHR) {
+             searchWorker = setTimeout(function () { check_search_status(data.task_id, data.dsid) }, 4000);
+           },
+           error: function (jqXHR, textStatus, errorThrown) {
+             alert('Error submitting search.');
+             search_ui('new_search');
+           }
+        });
+      }
+    }
   }
   
   return false;
+}
+
+function check_search_status (task_id, dsid) {
+  alert('checking status ' + task_id + ' ' + dsid);
+}
+
+function cancel_search () {
+  //send cancel then below
+  //search_ui('new_search');
 }
 
 function go_to_line (dp, y1, x1, y2, x2) {
@@ -285,4 +344,38 @@ function search_next (way) {
     alert("The search of a thousand miles has completed. Good Job! You Rock!");
   }
 }
+
+function choose_search_dir () {
+  dir_win.center();
+  dir_win.open();
+  document.getElementById("dir_chooser_dialog").value = '';
+  
+  return false;
+}
+
+function choose_me (d) {
+  d = unescape(d);
+  
+  var v = document.getElementById("dir_chooser_dialog").value;
+  if (v == d) {
+    document.getElementById("picked_dir").value = d;
+    dir_win.close();
+  }
+  
+  else {
+    document.getElementById("dir_chooser_dialog").value = d;
+  }
+}
+
+function choose_dir_ok () {
+  var v = document.getElementById("dir_chooser_dialog").value;
+  document.getElementById("picked_dir").value = v;
+  dir_win.close();
+}
+
+var dir_win;
+$(document).ready(function () {
+  dir_win = $("#dir_chooser").kendoWindow({title: 'Choose A Directory', modal: true, width: "400px", height: '370px'}).data("kendoWindow");
+  $('#dir_chooser > div.browser').fileTree({ root: '', script: '/dirchooser/', expandSpeed: 200, collapseSpeed: 200 }, get_file);
+});
 

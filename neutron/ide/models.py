@@ -1,8 +1,13 @@
 import os
+import re
+import glob
+import cPickle as pickle
 
 from django.db import models
 from django.contrib.auth.models import User
 import django.utils.simplejson as json
+
+from ide.grep import Grep
 
 THEMES = (
   ('textmate', 'TextMate'),
@@ -112,4 +117,79 @@ class Preferences (models.Model):
       
     return False
     
-       
+class DirSearch (models.Model):
+  user = models.ForeignKey(User)
+  opts = models.TextField()
+  state = models.CharField(max_length=25, default='created')
+  results = models.TextField(blank=True, null=True)
+  created = models.DateTimeField(auto_now_add=True)
+  updated = models.DateTimeField(auto_now=True)
+  
+  class Meta:
+    verbose_name = 'Directory Search Job'
+    
+  def make_needle (self):
+    needle = ''
+    opts = self.get_opts()
+    
+    regex = False
+    flags = re.I
+    
+    if opts['caseSensitive'] == 'true':
+      flags = 0
+      
+    if opts['regExp'] == 'true':
+      regex = True
+      
+    if regex:
+      if opts['wholeWord'] == 'true':
+        needle = re.compile(r"\b" + opts['needle'] + r"\b", flags=flags)
+        
+      else:
+        needle = re.compile(opts['needle'], flags=flags)
+        
+    else:
+      if opts['wholeWord'] == 'true':
+        needle = re.compile(r"\b" + re.escape(opts['needle'] + r"\b"), flags=flags)
+        
+      else:
+        needle = re.compile(re.escape(opts['needle']), flags=flags)
+        
+    return needle
+    
+  def do_search (self):
+    self.state = 'running'
+    self.save()
+    opts = self.get_opts()
+    needle = self.make_needle()
+    results = []
+    
+    for root, dirs, files in os.walk(opts['dir']):
+      if opts['glob']:
+        files = glob.glob(root + '/' + opts['glob'])
+        
+      if files:
+        for file in files:
+          fp = os.path.join(root, file)
+          if opts['needle']:
+            grep = Grep(fp, needle)
+            results.append((fp, grep.results()))
+            
+          else:
+            results.append((fp, []))
+            
+        self.set_results(results)
+        
+    self.state = 'complete'
+    self.save()
+    
+  def get_opts (self):
+    return pickle.loads(str(self.opts))
+    
+  def get_results (self):
+    return pickle.loads(str(self.results))
+    
+  def set_results (self, results):
+    self.results = pickle.dumps(results)
+    self.save()
+    

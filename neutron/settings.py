@@ -122,6 +122,8 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     #'django.contrib.admindocs',
     'south', #http://south.aeracode.org/
+    'djcelery', #http://ask.github.com/django-celery/
+    'djkombu', #https://github.com/ask/django-kombu/
     'ide',
 )
 
@@ -169,6 +171,12 @@ SERVER_CSR = os.path.join(CERT_DIR, 'server.csr')
 SERVER_CERT = os.path.join(CERT_DIR, 'server.crt')
 SERVER_KEY = os.path.join(CERT_DIR, 'server.key')
 SERVER_PIDFILE = os.path.normpath(os.path.join(SPATH, '..', 'server.pid'))
+
+BROKER_BACKEND = "djkombu.transport.DatabaseTransport"
+CELERY_RESULT_BACKEND = "database"
+
+import djcelery
+djcelery.setup_loader()
 
 try:
   from neutron.settings_local import *

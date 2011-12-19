@@ -10,5 +10,9 @@ class PrefInline (admin.StackedInline):
 class UserAdmin (django.contrib.auth.admin.UserAdmin):
   inlines = [PrefInline,]
   
+class DSAdmin(admin.ModelAdmin):
+  list_display = ('user', 'id', 'state', 'created', 'updated')
+  
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
+admin.site.register(ide.models.DirSearch, DSAdmin)

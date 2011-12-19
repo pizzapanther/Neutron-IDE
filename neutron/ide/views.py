@@ -4,6 +4,8 @@ import shutil
 import codecs
 import urllib
 import datetime
+import cPickle as pickle
+import traceback
 
 from django import http
 from django.conf import settings
@@ -21,7 +23,10 @@ import ide.utils
 import ide.settings
 import ide.models
 import ide.forms
+import ide.tasks
 from ide.templatetags.ntags import hashstr
+
+GOOD_CSTATES = ("SUCCESS", "STARTED", "RECEIVED")
 
 def login (request):
   return auth_views.login(request)
@@ -34,12 +39,28 @@ def home (request):
   except:
     return TemplateResponse(request, 'ide/message.html', {'message': 'Please fill out a user preference.'})
     
+  C_ON = False
+  if ide.settings.SKIP_CELERY_CHECK:
+    C_ON = ide.settings.CELERY_ON
+    
+  else:
+    result = ide.tasks.ctest.delay(4, 5)
+    for i in range(0, 10):
+      if result.ready() or result.state in GOOD_CSTATES:
+        C_ON = True
+        break
+        
+      else:
+        print result.ready(), result.state
+        time.sleep(1)
+        
   c = {
     'MODES': ide.settings.MODES,
     'THEMES': ide.settings.THEMES,
     'dir': base_dir,
     'did': 'file_browser',
     'd': base_dir,
+    'CELERY_ON': C_ON,
   }
   
   return TemplateResponse(request, 'ide/home.html', c)
@@ -248,6 +269,60 @@ def filetree (request):
   return http.HttpResponse(''.join(r))
   
 @login_required
+def dirchooser (request):
+  r = ['<ul class="jqueryFileTree" style="display: none;">']
+  show_hidden = False
+  base_dir = request.user.preferences.basedir
+  
+  try:
+    r = ['<ul class="jqueryFileTree" style="display: none;">']
+    d = urllib.unquote(request.POST.get('dir', ''))
+    
+    if not d.startswith(base_dir):
+      d = os.path.join(base_dir, d)
+      
+    d = os.path.normpath(d)
+    if not d.startswith(base_dir):
+      r.append('Invalid directory: %s' % str(d))
+      
+    fdlist = os.listdir(d)
+    fdlist.sort()
+    
+    files = []
+    dirs = []
+    
+    for f in fdlist:
+      go = False
+      if f.startswith('.'):
+        if show_hidden:
+          go = True
+          
+      else:
+        go = True
+        
+      if go:
+        ff = os.path.join(d,f)
+        if os.path.isdir(ff):
+          dirs.append((ff,f))
+          
+        else:
+          e = os.path.splitext(f)[1][1:] # get .ext and remove dot
+          files.append((e,ff,f))
+          
+    for d in dirs:
+      short = urllib.quote(d[0].replace(base_dir + '/', ''))
+      r.append('<li class="directory collapsed" title="%s"><a href="#" rel="%s/" onclick="choose_me(\'%s\')">%s</a></li>' % (d[0], d[0], short, d[1]))
+      
+    r.append('</ul>')
+    
+  except Exception,e:
+    r.append('Could not load directory: %s' % str(e))
+    
+  r.append('</ul>')
+  return http.HttpResponse(''.join(r))
+
+  
+@login_required
 def view_file (request, fp=None):
   if ide.utils.valid_path(request, fp):
     fn = os.path.basename(fp)
@@ -381,3 +456,30 @@ def editor_pref (request):
     
   return TemplateResponse(request, 'ide/editor_pref.html', {'form': form})
   
+@login_required
+@ide.utils.valid_dir
+def submit_search (request):
+  try:
+    opts = {
+      'wholeWord': request.POST.get('wholeWord', 'false'),
+      'glob': request.POST.get('glob', ''),
+      'needle': request.POST.get('needle', ''),
+      'caseSensitive': request.POST.get('caseSensitive', 'false'),
+      'regExp': request.POST.get('regExp', 'false'),
+      'dir': request.POST.get('dir', request.user.preferences.basedir),
+      'replace': request.POST.get('replace', ''),
+    }
+    
+    opts_str = pickle.dumps(opts)
+    
+    ds = ide.models.DirSearch(user=request.user, opts=opts_str)
+    ds.save()
+    
+    result = ide.tasks.dir_search.delay(ds.id)
+    
+    return http.HttpResponse(json.dumps({'result': 1, 'task_id': result.task_id, 'dsid': ds.id}), mimetype=settings.JSON_MIME)
+    
+  except:
+    traceback.print_exc()
+    raise
+    
