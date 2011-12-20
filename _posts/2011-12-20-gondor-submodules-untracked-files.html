@@ -1,0 +1,89 @@
+---
+layout: post
+title: Using Git Submodules and Untracked Files with Gondor
+categories:
+- development
+- python
+- django
+---
+
+<p>
+  I recently started to use <a href="https://gondor.io/">Gondor.IO</a> for Django
+  deployments. It makes it really easy to deploy a project and not have to worry
+  about sysadmin duties. The trade off to this is that since it is a service, you
+  have to play within certain rules. So far these rules have not been constraining
+  and often show me better ways to do things. However, I did run into a road block
+  recently.
+</p>
+<p>
+  Gondor integrates with your version control system (Git or Mercurial) to make a
+  tarball for deployment.  This means you must track all the files you want to 
+  deploy. This is definitely a constraint on deployment but definitely a
+  constraint that is good practice. However, I recently switched a project to use
+  <a href="http://book.git-scm.com/5_submodules.html">Git submodules</a> which 
+  while this is tracked code it is not supported by Gondor's client. You also may
+  have one off configuration or settings files that are untracked that you need
+  to deploy.
+</p>
+<p>
+  At first I looked for a way for the Gondor Client to support submodules. It is
+  great that the <a href="https://github.com/eldarion/gondor-client">Gondor Client
+  is on GitHub</a> so you can fork it and mess around. I found some forks of the
+  client that support submodules, but they didn't look maintained. While mucking
+  around in the client code, I saw support for untracked files. No docs for this
+  feature, but it is there.
+</p>
+<p>
+  Basically, the client lets you add files to the config INI file for additional
+  non-version controlled files you want to include. I figured adding my submodule
+  files to the config would be a good way to deploy without having to use a custom
+  client. One problem, I have a butt load of files to add to the INI, and to add
+  each one individually would suck.
+</p>
+<p>
+  So I wrote a small script to recursively search directories and add these files
+  for me. You can get the script at:
+  <a href="https://github.com/pizzapanther/Gondor-Untracked-Files">https://github.com/pizzapanther/Gondor-Untracked-Files</a>
+</p>
+<p>
+  Or install with pip like so:
+  <pre>pip install -e git+https://github.com/pizzapanther/Gondor-Untracked-Files.git#egg=untracked</pre>
+</p>
+<p>
+  Usage:
+  <pre>cd django_project_dir
+untracked plugins/cool-plugin1/ plugins/cool-plugin2/</pre>
+</p>
+<p>
+  By default it will ignore *.pyc and your .git folders, but there are options to
+  change that. When your done you should get an INI file that looks like:
+  <pre>[files]                                                                                                                       
+include = django_project_dir/plugins/cool-plugin1/README                                                                           
+        django_project_dir/plugins/cool-plugin1/main/__init__.py                                                                   
+        django_project_dir/plugins/cool-plugin1/main/views.py                                                                      
+        django_project_dir/plugins/cool-plugin1/main/auth.py                                                                       
+        django_project_dir/plugins/cool-plugin1/main/widgets.py                                                                    
+        django_project_dir/plugins/cool-plugin1/main/admin.py                                                                      
+        django_project_dir/plugins/cool-plugin1/main/middleware.py                                                                 
+        django_project_dir/plugins/cool-plugin1/main/models.py                                                                     
+        django_project_dir/plugins/cool-plugin1/main/tests.py                                                                      
+        django_project_dir/plugins/cool-plugin1/main/static/main/css/big.css                                                       
+        django_project_dir/plugins/cool-plugin1/main/static/main/css/order.css                                                     
+        django_project_dir/plugins/cool-plugin1/main/static/main/img/404.jpg                                                       
+        django_project_dir/plugins/cool-plugin1/main/static/main/img/500.jpg                                                       
+        django_project_dir/plugins/cool-plugin1/main/static/main/js/name.slugify.js                                                
+        django_project_dir/plugins/cool-plugin1/main/migrations/__init__.py                                                        
+        django_project_dir/plugins/cool-plugin1/main/migrations/0001_initial.py                                                    
+                                                                                                                              
+[app]                                                                                                                         
+requirements_file = requirements.txt                                                                                          
+staticfiles = on                                                                                                              
+migrations = south                                                                                                            
+wsgi_entry_point = wsgi:application                                                                                           
+site_media_url = /site_media                                                                                                  
+                                                                                                                              
+[gondor]                                                                                                                      
+vcs = git                                                                                                                     
+site_key = ********
+</pre>
+</p>
