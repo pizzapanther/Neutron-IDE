@@ -282,6 +282,9 @@ function check_search_status (task_id, dsid) {
 }
 
 function check_replace_status (task_id, dsid) {
+  dirSearchJob = dsid;
+  dirSearchTask = task_id;
+  
   $.ajax({
      type: "POST",
      dataType: 'json',
@@ -387,13 +390,44 @@ function search_lines (dp, fn, uid, ranges) {
 }
 
 function cancel_search () {
-  //send cancel then below
-  search_ui('new_search');
+  if (searchWorker) {
+    clearTimeout(searchWorker);
+    $.ajax({
+       type: "POST",
+       dataType: 'json',
+       url: "/cancel_job/",
+       data: {ds: dirSearchJob, task: dirSearchTask, jtype: 'search'},
+       success: function (data, textStatus, jqXHR) {
+         if (data.result) {
+           alert('Job Killed Successfully!');
+         }
+         
+         else {
+           alert('Job Finished Normally!');
+         }
+         
+         search_ui('new_search');
+       },
+       error: function (jqXHR, textStatus, errorThrown) { alert('Error cancelling job'); }
+    });
+  }
 }
 
 function cancel_replace () {
-  //send cancel then below
-  search_ui('new_search');
+  if (searchWorker) {
+    clearTimeout(searchWorker);
+    $.ajax({
+       type: "POST",
+       dataType: 'json',
+       url: "/cancel_job/",
+       data: {ds: dirSearchJob, task: dirSearchTask, jtype: 'replace'},
+       success: function (data, textStatus, jqXHR) {
+         alert('Job Killed Successfully!');
+         search_ui('new_search');
+       },
+       error: function (jqXHR, textStatus, errorThrown) { alert('Error cancelling job'); }
+    });
+  }
 }
 
 function replace_dfiles () {

@@ -132,6 +132,8 @@ class DirSearch (models.Model):
   created = models.DateTimeField(auto_now_add=True)
   updated = models.DateTimeField(auto_now=True)
   
+  killed = models.BooleanField(default=False)
+  
   class Meta:
     verbose_name = 'Directory Search Job'
     
@@ -177,6 +179,12 @@ class DirSearch (models.Model):
         
       if files:
         for file in files:
+          if JobKill.objects.filter(ds=self).count() > 0:
+            self.killed = True
+            self.save()
+            print 'Job Killed'
+            return
+            
           fp = os.path.join(root, file)
           uid = hashstr(fp)
           
@@ -199,6 +207,12 @@ class DirSearch (models.Model):
     self.save()
     
     for r in self.get_results():
+      if JobKill.objects.filter(ds=self).count() > 0:
+        self.killed = True
+        self.save()
+        print 'Job Killed'
+        return
+        
       needle = self.make_needle()
       opts = self.get_opts()
       rlines = [x[0] for x in r[2]]
@@ -226,3 +240,7 @@ class DirSearch (models.Model):
     self.results = pickle.dumps(results)
     self.save()
     
+class JobKill (models.Model):
+  ds = models.ForeignKey(DirSearch)
+  created = models.DateTimeField(auto_now_add=True)
+  

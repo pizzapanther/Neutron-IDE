@@ -515,7 +515,33 @@ def check_replace (request):
     dumpme = {'task_id': task, 'dsid': dsid, 'state': ds.replace_state, 'last_file': 'Waiting to start'}
     
   return http.HttpResponse(json.dumps(dumpme), mimetype=settings.JSON_MIME)
+  
+@login_required
+def cancel_job (request):
+  dsid = request.REQUEST.get('ds', '')
+  task = request.REQUEST.get('task', '')
+  jtype = request.REQUEST.get('jtype', 'search')
+  
+  ds = get_object_or_404(ide.models.DirSearch, id=dsid, user=request.user)
+  
+  jk = ide.models.JobKill(ds=ds)
+  jk.save()
+  
+  while 1:
+    print 'checking', datetime.datetime.now()
+    ds = ide.models.DirSearch.objects.get(id=dsid, user=request.user)
+    if ds.killed:
+      return http.HttpResponse(json.dumps({'result': True}), mimetype=settings.JSON_MIME)
+      
+    if jtype == 'search' and ds.state == 'complete':
+      return http.HttpResponse(json.dumps({'result': False}), mimetype=settings.JSON_MIME)
+      
+    if jtype == 'replace' and ds.replace_state == 'complete':
+      return http.HttpResponse(json.dumps({'result': False}), mimetype=settings.JSON_MIME)
+      
+    time.sleep(1)
     
+  
 @login_required
 def submit_replace (request):
   dsid = request.REQUEST.get('ds', '')

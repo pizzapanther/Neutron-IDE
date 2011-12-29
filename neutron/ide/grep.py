@@ -1,5 +1,7 @@
 import re
 
+import ide.utils
+
 class Grep (object):
   def __init__ (self, filepath, needle):
     self.filepath = filepath
@@ -32,19 +34,20 @@ class Grep (object):
   def results (self):
     ret = []
     fh = open(self.filepath, 'r')
-    
-    linenum = 0
-    while 1:
-      line = fh.readline()
-      if line:
-        for match in self.needle.finditer(line):
-          ret.append((linenum, match.start(), match.end()))
+    if ide.utils.istext(fh.read(512)):
+      fh.seek(0)
+      linenum = 0
+      while 1:
+        line = fh.readline()
+        if line:
+          for match in self.needle.finditer(line):
+            ret.append((linenum, match.start(), match.end()))
+            
+          linenum += 1
           
-        linenum += 1
-        
-      else:
-        break
-        
+        else:
+          break
+          
     fh.close()
     
     return ret

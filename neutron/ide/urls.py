@@ -25,6 +25,7 @@ urlpatterns = patterns('ide.views',
   
   url('^dir_replace/$', 'submit_replace', name='ide-dir-replace'),
   url('^check_replace/$', 'check_replace', name='ide-check-replace'),
+  url('^cancel_job/$', 'cancel_job', name='ide-cancel-job'),
   
   url('^$', 'home', name='ide-home'),
 )
