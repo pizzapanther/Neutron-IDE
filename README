@@ -12,11 +12,11 @@ Neutron IDE is based on Ace Editor (http://ace.ajax.org/) and currentely has the
   * Image editing via Phoenix: http://www.aviary.com/online/image-editor
   * File browser
   * Tabbed interface
+  * Search and Replace in current tab, all tabs, or in a directory
 
 In the near future I hope to:
   * Add a plugin system (integrate tools like Git, SVN via plugins)
   * Integrate more 3rd Party tools for editing binary files.
-  * Integrate features like search, replace, directoy search, etc.
   * Integrate an ssh client.
 
 --- This file was edited in Neutron IDE :-) ---
