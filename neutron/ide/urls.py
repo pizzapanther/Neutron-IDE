@@ -19,6 +19,12 @@ urlpatterns = patterns('ide.views',
   url('^external_request/(?P<key>.+)/fp(?P<fp>.+)$', 'external_request', name='ide-ext-req'),
   url('^save_session/$', 'save_session', name='ide-save-session'),
   url('^editor_pref/$', 'editor_pref', name='ide-editor-pref'),
+  
   url('^dir_search/$', 'submit_search', name='ide-dir-search'),
+  url('^check_search/$', 'check_search', name='ide-check-search'),
+  
+  url('^dir_replace/$', 'submit_replace', name='ide-dir-replace'),
+  url('^check_replace/$', 'check_replace', name='ide-check-replace'),
+  
   url('^$', 'home', name='ide-home'),
 )

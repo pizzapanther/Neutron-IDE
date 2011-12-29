@@ -44,7 +44,7 @@
                 <input type="text" id="picked_dir" value="" name="picked_dir"/> <button class="k-button" onclick="return choose_search_dir()"><img src="{{ STATIC_URL }}ide/js/jqueryFileTree/images/directory.png" alt=""/></button>
               </div>
               <div>
-                File Glob: <em>Ex: *.py, *.js, *.*, etc</em><br/><input type="text" id="file_glob" value="" name="file_glob"/>
+                File Glob: <em>Ex: *.py, *.js, *.*</em><br/><input type="text" id="file_glob" value="" name="file_glob"/>
               </div>
             </div>
             {% else %}
@@ -103,6 +103,14 @@
           </div>
           <div id="search_status" style="display: none;">
             <input type="button" value="Cancel" name="cancel" onclick="cancel_search()"/>
+            <span></span>
+          </div>
+          <div id="replace_status" style="display: none;">
+            <input type="button" value="New Search" name="search_new" onclick="search_ui('new_search')"/>
+            <input type="button" value="Replace All" name="replace" onclick="replace_dfiles()"/>
+          </div>
+          <div id="replace_status_started" style="display: none;">
+            <input type="button" value="Cancel" name="cancel" onclick="cancel_replace()"/>
             <span></span>
           </div>
         </div>

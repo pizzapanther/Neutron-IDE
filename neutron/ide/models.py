@@ -1,5 +1,6 @@
 import os
 import re
+import time
 import glob
 import cPickle as pickle
 
@@ -8,6 +9,7 @@ from django.contrib.auth.models import User
 import django.utils.simplejson as json
 
 from ide.grep import Grep
+from ide.templatetags.ntags import hashstr
 
 THEMES = (
   ('textmate', 'TextMate'),
@@ -120,8 +122,13 @@ class Preferences (models.Model):
 class DirSearch (models.Model):
   user = models.ForeignKey(User)
   opts = models.TextField()
+  
   state = models.CharField(max_length=25, default='created')
+  replace_state = models.CharField(max_length=25, blank=True, null=True)
+  
   results = models.TextField(blank=True, null=True)
+  replace_results = models.TextField(blank=True, null=True)
+  
   created = models.DateTimeField(auto_now_add=True)
   updated = models.DateTimeField(auto_now=True)
   
@@ -171,16 +178,29 @@ class DirSearch (models.Model):
       if files:
         for file in files:
           fp = os.path.join(root, file)
+          uid = hashstr(fp)
+          
           if opts['needle']:
             grep = Grep(fp, needle)
-            results.append((fp, grep.results()))
-            
+            grep_results = grep.results()
+            if grep_results:
+              results.append((fp, uid, grep_results))
+              
           else:
-            results.append((fp, []))
+            results.append((fp, uid, []))
             
         self.set_results(results)
         
     self.state = 'complete'
+    self.save()
+    
+  def do_replace (self):
+    self.replace_state = 'running'
+    self.replace_results = 'file1.py\nlast file'
+    self.save()
+    
+    time.sleep(25)
+    self.replace_state = 'complete'
     self.save()
     
   def get_opts (self):

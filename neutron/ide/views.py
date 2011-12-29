@@ -483,3 +483,44 @@ def submit_search (request):
     traceback.print_exc()
     raise
     
+@login_required
+def check_search (request):
+  dsid = request.REQUEST.get('ds', '')
+  task = request.REQUEST.get('task', '')
+  
+  try:
+    ds = get_object_or_404(ide.models.DirSearch, id=dsid, user=request.user)
+    if ds.results:
+      dumpme = {'task_id': task, 'dsid': dsid, 'state': ds.state, 'results': ds.get_results()}
+      
+    else:
+      dumpme = {'task_id': task, 'dsid': dsid, 'state': ds.state, 'results': []}
+      
+    return http.HttpResponse(json.dumps(dumpme), mimetype=settings.JSON_MIME)
+    
+  except:
+    traceback.print_exc()
+    raise
+    
+@login_required
+def check_replace (request):
+  dsid = request.REQUEST.get('ds', '')
+  task = request.REQUEST.get('task', '')
+  
+  ds = get_object_or_404(ide.models.DirSearch, id=dsid, user=request.user)
+  if ds.replace_results:
+    dumpme = {'task_id': task, 'dsid': dsid, 'state': ds.replace_state, 'last_file': ds.replace_results.split('\n')[-1]}
+    
+  else:
+    dumpme = {'task_id': task, 'dsid': dsid, 'state': ds.replace_state, 'last_file': 'Waiting to start'}
+    
+  return http.HttpResponse(json.dumps(dumpme), mimetype=settings.JSON_MIME)
+    
+@login_required
+def submit_replace (request):
+  dsid = request.REQUEST.get('ds', '')
+  ds = get_object_or_404(ide.models.DirSearch, id=dsid, user=request.user)
+  result = ide.tasks.dir_replace.delay(ds.id)
+  
+  return http.HttpResponse(json.dumps({'result': 1, 'task_id': result.task_id, 'dsid': ds.id}), mimetype=settings.JSON_MIME)
+  

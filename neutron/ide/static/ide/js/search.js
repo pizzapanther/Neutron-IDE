@@ -43,12 +43,31 @@ function search_ui (toggle) {
     $("input[type='text'], input[type='checkbox'], input[type='radio']").attr('disabled', 'disabled');
   }
   
+  if (toggle == 'dir_replace') {
+    $("#search_status").css("display", "none");
+    $("#search_status span").html('');
+    
+    $("#replace_status").css("display", "block");
+    
+    $("#replace_status_started").css("display", "none");
+    $("#replace_status_started span").html('');
+  }
+  
+  if (toggle == 'dir_replace_started') {
+    $("#replace_status").css("display", "none");
+    $("#replace_status_started").css("display", "block");
+  }
+  
   if (toggle == 'new_search') {
     $("#next_prev").css("display", "none");
     $("#replace_next").css("display", "none");
     $("#replace_all_tabs").css("display", "none");
     $("#search_status").css("display", "none");
     $("#search_status span").html('');
+    
+    $("#replace_status").css("display", "none");
+    $("#replace_status_started").css("display", "none");
+    $("#replace_status_started span").html('');
     
     $("#search_submit").css("display", "block");
     $("input[type='text'], input[type='checkbox'], input[type='radio']").removeAttr('disabled');
@@ -76,6 +95,7 @@ var current_range;
 var current_backwards;
 var search_options;
 var searchWorker;
+var dirSearchJob;
 
 function do_search () {
   var needle = $("#search_term").val();
@@ -174,7 +194,14 @@ function do_search () {
     
     else if (sin == 'dir') {
       var glob = document.getElementById('file_glob').value;
-      if (needle == '' && glob == '') {
+      dir_results_started = false;
+      dir_results_list = [];
+      
+      if (stype == 'search' && needle == '' && glob == '') {
+        alert('If I search for nothing I may find the end of a black hole and kill us all.');
+      }
+      
+      else if (stype == 'replace' && needle == '') {
         alert('If I search for nothing I may find the end of a black hole and kill us all.');
       }
       
@@ -197,7 +224,7 @@ function do_search () {
              'replace': current_replace,
            },
            success: function (data, textStatus, jqXHR) {
-             searchWorker = setTimeout(function () { check_search_status(data.task_id, data.dsid) }, 4000);
+             searchWorker = setTimeout(function () { check_search_status(data.task_id, data.dsid) }, 500);
            },
            error: function (jqXHR, textStatus, errorThrown) {
              alert('Error submitting search.');
@@ -212,12 +239,170 @@ function do_search () {
 }
 
 function check_search_status (task_id, dsid) {
-  alert('checking status ' + task_id + ' ' + dsid);
+  $.ajax({
+     type: "POST",
+     dataType: 'json',
+     url: "/check_search/",
+     data: {
+       ds: dsid,
+       task: task_id
+     },
+     success: function (data, textStatus, jqXHR) {
+       set_results_dir_search(task_id, dsid, data.results);
+       var stype = $("input[name='stype']:checked").val();
+       
+       if (data.state == 'complete') {
+         if (stype == 'replace') {
+           search_ui('dir_replace');
+           dirSearchJob = dsid;
+         }
+         
+         else {
+           search_ui('new_search');
+         }
+       }
+       
+       else {
+         searchWorker = setTimeout(function () { check_search_status(task_id, dsid) }, 3000);
+       }
+     },
+     error: function (jqXHR, textStatus, errorThrown) {
+       searchWorker = setTimeout(function () { check_search_status(task_id, dsid) }, 3000);
+     }
+  });
+}
+
+function check_replace_status (task_id, dsid) {
+  $.ajax({
+     type: "POST",
+     dataType: 'json',
+     url: "/check_replace/",
+     data: {
+       ds: dsid,
+       task: task_id
+     },
+     success: function (data, textStatus, jqXHR) {
+       if (data.state == 'complete') {
+         alert('Replace Completed');
+         search_ui('new_search');
+       }
+       
+       else {
+         $("#replace_status_started span").html('Working On: ' + data.last_file.replace(basedir + "/", ""));
+         searchWorker = setTimeout(function () { check_replace_status(task_id, dsid) }, 3000);
+       }
+     },
+     error: function (jqXHR, textStatus, errorThrown) {
+       searchWorker = setTimeout(function () { check_replace_status(task_id, dsid) }, 3000);
+     }
+  });
+}
+
+var dir_results_started = false;
+var dir_results_list = [];
+function set_results_dir_search(task_id, dsid, results) {
+  if (dir_results_started) {
+    var html = '';
+    for (j in results) {
+      var result = results[j];
+      var dp = result[0];
+      var uid = result[1];
+      var ranges = result[2];
+      var fn = result[0].replace(basedir + "/", "");
+      
+      html += search_lines(dp, fn, uid, ranges);
+    }
+    
+    $("#search_panel_results > table > tbody").append(html);
+  }
+  
+  else {
+    dir_results_started = true;
+    
+    var html = '<div class="title"><em>Directory</em><strong>Search For: ' + search_options['needle'] + '</strong></div>';
+    html += '<table>';
+    html += '<tr><td><strong>Filename</strong></td><td><strong>Matches</strong></td></tr>';
+    
+    var item = $("#search_panel_replace");
+    search_panel.select(item);
+    search_panel.expand(item);
+    
+    for (j in results) {
+      var result = results[j];
+      var dp = result[0];
+      var uid = result[1];
+      var ranges = result[2];
+      var fn = result[0].replace(basedir + "/", "");
+      
+      html += search_lines(dp, fn, uid, ranges);
+    }
+    
+    html += '</table>';
+    $("#search_panel_results").html(html);
+  }
+  
+  size_search();
+}
+
+function search_lines (dp, fn, uid, ranges) {
+  var html = '';
+  var dpnoa = dp.replace("'", "\\'");
+  
+  if (dp in dir_results_list) {}
+  else {
+    dir_results_list.push(dp);
+    
+    if (ranges.length == 0) {
+      html += '<tr>';
+      html += '<td><a class="expand" href="javascript: void(0)" onclick="get_file (\'' + dpnoa + '\', new Range(0, 0, 0, 0))">' + fn +'</a></td><td></td>';
+      html += '</tr>';
+    }
+    
+    else {
+      var lines = '<div class="lines" id="line_results_' + uid + '" style="display: none;">';
+      for (var i=0; i < ranges.length; i++) {
+        var row = ranges[i][0] + 1;
+        var col = ranges[i][1] + 1;
+        lines += '<a href="javascript: void(0)" onclick="go_to_line(\'' + escape(dp) + '\', ' + ranges[i][0] + ', ' + ranges[i][1] + ', ' + ranges[i][0] + ', ' + ranges[i][2] + ')">Line ' + row + ', Column ' + col + '</a>';
+      }
+      
+      lines += '</div>';
+      
+      html += '<tr>';
+      html += '<td><a class="expand" href="javascript: void(0)" onclick="show_line_results(\'' + uid + '\')">' + fn +'</a>' + lines + '</td><td>' + ranges.length + '</td>';
+      html += '</tr>';
+    }
+  }
+  
+  return html
 }
 
 function cancel_search () {
   //send cancel then below
-  //search_ui('new_search');
+  search_ui('new_search');
+}
+
+function cancel_replace () {
+  //send cancel then below
+  search_ui('new_search');
+}
+
+function replace_dfiles () {
+  search_ui('dir_replace_started');
+  $("#replace_status_started span").html('Replacing ... ');
+  $.ajax({
+     type: "POST",
+     dataType: 'json',
+     url: "/dir_replace/",
+     data: {ds: dirSearchJob},
+     success: function (data, textStatus, jqXHR) {
+       searchWorker = setTimeout(function () { check_replace_status(data.task_id, data.dsid) }, 500);
+     },
+     error: function (jqXHR, textStatus, errorThrown) {
+       alert('Error submitting replace.');
+       search_ui('dir_replace');
+     }
+  });
 }
 
 function go_to_line (dp, y1, x1, y2, x2) {
@@ -227,7 +412,7 @@ function go_to_line (dp, y1, x1, y2, x2) {
   if (dp in tab_paths) {
     $tabs.tabs('select', "#tabs-" + tab_paths[dp].tab);
     var sess = editor_global.getSession();
-    current_search.findAll(sess);
+    //current_search.findAll(sess);
     sess.getSelection().setSelectionRange(range, false);
   }
   
