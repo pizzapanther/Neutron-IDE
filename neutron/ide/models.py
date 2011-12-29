@@ -196,10 +196,23 @@ class DirSearch (models.Model):
     
   def do_replace (self):
     self.replace_state = 'running'
-    self.replace_results = 'file1.py\nlast file'
     self.save()
     
-    time.sleep(25)
+    for r in self.get_results():
+      needle = self.make_needle()
+      opts = self.get_opts()
+      rlines = [x[0] for x in r[2]]
+      
+      grep = Grep(r[0], needle)
+      grep.replace(opts['replace'], rlines)
+      if self.replace_results:
+        self.replace_results += '\n' + r[0]
+        
+      else:
+        self.replace_results = r[0]
+        
+      self.save()
+      
     self.replace_state = 'complete'
     self.save()
     

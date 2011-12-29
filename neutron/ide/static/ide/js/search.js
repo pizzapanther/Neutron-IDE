@@ -74,6 +74,12 @@ function search_ui (toggle) {
     
     var stype = $("input[name='stype']:checked").val();
     search_ui(stype);
+    
+    dirSearchJob = null;
+    dirSearchTask = null;
+    searchWorker = null;
+    
+    $("input[name='sin']:checked").click();
   }
   
   if (toggle == 'search_status' || toggle == 'replace_status') {
@@ -94,8 +100,9 @@ var current_replace;
 var current_range;
 var current_backwards;
 var search_options;
-var searchWorker;
-var dirSearchJob;
+var searchWorker = null;
+var dirSearchJob = null;
+var dirSearchTask = null;
 
 function do_search () {
   var needle = $("#search_term").val();
@@ -239,6 +246,9 @@ function do_search () {
 }
 
 function check_search_status (task_id, dsid) {
+  dirSearchJob = dsid;
+  dirSearchTask = task_id;
+  
   $.ajax({
      type: "POST",
      dataType: 'json',
@@ -254,7 +264,6 @@ function check_search_status (task_id, dsid) {
        if (data.state == 'complete') {
          if (stype == 'replace') {
            search_ui('dir_replace');
-           dirSearchJob = dsid;
          }
          
          else {
