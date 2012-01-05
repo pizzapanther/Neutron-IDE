@@ -1,0 +1,74 @@
+---
+layout: post
+title: Unity Sucks, Now What
+categories:
+- Ubuntu
+- Unity
+---
+
+<p>
+  In <a href="/review/2011/10/27/oneiric-ocelot-sucks.html">previous a post</a> I
+  talked about Unity and how much it bites. But what do you do now?  Which 
+  distros are a good replacement?  Here are a few good alternatives to the main
+  version of Ubuntu. All are based on Ubuntu which shows Ubuntu is still solid; 
+  it is just Unity which most of hate.
+</p>
+<p>
+  <strong><a href="http://linuxmint.com/">Linux Mint</a></strong><br/>
+  Linux Mint 12 comes with MATE which is a GNOME 3 compatible fork of GNOME 2.
+  This will give you an interface that you are used too while also giving you access
+  to new GNOME 3 libraries. In my experience, I ran into a lot of the Unity bugs.
+  I assume that means that Unity is getting a bad reputation not only from itself
+  but also bugs in GNOME 3.  So if you used Unity and just hate the interface and
+  haven't run into any show stopping bugs, then this is the distro for you. For me
+  Linux Mint was just too buggy like Ubuntu 11.10 for everyday use.
+</p>
+<p>
+  <strong><a href="http://www.xubuntu.org/">Xubuntu</a></strong><br/>
+  Xubuntu is a lightweight variant of Ubuntu that uses the Xfce desktop 
+  environment. While its feature set is less than Linux Mint or Ubuntu, it is 
+  stable and fast. Also a lot of features can be added in by simply installing 
+  packages from apt. For instance, the Xubuntu default dock sucks in my opinion, 
+  so I always install a more featureful dock called 
+  <a href="http://wiki.go-docky.com/">Docky</a>. Since I'm a developer I really
+  love the speed and stability of Xubuntu and would gladly give away some
+  features to get this.
+</p>
+<p>
+  <strong><a href="http://lubuntu.net/">Lubuntu</a></strong><br/>
+  Lubuntu is also a lightweight variant of Ubuntu that uses LXDE. Again while its
+  feature set is less than Linux Mint or Ubuntu, it is stable and fast. This has
+  been the distro that I've been living with for the past few weeks, and I love
+  it. I would say it is even a level faster than Xubuntu. If you have an old 
+  computer or netbook, Lubuntu still feels snappy. It has become my default
+  distro for renewing old computers and netbooks which for some reason happened 
+  a lot with my family around Christmas.
+</p>
+<p>
+  One problem I ran into since I like to use Docky, is that Lubuntu has no
+  compositing features. This means no 3D or effects can be done with the window
+  manager. This can be easily remedied by installing a composition manager. First
+  install the package <strong>xcompmgr</strong>. Next we have to make sure the 
+  sure the manager auto starts when we log in.  You can do this by adding a file
+  named <strong>aaaxcompmgr.desktop</strong> to 
+  /home/your_username/.config/autostart/.  The content of the files are below.
+  <pre>
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=AComp
+Type=Application
+Exec=xcompmgr -n
+Terminal=false
+NoDisplay=false
+Categories=Utility;
+  </pre>
+</p>
+<p>
+  Lastly, another problem I ran into with Xubuntu and Lubuntu, since I use a laptop
+  dock, is that the audio output would not switch correctly when docking. The 
+  easiest way I found to fix this is just to use the Pulse Audio command line 
+  tool, <strong><a href="">pacmd</a></strong>.  I'v tried other GUIs and I always
+  end up confused about what to do.  <code>pacmd set-default-sink #</code> is the
+  quickest and easiest way I've found to change the audio output.
+</p>
