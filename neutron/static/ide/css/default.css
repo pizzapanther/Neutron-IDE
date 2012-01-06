@@ -424,6 +424,10 @@ ul.jqueryFileTree {
   margin-top: -5px;
 }
 
+#dirchooser div {
+  padding-bottom: 5px;
+}
+
 #search_panel_search #dirchooser input[type='text'] {
   width: 80%;
 }
@@ -477,4 +481,13 @@ ul.jqueryFileTree {
 }
 
 
+#dir_chooser .browser {
+  height: 320px;
+  overflow: auto;
+  margin-bottom: 5px;
+}
+
+#dir_chooser input[type='text'] {
+  width: 255px;
+}
 

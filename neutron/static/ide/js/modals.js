@@ -19,7 +19,7 @@ function new_stuff (d, dir, did) {
   
   $('#new_stuff input').removeAttr('disabled');
   
-  $("#new_file").focus();
+  $("#new_file").focus().select();
 }
 
 function create_new () {

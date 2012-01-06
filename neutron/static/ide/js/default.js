@@ -222,12 +222,11 @@ function current_edit (path) {
   catch (e) {}
 }
 
-function resize_editor () {
+function resize_editor (skip_splitter) {
   var edith = $(window).height() - 33;
   
   ksplitter.size("#neutron_body", edith + "px");
   $("#splitter, #splitter > div").height(edith - 2);
-  //$("#status").html(edith);
   
   var nbw = $("#neutron_body").width() + 1;
   $("#neutron_body").width(nbw);
@@ -390,6 +389,12 @@ function size_search (e) {
   setTimeout(function () {
     var width = $("#splitter_left").width() - 83;
     $("#search_panel_results a.expand").width(width);
+    
+    $("#editor_global").width($("#splitter_right").width());
+  
+    if (editor_global) {
+      editor_global.resize();
+    }
   }, 400);
 }
 
@@ -412,7 +417,7 @@ $(document).ready(function () {
     orientation: 'vertical'
   }).data("kendoSplitter");
   
-  esplitter = $("#splitter").kendoSplitter({panes: [{collapsible: true, size: '250px', scrollable: false}, {scrollable: false}], resize: size_search}).data("kendoSplitter");
+  esplitter = $("#splitter").kendoSplitter({resize: size_search, panes: [{collapsible: true, size: '250px', scrollable: false}, {scrollable: false}], resize: size_search}).data("kendoSplitter");
   
   if (pref.save_session) {
     for (i in init_session) {
