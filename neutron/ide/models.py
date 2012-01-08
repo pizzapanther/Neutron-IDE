@@ -32,7 +32,7 @@ THEMES = (
 )
 
 UI_THEMES = (
-  ('kendo', 'Kendo'),
+  ('default', 'Default'),
   ('black', 'Black'),
   ('blueopal', 'Blue Opal'),
   #('hakama', 'Hakama'),
@@ -89,7 +89,7 @@ class Preferences (models.Model):
 
   basedir = models.CharField('Base Directory', max_length=255)
   
-  uitheme = models.CharField('UI Theme', choices=UI_THEMES, max_length=25, default='kendo')
+  uitheme = models.CharField('UI Theme', choices=UI_THEMES, max_length=25, default='default')
   
   theme = models.CharField('Editor Theme', choices=THEMES, max_length=25, default='textmate')
   fontsize = models.CharField('Font Size', choices=SIZES, max_length=10, default='12px')

@@ -1,0 +1,8 @@
+65c65
+< .k-draghandle, .ui-tabs .ui-tabs-nav li {
+---
+> .k-draghandle {
+689c689
+< .k-panelbar .k-tabstrip-items .k-item, .ui-tabs .ui-tabs-nav li {
+---
+> .k-panelbar .k-tabstrip-items .k-item {
