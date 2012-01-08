@@ -15,7 +15,8 @@ REPLACES = (
 
 def runme ():
   for fp in sys.argv[1:]:
-    #shutil.copy2(fp, fp + '.old')
+    print fp
+    shutil.copy2(fp, fp + '.old')
     
     fh = open(fp, 'r')
     data = fh.read()
@@ -24,10 +25,9 @@ def runme ():
     for r in REPLACES:
       data = re.sub(r[0], r[1], data)
       
-    print data
-    #fh = open(fp, 'w')
-    #fh.write(data)
-    #fh.close()
+    fh = open(fp, 'w')
+    fh.write(data)
+    fh.close()
     
 if __name__ == '__main__':
   runme()
