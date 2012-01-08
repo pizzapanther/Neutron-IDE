@@ -85,7 +85,7 @@ function set_all_pref () {
   }
   
   $("#kendoStyle").remove();
-  $('head').append('<link rel="stylesheet" href="' + static_url + 'ide/css/kendo.' + pref.uitheme + '.css" id="kendoStyle" type="text/css" />');
+  $('head').append('<link rel="stylesheet" href="' + static_url + 'ide/css/kendo_styles/kendo.' + pref.uitheme + '.min.css" id="kendoStyle" type="text/css" />');
 }
 
 function set_edit_pref (sess, id) {

@@ -35,6 +35,9 @@ UI_THEMES = (
   ('kendo', 'Kendo'),
   ('black', 'Black'),
   ('blueopal', 'Blue Opal'),
+  #('hakama', 'Hakama'),
+  ('metro', 'Metro'),
+  ('silver', 'Silver')
 )
 
 SIZES = (
