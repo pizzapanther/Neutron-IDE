@@ -160,7 +160,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
   'django.core.context_processors.request'
 )
 
-SESSION_COOKIE_AGE = 12 * 60 * 60
+SESSION_COOKIE_AGE = 36 * 60 * 60
 SESSION_SAVE_EVERY_REQUEST = True
 SESSION_COOKIE_NAME = 'neutronsession'
 
