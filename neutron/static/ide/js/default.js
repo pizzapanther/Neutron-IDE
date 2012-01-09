@@ -499,5 +499,13 @@ canon.addCommand({
     exec: function(env, args, request) { SaveCurrentTab(); }
 });
 
-
+canon.addCommand({
+    name: 'QuickSearch',
+    bindKey: {
+      win: 'Ctrl-Q',
+      mac: 'Command-Q',
+      sender: 'editor'
+    },
+    exec: function(env, args, request) { $('#quick_search').focus(); }
+});
 
