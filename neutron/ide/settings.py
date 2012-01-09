@@ -40,7 +40,7 @@ TEXT_EXTENSIONS_DEFAULT = {
   
   'rb': 'ruby', 'rbx': 'ruby',
   
-  'sass': 'scss', 'scss': 'scss', 'less': 'scss'
+  'sass': 'scss', 'scss': 'scss', 'less': 'scss',
   
   'svg': 'svg',
   
