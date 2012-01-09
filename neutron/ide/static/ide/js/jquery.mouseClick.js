@@ -1,11 +1,15 @@
-// jQuery Right-Click Plugin
+// jQuery Mouse-Click Plugin
 //
-// Version 1.01
+// Version 1.0
 //
+// By Paul Bailey
+// http://neutronide.com/
+// paul.m.bailey@gmail.com
+// 
+// Based On jQuery Right Click from
 // Cory S.N. LaViska
 // A Beautiful Site (http://abeautifulsite.net/)
 // 20 December 2008
-//
 // Visit http://abeautifulsite.net/notebook/68 for more information
 //
 // Usage:
@@ -27,21 +31,24 @@
 //		
 //		// Disable context menu on an element
 //		$("#selector").noContext();
-// 
-// History:
 //
-//		1.01 - Updated (20 December 2008)
-//		     - References to 'this' now work the same way as other jQuery plugins, thus
-//		       the el parameter has been deprecated.  Use this or $(this) instead
-//		     - The mouse event is now passed to the callback function
-//		     - Changed license to GNU GPL
-//
-//		1.00 - Released (13 May 2008)
-//
-// License:
-// 
+//  	// Capture middle click
+//		$("#selector").middleClick( function(e) {
+//			// Do something
+//		});
+//		
+//		// Capture middle mouse down
+//		$("#selector").middleMouseDown( function(e) {
+//			// Do something
+//		});
+//		
+//		// Capture middle mouseup
+//		$("#selector").middleMouseUp( function(e) {
+//			// Do something
+//		});
+//		
 // This plugin is dual-licensed under the GNU General Public License and the MIT License
-// and is copyright 2008 A Beautiful Site, LLC. 
+// and is copyright 2011 by Paul Bailey. 
 //
 if(jQuery) (function(){
 	
@@ -113,4 +120,65 @@ if(jQuery) (function(){
 		
 	});
 	
-})(jQuery);	
+})(jQuery);
+
+if(jQuery) (function(){
+  
+	$.extend($.fn, {
+		
+		middleClick: function(handler) {
+			$(this).each( function() {
+				$(this).mousedown( function(e) {
+					var evt = e;
+					$(this).mouseup( function() {
+						$(this).unbind('mouseup');
+						if( evt.button == 1 ) {
+							handler.call( $(this), evt );
+							return false;
+						} else {
+							return true;
+						}
+					});
+				});
+				$(this)[0].oncontextmenu = function() {
+					return false;
+				}
+			});
+			return $(this);
+		},		
+		
+		middleMouseDown: function(handler) {
+			$(this).each( function() {
+				$(this).mousedown( function(e) {
+					if( e.button == 1 ) {
+						handler.call( $(this), e );
+						return false;
+					} else {
+						return true;
+					}
+				});
+				$(this)[0].oncontextmenu = function() {
+					return false;
+				}
+			});
+			return $(this);
+		},
+		
+		middleMouseUp: function(handler) {
+			$(this).each( function() {
+				$(this).mouseup( function(e) {
+					if( e.button == 1 ) {
+						handler.call( $(this), e );
+						return false;
+					} else {
+						return true;
+					}
+				});
+				$(this)[0].oncontextmenu = function() {
+					return false;
+				}
+			});
+			return $(this);
+		}
+	});
+})(jQuery);

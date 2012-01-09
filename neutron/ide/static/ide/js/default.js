@@ -272,10 +272,15 @@ function remove_tab (ui) {
   var cnt = split_href(ui.tab.href);
   var dp = tab_counts[cnt];
   
-  tab_paths[dp].session.$stopWorker();
-  delete tab_paths[dp].session;
-  delete tab_paths[dp];
-  delete tab_counts[cnt];
+  if (tab_paths[dp] && tab_paths[dp].session) {
+    tab_paths[dp].session.$stopWorker();
+    delete tab_paths[dp].session;
+    delete tab_paths[dp];
+  }
+  
+  if (tab_counts[cnt]) {
+    delete tab_counts[cnt];
+  }
   
   if (pref.save_session) {
     save_session();
@@ -366,11 +371,36 @@ function sort_change (event, ui) {
     save_session();
   }
 }
+
+var stopMiddle = false;
+function middleClick (e, ele) {
+  if (e && e.button == 1) {
+    if (stopMiddle) {
+      stopMiddle = false;
+    }
+    
+    else {
+      var p = $(ele).parent();
+      
+      if ($(p).hasClass('ui-tabs-selected')) {
+        stopMiddle = true;
+      }
+      
+      var index = $("li", $tabs ).index(p);
+      $tabs.tabs("remove", index );
+      
+      return false;
+    }
+  }
+  
+  return true;
+}
+
 $(document).ready( function() {
     file_browser();
     
     $tabs = $("#tabsinner").tabs({
-      tabTemplate: "<li><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close'><sup>x</sup></span></li>",
+      tabTemplate: "<li><a class='middle' href='#{href}' onclick='return middleClick(event, this)'>#{label}</a> <span class='ui-icon ui-icon-close'><sup>x</sup></span></li>",
       show: function( event, ui) { resize_editor(); },
 			add: function( event, ui) {
         $(ui.panel).append( "<div class=\"editor\" id=\"editor_" + tab_counter + "\"></div>" );
