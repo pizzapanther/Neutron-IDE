@@ -22,7 +22,7 @@ TEXT_EXTENSIONS_DEFAULT = {
   
   'cs': 'csharp',
   
-  'css': 'css',
+  'css': 'css', 'less': 'css',
   
   'htm': 'html', 'html': 'html',
   
