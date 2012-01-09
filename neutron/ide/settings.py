@@ -22,7 +22,7 @@ TEXT_EXTENSIONS_DEFAULT = {
   
   'cs': 'csharp',
   
-  'css': 'css', 'less': 'css',
+  'css': 'css',
   
   'htm': 'html', 'html': 'html',
   
@@ -40,7 +40,7 @@ TEXT_EXTENSIONS_DEFAULT = {
   
   'rb': 'ruby', 'rbx': 'ruby',
   
-  'sass': 'scss', 'scss': 'scss',
+  'sass': 'scss', 'scss': 'scss', 'less': 'scss'
   
   'svg': 'svg',
   
