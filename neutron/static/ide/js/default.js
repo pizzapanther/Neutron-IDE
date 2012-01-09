@@ -405,6 +405,16 @@ var tooltabs;
 var search_panel;
 
 $(document).ready(function () {
+  $("body").click(function (eObj) {
+    $('.right_menu').css('display', 'none');
+    
+    if (eObj.target.id && eObj.target.id == 'menu_button') {}
+    else if (eObj.target.parentElement.id && eObj.target.parentElement.id == 'menu_button') {}
+    else {
+      hide_menu();
+    }
+  });
+  
   search_panel = $("#search_panel").kendoPanelBar().data("kendoPanelBar");
   $("#search_panel_search > span").click();
   

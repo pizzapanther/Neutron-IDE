@@ -8,6 +8,7 @@ function show_menu () {
   var offset = $("#menu_button").offset();
   $("#main_menu").css('display', 'block');
   $("#main_menu").offset({top: offset.top + 7, left: offset.left + 7});
+  return false;
 }
 
 function hide_menu () {

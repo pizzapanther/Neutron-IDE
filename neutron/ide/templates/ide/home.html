@@ -41,7 +41,7 @@
     <button class="k-button" onclick="SaveCurrentTab()">Save</button>
     <button class="k-button" onclick="SaveAll()">Save All</button>
     <button class="k-button" onclick="CloseAll()">Close All</button>
-    <button id="menu_button" class="k-button" onclick="show_menu()"><img src="{{ STATIC_URL }}ide/img/menu.png" alt="Menu" title="Menu"/></button>
+    <button id="menu_button" class="k-button" onclick="return show_menu()"><img src="{{ STATIC_URL }}ide/img/menu.png" alt="Menu" title="Menu"/></button>
     <div id="current_edit">Welcome to Neutron IDE</div>
     <div id="status"></div>
   </div>
@@ -85,15 +85,14 @@
       <span class="submenu">
         <span class="arrow">&raquo;</span>Help! 
         <ul>
-          <li><a href="https://github.com/pizzapanther/Neutron-IDE/wiki/Default-Key-Bindings" target="_blank" onclick="return hide_menu();" class="link">Key Bindings</a></li>
-          <li><a href="https://github.com/pizzapanther/Neutron-IDE/wiki/Emacs-Key-Bindings" target="_blank" onclick="return hide_menu();" class="link">EMacs Key Bindings</a></li>
-          <li><a href="https://github.com/pizzapanther/Neutron-IDE/wiki/Vim-Key-Bindings" target="_blank" onclick="return hide_menu();" class="link">Vim Key Bindings</a></li>
-          <li><a href="http://neutronide.com/" target="_blank" onclick="return hide_menu();" class="link">NeutronIDE.com</a></li>
+          <li><a href="https://github.com/pizzapanther/Neutron-IDE/wiki/Default-Key-Bindings" target="_blank" class="link">Key Bindings</a></li>
+          <li><a href="https://github.com/pizzapanther/Neutron-IDE/wiki/Emacs-Key-Bindings" target="_blank" class="link">EMacs Key Bindings</a></li>
+          <li><a href="https://github.com/pizzapanther/Neutron-IDE/wiki/Vim-Key-Bindings" target="_blank" class="link">Vim Key Bindings</a></li>
+          <li><a href="http://neutronide.com/" target="_blank" class="link">NeutronIDE.com</a></li>
         </ul>
       </span>
     </li>
     <li><a href="javascript: void(0)" onclick="about()" class="about">About</a></li>
-    <li class="btop"><a href="javascript: void(0)" onclick="hide_menu()" class="cancel">Cancel</a>
   </ul>
 </div>
 {% endblock %}
