@@ -1,0 +1,102 @@
+11,35d10
+< #search_panel_results a {
+<   color: #f0713a;
+< }
+< 
+< .k-button, ul.ui-tabs-nav > li {
+<   border-color: #c5c5c5;
+< }
+< 
+< ul.ui-tabs-nav > li:hover {
+<   background-color: #a99f9a;
+< }
+< 
+< ul.ui-tabs-nav > li.ui-tabs-selected:hover {
+<   background-color: #fff;
+< }
+< 
+< ul.ui-tabs-nav > li {
+<   -moz-border-top-right-radius: 4px;
+<   -webkit-border-top-right-radius: 4px;
+<   border-top-right-radius: 4px;
+<   -moz-border-top-left-radius: 4px;
+<   -webkit-border-top-left-radius: 4px;
+<   border-top-left-radius: 4px;
+< }
+< 
+37,39c12
+<   background-color: #e3e3e3;
+<   background-image: url("textures/highlight.png");
+<   background-repeat: repeat-x;
+---
+>   background-color: #fff;
+99c72
+< .k-upload-files, #main_menu, .right_menu, #main_menu span.submenu ul {
+---
+> .k-upload-files {
+126c99
+< .k-dropdown-wrap.k-state-focused:hover,div.k-picker-wrap.k-state-active,
+---
+> .k-dropdown-wrap.k-state-focused: hover,div.k-picker-wrap.k-state-active,
+128c101
+< .k-picker-wrap.k-state-focused:hover,span.k-numeric-wrap.k-state-active,
+---
+> .k-picker-wrap.k-state-focused: hover,span.k-numeric-wrap.k-state-active,
+130c103
+< .k-numeric-wrap.k-state-focused:hover, #tabsinner .ui-widget-header {
+---
+> .k-numeric-wrap.k-state-focused: hover {
+140c113
+< .k-numeric-wrap.k-state-focused .k-input, #main_menu span.submenu ul, #main_menu, .right_menu, .btop, #search_panel_results table td, #search_panel_results table td div.lines a {
+---
+> .k-numeric-wrap.k-state-focused .k-input {
+153c126
+< .k-content, ul.jqueryFileTree a, #file_browser > a, #tabsinner .ui-widget-header, #main_menu, #main_menu a, #main_menu span, .right_menu a, .right_menu span, li.fd, #status, .ui-tabs .ui-tabs-nav li a {
+---
+> .k-content {
+188c161
+< .k-tabstrip-items .k-item, .ui-tabs .ui-tabs-nav li {
+---
+> .k-tabstrip-items .k-item {
+207c180
+< .k-icon:hover,
+---
+> .k-icon: hover,
+241,242c214,215
+< .k-button.k-state-disabled:hover,
+< .k-state-disabled .k-button:hover,
+---
+> .k-button.k-state-disabled: hover,
+> .k-state-disabled .k-button: hover,
+248,249c221,222
+< .k-button:hover,
+< .k-draghandle:hover {
+---
+> .k-button: hover,
+> .k-draghandle: hover {
+255,256c228,229
+< .k-state-active:hover,
+< .k-active-filter, #splitter_left, .ui-widget-header .ui-state-active {
+---
+> .k-state-active: hover,
+> .k-active-filter {
+258c231
+<   /* border-color: #f0713a; */
+---
+>   border-color: #f0713a;
+269c242
+< .k-draghandle.k-state-selected:hover {
+---
+> .k-draghandle.k-state-selected: hover {
+280,282c253,255
+< .k-state-hover:hover,
+< .k-splitbar-horizontal-hover:hover,
+< .k-splitbar-vertical-hover:hover,
+---
+> .k-state-hover: hover,
+> .k-splitbar-horizontal-hover: hover,
+> .k-splitbar-vertical-hover: hover,
+285c258
+< .k-marquee, UL.jqueryFileTree A:hover, #main_menu a:hover, #main_menu span:hover, .right_menu a:hover, .right_menu span:hover {
+---
+> .k-marquee {
