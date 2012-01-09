@@ -474,7 +474,6 @@ $(document).ready(function () {
   if (track_ajax) {
     setTimeout(track_ide, track_int);
   }
-  
 });
 
 function track_ide () {

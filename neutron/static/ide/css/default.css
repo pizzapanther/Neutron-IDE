@@ -5,6 +5,11 @@ body {
   overflow: hidden;
 }
 
+#quick_search {
+  width: 125px;
+  margin: 0 10px 0 5px;
+}
+
 .mono, .ace_editor {
   font-family: 'Droid Sans Mono', "Courier New", courier, monospace;
 }

@@ -601,9 +601,36 @@ function choose_dir_ok () {
   dir_win.close();
 }
 
+function quick_searcher (e) {
+  if (e.which == 13) {
+    var opts = {
+      needle: $('#quick_search').val(),
+      backwards: false,
+      wrap: true,
+      caseSensitive: false,
+      wholeWord: false,
+      scope: Search.ALL,
+      regExp: false
+    }
+    
+    var qsearch = new Search().set(opts);
+    
+    var qrange = qsearch.find(editor_global.getSession());
+    if (qrange) {
+      editor_global.getSession().getSelection().setSelectionRange(qrange, false);
+    }
+    
+    else {
+      alert("Nothing found.");
+    }
+  }
+}
+
 var dir_win;
 $(document).ready(function () {
   dir_win = $("#dir_chooser").kendoWindow({title: 'Choose A Directory', modal: true, width: "400px", height: '370px'}).data("kendoWindow");
   $('#dir_chooser > div.browser').fileTree({ root: '', script: '/dirchooser/', expandSpeed: 200, collapseSpeed: 200 }, get_file);
+  
+  $("#quick_search").keypress(quick_searcher);
 });
 
