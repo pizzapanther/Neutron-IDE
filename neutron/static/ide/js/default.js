@@ -506,6 +506,6 @@ canon.addCommand({
       mac: 'Command-Q',
       sender: 'editor'
     },
-    exec: function(env, args, request) { $('#quick_search').focus(); }
+    exec: function(env, args, request) { $('#quick_search').focus().select(); }
 });
 
