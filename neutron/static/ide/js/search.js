@@ -628,6 +628,6 @@ $(document).ready(function () {
   dir_win = $("#dir_chooser").kendoWindow({title: 'Choose A Directory', modal: true, width: "400px", height: '370px'}).data("kendoWindow");
   $('#dir_chooser > div.browser').fileTree({ root: '', script: '/dirchooser/', expandSpeed: 200, collapseSpeed: 200 }, get_file);
   
-  $("#quick_search").keypress(quick_searcher);
+  $("#quick_search").keyup(quick_searcher);
 });
 
