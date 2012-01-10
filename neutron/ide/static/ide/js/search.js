@@ -602,9 +602,10 @@ function choose_dir_ok () {
 }
 
 function quick_searcher (e) {
-  if (e.which == 13) {
+  var n $('#quick_search').val();
+  if (n) {
     var opts = {
-      needle: $('#quick_search').val(),
+      needle: n,
       backwards: false,
       wrap: true,
       caseSensitive: false,
@@ -618,10 +619,6 @@ function quick_searcher (e) {
     var qrange = qsearch.find(editor_global.getSession());
     if (qrange) {
       editor_global.getSession().getSelection().setSelectionRange(qrange, false);
-    }
-    
-    else {
-      alert("Nothing found.");
     }
   }
 }
