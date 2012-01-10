@@ -602,7 +602,7 @@ function choose_dir_ok () {
 }
 
 function quick_searcher (e) {
-  var n $('#quick_search').val();
+  var n = $('#quick_search').val();
   if (n) {
     var opts = {
       needle: n,
