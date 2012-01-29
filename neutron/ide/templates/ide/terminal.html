@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html> 
+  <head
+    <meta charset="utf-8"/> 
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <title>Terminal &sdot; Neutron IDE</title>
+    <link rel="shortcut icon" href="{{ STATIC_URL }}ide/img/favicon.ico" />
+    <link href='https://fonts.googleapis.com/css?family=Droid+Sans+Mono&v1' rel='stylesheet' type='text/css'/>
+    <link href='{{ STATIC_URL }}ide/css/terminal_black.css' rel='stylesheet' type='text/css'/>
+  </head>
+  <body>
+    <textarea name="term_input" id="term_input"></textarea>
+    <div id="terminal">
+      <div id="line0"><span> </span></div>
+    </div>
+    <script type="text/javascript" src='{{ STATIC_URL }}ide/js/jquery.js'></script>
+    <script type="text/javascript" src='{{ STATIC_URL }}ide/js/terminal.js'></script>
+    <script type="text/javascript">
+      var ws;
+      function start_socket () {
+        {% if request.is_secure %}
+        ws = new WebSocket("wss://{{ request.get_host }}/websocket");
+        {% else %}
+        ws = new WebSocket("ws://{{ request.get_host }}/websocket");
+        {% endif %}
+        ws.onopen = wsopen;
+        ws.onmessage = wsmessage;
+      }
+      
+      $(document).ready(function () { init_term(); start_socket(); });
+    </script>
+  </body>
+</html>

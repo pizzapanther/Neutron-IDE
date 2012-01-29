@@ -26,6 +26,8 @@ import ide.forms
 import ide.tasks
 from ide.templatetags.ntags import hashstr
 
+import pusher
+
 GOOD_CSTATES = ("SUCCESS", "STARTED", "RECEIVED")
 
 def login (request):
@@ -541,7 +543,6 @@ def cancel_job (request):
       
     time.sleep(1)
     
-  
 @login_required
 def submit_replace (request):
   dsid = request.REQUEST.get('ds', '')
@@ -549,4 +550,8 @@ def submit_replace (request):
   result = ide.tasks.dir_replace.delay(ds.id)
   
   return http.HttpResponse(json.dumps({'result': 1, 'task_id': result.task_id, 'dsid': ds.id}), mimetype=settings.JSON_MIME)
+  
+@login_required
+def terminal (request):
+  return TemplateResponse(request, 'ide/terminal.html', {})
   

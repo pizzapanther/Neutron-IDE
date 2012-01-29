@@ -64,7 +64,7 @@ IMG_EDITOR_URL_DEFAULT = 'http://www.aviary.com/online/image-editor'
 IMG_EDITOR_READ_DEFAULT = 'imageurl'
 IMG_EDITOR_API_KEY_DEFAULT = '324cd8fc0'
 IMG_EDITOR_METHOD_DEFAULT = 'client'
-IMG_EDITOR_PORT_DEFAULT = '8001'
+IMG_EDITOR_PORT_DEFAULT = 8001
 
 IMG_PARAMS_DEFAULT = {
   'service_name': 'sitename',

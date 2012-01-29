@@ -38,7 +38,7 @@ def external_service (request, fp):
       host = request.get_host()
       host = re.sub(':\d+', '', host)
       if ide.settings.IMG_EDITOR_PORT:
-        host += ':' + ide.settings.IMG_EDITOR_PORT
+        host += ':' + str(ide.settings.IMG_EDITOR_PORT)
         
       temp_url += host + reverse('ide-ext-req', args=[key, fp])
       

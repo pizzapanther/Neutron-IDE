@@ -99,7 +99,6 @@ TEMPLATE_LOADERS = (
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.gzip.GZipMiddleware',
-    'ide.middleware.Logging',
     'ide.middleware.Track',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -174,6 +173,9 @@ SERVER_PIDFILE = os.path.normpath(os.path.join(SPATH, '..', 'server.pid'))
 
 BROKER_BACKEND = "djkombu.transport.DatabaseTransport"
 CELERY_RESULT_BACKEND = "database"
+
+HTTP_PORT = 8000
+IMG_EDITOR_PORT = 8001
 
 import djcelery
 djcelery.setup_loader()
