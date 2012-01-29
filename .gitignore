@@ -8,6 +8,6 @@ _site
 COPYRIGHT
 LICENSE
 README
-cert/*
-depends/*
-neutron/*
+cert
+depends
+neutron
