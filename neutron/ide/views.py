@@ -553,5 +553,11 @@ def submit_replace (request):
   
 @login_required
 def terminal (request):
-  return TemplateResponse(request, 'ide/terminal.html', {})
+  if request.user.preferences.bg:
+    bg = request.user.preferences.bg.url
+    
+  else:
+    bg = settings.STATIC_URL + ide.settings.BG_IMG
+    
+  return TemplateResponse(request, 'ide/terminal.html', {'cookie': settings.SESSION_COOKIE_NAME, 'bg': bg})
   

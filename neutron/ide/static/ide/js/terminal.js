@@ -1,15 +1,32 @@
 
 function wsopen (evt) {
-  ws.send(JSON.stringify({'action': 'start', lines: LINES, cols: COLS}));
+  
+  var data = {
+    action: 'start',
+    lines: LINES,
+    cols: COLS,
+    session: getCookie(cookie_name)
+  }
+  
+  ws.send(JSON.stringify(data));
 };
 
 function wsmessage (evt) {
   var data = $.parseJSON(evt.data);
   
   if (data.action == 'update') {
-    read_return(data.data)
+    read_return(data.data);
+  }
+  
+  else if (data.action == 'message') {
+    alert(data.data);
   }
 };
+
+function select_mode () {
+  $('#icons img').toggleClass('selected');
+  $('#input_wrapper').toggleClass('selected');
+}
 
 function read_return (data) {
   $('span.cursor').removeClass('cursor');
@@ -104,10 +121,10 @@ function resize_term () {
 }
 
 function calc_term_size () {
-  var page_w = $(window).width() - 4;
-  var page_h = $(window).height() - 4;
+  var page_w = $('#terminal').outerWidth() - 4;
+  var page_h = $('#terminal').outerHeight() - 4;
   
-  var char_w = $('#terminal span').width();
+  var char_w = $('#terminal span').outerWidth();
   var char_h = $('#terminal div').outerHeight();
   
   COLS = Math.floor(page_w / char_w);

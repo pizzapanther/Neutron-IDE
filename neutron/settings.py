@@ -177,6 +177,8 @@ CELERY_RESULT_BACKEND = "database"
 HTTP_PORT = 8000
 IMG_EDITOR_PORT = 8001
 
+BG_IMG = 'ide/img/neutron.jpg'
+
 import djcelery
 djcelery.setup_loader()
 

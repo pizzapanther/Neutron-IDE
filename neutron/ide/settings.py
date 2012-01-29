@@ -112,3 +112,4 @@ IMG_EDITOR_PORT = getattr(settings, 'IMG_EDITOR_PORT', IMG_EDITOR_PORT_DEFAULT)
 SKIP_CELERY_CHECK = getattr(settings, 'SKIP_CELERY_CHECK', False)
 CELERY_ON = getattr(settings, 'CELERY_ON', False)
 
+BG_IMG = getattr(settings, 'BG_IMG', 'ide/img/neutron.jpg')

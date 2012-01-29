@@ -13,7 +13,7 @@ class Terminal:
     def __init__(self):
         self._proc = None
 
-    def start(self, app, width=TERM_W, height=TERM_H):
+    def start(self, app, home, width=TERM_W, height=TERM_H):
         env = {}
         env.update(os.environ)
         env['TERM'] = 'linux'
@@ -24,6 +24,7 @@ class Terminal:
 
         pid, master = pty.fork()
         if pid == 0:
+            os.chdir(home)
             p = subprocess.Popen(
                 sh,
                 shell=True,

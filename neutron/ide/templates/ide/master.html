@@ -26,6 +26,7 @@
     {% for theme in THEMES %}{% if theme == request.user.preferences.theme %}<script src="{{ STATIC_URL }}ide/js/ace/theme-{{ theme }}.js" type="text/javascript"></script>{% endif %}{% endfor %}
     <script type="text/javascript" src='{{ STATIC_URL }}ide/js/ace/keybinding-emacs.js'></script>
     <script type="text/javascript" src='{{ STATIC_URL }}ide/js/ace/keybinding-vim.js'></script>
+    <script type="text/javascript" src='{{ STATIC_URL }}ide/js/common.js'></script>
     <script type="text/javascript" src='{{ STATIC_URL }}ide/js/default.js'></script>
     <script type="text/javascript" src='{{ STATIC_URL }}ide/js/menu.js'></script>
     <script type="text/javascript" src='{{ STATIC_URL }}ide/js/modals.js'></script>

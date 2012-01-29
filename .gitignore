@@ -3,6 +3,7 @@
 neutron.sql3
 neutron/settings_local.py
 neutron/static/CACHE/
+neutron/static/uploads/
 pip-log.txt
 cert/*.*
 _site

@@ -7,16 +7,37 @@
     <link rel="shortcut icon" href="{{ STATIC_URL }}ide/img/favicon.ico" />
     <link href='https://fonts.googleapis.com/css?family=Droid+Sans+Mono&v1' rel='stylesheet' type='text/css'/>
     <link href='{{ STATIC_URL }}ide/css/terminal_black.css' rel='stylesheet' type='text/css'/>
+    <style type="text/css">
+      body {
+        background-image: url('{{ bg }}');
+      }
+    </style>
   </head>
   <body>
-    <textarea name="term_input" id="term_input"></textarea>
-    <div id="terminal">
-      <div id="line0"><span> </span></div>
+    <div id="input_wrapper">
+      <div>
+        <textarea name="term_input" id="term_input"></textarea>
+      </div>
+    </div>
+    <div id="icons">
+      <a href="javascript: void(0);" onclick="select_mode()">
+        <img src="{{ STATIC_URL }}ide/img/term/sel.png" alt="Select Mode" title="Select Mode">
+      </a>
+    </div>
+    <div id="terminal_wrapper">
+      <div>
+        <div id="terminal">
+          <div id="line0"><span> </span></div>
+        </div>
+      </div>
     </div>
     <script type="text/javascript" src='{{ STATIC_URL }}ide/js/jquery.js'></script>
+    <script type="text/javascript" src='{{ STATIC_URL }}ide/js/common.js'></script>
     <script type="text/javascript" src='{{ STATIC_URL }}ide/js/terminal.js'></script>
     <script type="text/javascript">
       var ws;
+      var cookie_name = '{{ cookie }}';
+      
       function start_socket () {
         {% if request.is_secure %}
         ws = new WebSocket("wss://{{ request.get_host }}/websocket");

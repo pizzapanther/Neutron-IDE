@@ -109,6 +109,8 @@ class Preferences (models.Model):
   save_session = models.BooleanField('Save Session', default=True)
   session = models.TextField(blank=True, null=True)
   
+  bg = models.ImageField('Terminal Background Image', blank=True, null=True, upload_to='bg')
+  
   def last_session (self):
     if self.session:
       return json.dumps(self.session.split("\n"))
