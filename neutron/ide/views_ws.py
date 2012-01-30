@@ -3,6 +3,7 @@ import os
 import json
 import traceback
 import logging
+import base64
 
 MYPATH = os.path.abspath(os.path.dirname(__file__))
 sys.path.insert(0, os.path.abspath(os.path.join(MYPATH, '..')))
@@ -39,7 +40,9 @@ class TerminalWebSocket (WebSocketHandler):
       data = self.terminal._proc.read()
       
     if data != self.last_sent:
-      dump = unicode(json.dumps({'action': 'update', 'data': data}))
+      dump = json.dumps({'action': 'update', 'data': data})
+      dump = dump.encode('zlib')[2:-4]
+      dump = unicode(base64.b64encode(dump))
       self.write_message(dump)
       self.last_sent = data
       

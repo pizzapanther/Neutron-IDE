@@ -84,6 +84,7 @@ img {
   padding: 0;
   margin: 0;
   cursor: default;
+  resize: none;
 }
 
 #input_wrapper.selected {
