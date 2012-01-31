@@ -3,4 +3,4 @@ south==0.7.3
 django-celery==2.4.2
 django-kombu==0.9.4
 pyte==0.4.5
--e git+https://github.com/facebook/tornado.git#egg=tornado
+tornado==2.2
