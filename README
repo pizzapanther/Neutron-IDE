@@ -22,6 +22,6 @@ In the near future I hope to:
 Demo: http://demo.neutronide.com/
 
 --- Notes on terminal ---
-Some browsers like Chrome in particular do not send all keyboard signals through to javascript.  So if you press key combinations like Ctrl-W, it will close your tab and send nothing to the terminal.  Sorry :-(
+Some browsers, like Chrome in particular, do not send all keyboard signals through to javascript.  So if you press key combinations like Ctrl-W, it will close your tab and send nothing to the terminal.  Sorry :-(
 
 --- This file was edited in Neutron IDE ---
