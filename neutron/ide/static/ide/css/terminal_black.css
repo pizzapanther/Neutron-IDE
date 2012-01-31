@@ -9,6 +9,7 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
+  font-size: 13px;
 }
 
 img {
@@ -37,7 +38,6 @@ img {
   padding: 2px;
   margin: 0;
   font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace;
-  font-size: 1em;
 }
 
 #terminal > div {
