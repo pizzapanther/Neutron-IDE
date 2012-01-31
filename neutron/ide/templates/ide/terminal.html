@@ -4,8 +4,8 @@
     <meta charset="utf-8"/> 
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <title>Terminal &sdot; Neutron IDE</title>
+    <link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'/>
     <link rel="shortcut icon" href="{{ STATIC_URL }}ide/img/favicon.ico" />
-    <link href='https://fonts.googleapis.com/css?family=Droid+Sans+Mono&v1' rel='stylesheet' type='text/css'/>
     <link href='{{ STATIC_URL }}ide/css/terminal_black.css' rel='stylesheet' type='text/css'/>
     <style type="text/css">
       body {
@@ -14,6 +14,7 @@
     </style>
   </head>
   <body>
+    <div id="cursor">&nbsp;</div>
     <div id="input_wrapper">
       <div>
         <textarea name="term_input" id="term_input"></textarea>
@@ -26,9 +27,7 @@
     </div>
     <div id="terminal_wrapper">
       <div>
-        <div id="terminal">
-          <div id="line0"><span> </span></div>
-        </div>
+        <pre id="terminal"><div id="line0"><span>&nbsp;</span></div></pre>
       </div>
     </div>
     <script type="text/javascript" src='{{ STATIC_URL }}ide/js/jquery.js'></script>
@@ -49,7 +48,7 @@
         ws.onmessage = wsmessage;
       }
       
-      $(document).ready(function () { init_term(); start_socket(); });
+      $(window).load(function () { init_term(); start_socket(); });
     </script>
   </body>
 </html>

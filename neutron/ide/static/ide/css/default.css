@@ -296,7 +296,7 @@ ul.jqueryFileTree {
 
 .right_menu ul li a, #main_menu ul li a {
   background-repeat: no-repeat;
-  background-position: 0px 3px;
+  background-position: 1px 4px;
 }
 
 .right_menu ul li a.new {
@@ -325,6 +325,10 @@ ul.jqueryFileTree {
 
 #main_menu ul li a.about {
   background-image: url(/static/ide/img/about.png);
+}
+
+#main_menu ul li a.term {
+  background-image: url(/static/ide/img/terminal.png);
 }
 
 #main_menu ul li a.pref {

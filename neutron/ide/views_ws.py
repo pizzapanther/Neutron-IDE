@@ -4,6 +4,7 @@ import json
 import traceback
 import logging
 import base64
+import datetime
 
 MYPATH = os.path.abspath(os.path.dirname(__file__))
 sys.path.insert(0, os.path.abspath(os.path.join(MYPATH, '..')))
@@ -12,6 +13,7 @@ sys.path.insert(0, os.path.normpath(os.path.join(MYPATH, "depends")))
 
 os.environ["DJANGO_SETTINGS_MODULE"] = 'settings'
 
+from django.utils.html import escape
 from django.conf import settings
 from django.utils.importlib import import_module
 from django.contrib.auth.models import User
@@ -33,14 +35,63 @@ class TerminalWebSocket (WebSocketHandler):
     self.terminal.start('/bin/bash', user.preferences.basedir, width, height)
     
   def term_refresh (self, full=False):
-    if full:
-      data = self.terminal._proc.history()
-      
-    else:
-      data = self.terminal._proc.read()
+    #if full:
+    #  data = self.terminal._proc.history()
+    #  
+    data = self.terminal._proc.read()
       
     if data != self.last_sent:
-      dump = json.dumps({'action': 'update', 'data': data})
+      send_data = {'cursor': data['cursor'], 'cx': data['cx'], 'cy': data['cy'] , 'lines': {}}
+      for num, line in data['lines'].items():
+        html = ''
+        last_class = None
+        count = 0
+        for ch in line:
+          classes = ''
+          
+          if ch[1]  != 'default':
+            classes += 'fg' + ch[1] + ' '
+            
+          if ch[2]  != 'default':
+            classes += 'bg' + ch[2] + ' '
+            
+          if ch[3]:
+            classes += 'b '
+            
+          if ch[4]:
+            classes += 'i '
+            
+          if ch[5]:
+            classes += 'u '
+            
+          if ch[6]:
+            classes += 's '
+            
+          if ch[7]:
+            classes += 'r '
+            
+          if classes != '':
+            classes = classes[:-1]
+            
+          if classes != last_class:
+            if count != 0 and last_class != '':
+              html += '</span>';
+              
+            if classes != '':
+              html += '<span class="' + classes + '">'
+              
+          html += escape(ch[0])
+          
+          last_class = classes;
+          count += 1
+          
+        if last_class != '':
+          html += '</span>';
+          
+        #print html
+        send_data['lines'][num] = html
+        
+      dump = json.dumps({'action': 'update', 'data': send_data})
       dump = dump.encode('zlib')[2:-4]
       dump = unicode(base64.b64encode(dump))
       self.write_message(dump)
