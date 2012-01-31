@@ -13,12 +13,15 @@ Neutron IDE is based on Ace Editor (http://ace.ajax.org/) and currentely has the
   * File browser
   * Tabbed interface
   * Search and Replace in current tab, all tabs, or in a directory
+  * (Experimental) Command Line Terminal
 
 In the near future I hope to:
   * Add a plugin system (integrate tools like Git, SVN via plugins)
   * Integrate more 3rd Party tools for editing binary files.
-  * Integrate an ssh client.
 
 Demo: http://demo.neutronide.com/
+
+--- Notes on terminal ---
+Some browsers like Chrome in particular do not send all keyboard signals through to javascript.  So if press key combinations like Ctrl-W, it will close your tab and send nothing to the terminal.  Sorry :-(
 
 --- This file was edited in Neutron IDE :-) ---
