@@ -26,8 +26,6 @@ import ide.forms
 import ide.tasks
 from ide.templatetags.ntags import hashstr
 
-import pusher
-
 GOOD_CSTATES = ("SUCCESS", "STARTED", "RECEIVED")
 
 def login (request):
