@@ -93,7 +93,7 @@
         </ul>
       </span>
     </li>
-    <li><a href="{% url ide-terminal %}" target="_blank" class="term">Terminal</a></li>
+    {% if TERMINAL_ON %}<li><a href="{% url ide-terminal %}" target="_blank" class="term">Terminal</a></li>{% endif %}
     <li><a href="javascript: void(0)" onclick="about()" class="about">About</a></li>
   </ul>
 </div>

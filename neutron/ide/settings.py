@@ -113,3 +113,5 @@ SKIP_CELERY_CHECK = getattr(settings, 'SKIP_CELERY_CHECK', False)
 CELERY_ON = getattr(settings, 'CELERY_ON', False)
 
 BG_IMG = getattr(settings, 'BG_IMG', 'ide/img/neutron.jpg')
+
+TERMINAL_ON = getattr(settings, 'TERMINAL_ON', True)

@@ -63,6 +63,7 @@ def home (request):
     'did': 'file_browser',
     'd': base_dir,
     'CELERY_ON': C_ON,
+    'TERMINAL_ON': ide.settings.TERMINAL_ON
   }
   
   return TemplateResponse(request, 'ide/home.html', c)
@@ -553,11 +554,15 @@ def submit_replace (request):
   
 @login_required
 def terminal (request):
-  if request.user.preferences.bg:
-    bg = request.user.preferences.bg.url
+  if ide.settings.TERMINAL_ON:
+    if request.user.preferences.bg:
+      bg = request.user.preferences.bg.url
+      
+    else:
+      bg = settings.STATIC_URL + ide.settings.BG_IMG
+      
+    return TemplateResponse(request, 'ide/terminal.html', {'cookie': settings.SESSION_COOKIE_NAME, 'bg': bg})
     
   else:
-    bg = settings.STATIC_URL + ide.settings.BG_IMG
+    raise http.Http404
     
-  return TemplateResponse(request, 'ide/terminal.html', {'cookie': settings.SESSION_COOKIE_NAME, 'bg': bg})
-  

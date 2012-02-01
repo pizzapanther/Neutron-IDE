@@ -18,8 +18,6 @@ sys.path.insert(0, MYPATH)
 sys.path.insert(0, os.path.abspath(os.path.join(MYPATH, '..')))
 sys.path.insert(0, os.path.normpath(os.path.join(MYPATH, "depends")))
 
-from ide.views_ws import TerminalWebSocket
-
 def systemcmd (cmd):
   p = subprocess.Popen(cmd, shell=True)
   sts = os.waitpid(p.pid, 0)[1]
@@ -33,6 +31,11 @@ def generate_cert (key, csr, crt):
 if __name__ == "__main__":
   os.environ["DJANGO_SETTINGS_MODULE"] = 'settings'
   
+  from django.conf import settings
+  
+  import ide.settings
+  from ide.views_ws import TerminalWebSocket
+  
   parser = argparse.ArgumentParser(description='Neutron IDE built in Web Server')
   parser.add_argument('-l', '--logging', action='store_true', dest='logging', help='turn on request logging.')
   parser.add_argument('-n', '--nossl', action='store_true', dest='nossl', help='turn off ssl.')
@@ -45,14 +48,19 @@ if __name__ == "__main__":
     
   wsgi_app = tornado.wsgi.WSGIContainer(django.core.handlers.wsgi.WSGIHandler())
   
-  from django.conf import settings
-  
-  application = tornado.web.Application([
-    (r"/websocket", TerminalWebSocket),
-    (r"/static/(.*)", tornado.web.StaticFileHandler, {'path': settings.STATIC_ROOT}),
-    (r".*", tornado.web.FallbackHandler, {'fallback': wsgi_app}),
-  ], debug=settings.DEBUG)
-  
+  if ide.settings.TERMINAL_ON:
+    application = tornado.web.Application([
+      (r"/websocket", TerminalWebSocket),
+      (r"/static/(.*)", tornado.web.StaticFileHandler, {'path': settings.STATIC_ROOT}),
+      (r".*", tornado.web.FallbackHandler, {'fallback': wsgi_app}),
+    ], debug=settings.DEBUG)
+    
+  else:
+    application = tornado.web.Application([
+      (r"/static/(.*)", tornado.web.StaticFileHandler, {'path': settings.STATIC_ROOT}),
+      (r".*", tornado.web.FallbackHandler, {'fallback': wsgi_app}),
+    ], debug=settings.DEBUG)
+    
   if args.nossl:
     ssl_options = None
     
