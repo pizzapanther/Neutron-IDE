@@ -29,7 +29,13 @@ function wsmessage (evt) {
 };
 
 function wsclose (evt) {
-  alert('Terminal Closed');
+  //alert('Terminal Closed');
+  $('#reconnect').removeClass('hidden');
+}
+
+function start_terminal () {
+  start_socket();
+  $('#reconnect').addClass('hidden');
 }
 
 function select_mode () {
