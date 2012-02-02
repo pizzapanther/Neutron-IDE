@@ -45,6 +45,7 @@
         {% endif %}
         ws.onopen = wsopen;
         ws.onmessage = wsmessage;
+        ws.onclose = wsclose;
       }
       
       $(window).load(function () { init_term(); start_socket(); });

@@ -32,9 +32,10 @@ class TerminalWebSocket (WebSocketHandler):
     
   def create_terminal (self, user, width, height):
     self.terminal = ide.terminal.Terminal()
-    self.terminal.start('/bin/bash', user.preferences.basedir, width, height)
+    self.terminal.start('/bin/bash', user.preferences.basedir, width, height, self.close)
     
   def term_refresh (self, full=False):
+    #print self.terminal._proc.popen.poll()
     #if full:
     #  data = self.terminal._proc.history()
     #  

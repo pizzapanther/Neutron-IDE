@@ -28,6 +28,10 @@ function wsmessage (evt) {
   }
 };
 
+function wsclose (evt) {
+  alert('Terminal Closed');
+}
+
 function select_mode () {
   $('#icons img').toggleClass('selected');
   $('#input_wrapper').toggleClass('selected');

@@ -1,4 +1,5 @@
 import os
+import sys
 import subprocess
 import pty
 import fcntl
@@ -13,7 +14,7 @@ class Terminal:
     def __init__(self):
         self._proc = None
 
-    def start(self, app, home, width=TERM_W, height=TERM_H):
+    def start(self, app, home, width=TERM_W, height=TERM_H, onclose=None):
         env = {}
         env.update(os.environ)
         env['TERM'] = 'linux'
@@ -32,7 +33,12 @@ class Terminal:
                 env=env,
             )
             p.wait()
+            
+            if onclose:
+              onclose()
+              
             sys.exit(0)
+            
         self._proc = PTYProtocol(pid, master, width, height)
 
     def restart(self):
