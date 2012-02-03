@@ -458,6 +458,32 @@ def editor_pref (request):
   return TemplateResponse(request, 'ide/editor_pref.html', {'form': form})
   
 @login_required
+def term_pref (request):
+  form = ide.forms.TermPref(None, instance=request.user.preferences)
+  
+  if request.method == 'POST':
+    form = ide.forms.TermPref(request.POST, request.FILES, instance=request.user.preferences)
+    
+    if form.is_valid():
+      form.save()
+      
+      p = request.user.preferences
+      
+      if p.bg:
+        bgurl = p.bg.url
+        
+      else:
+        bgurl = settings.STATIC_URL + ide.settings.BG_IMG
+        
+      new_prefs = {
+        'bg': bgurl,
+        'font': p.font,
+      }
+      return TemplateResponse(request, 'ide/term_pref_success.html', {'new_prefs': json.dumps(new_prefs)})
+      
+  return TemplateResponse(request, 'ide/term_pref.html', {'form': form})
+  
+@login_required
 @ide.utils.valid_dir
 def submit_search (request):
   try:
@@ -559,7 +585,7 @@ def terminal (request):
     else:
       bg = settings.STATIC_URL + ide.settings.BG_IMG
       
-    return TemplateResponse(request, 'ide/terminal.html', {'cookie': settings.SESSION_COOKIE_NAME, 'bg': bg})
+    return TemplateResponse(request, 'ide/terminal.html', {'cookie': settings.SESSION_COOKIE_NAME, 'bg': bg, 'font': request.user.preferences.font})
     
   else:
     raise http.Http404

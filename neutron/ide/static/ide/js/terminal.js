@@ -39,7 +39,7 @@ function start_terminal () {
 }
 
 function select_mode () {
-  $('#icons img').toggleClass('selected');
+  $('#icons #sel_icon img').toggleClass('selected');
   $('#input_wrapper').toggleClass('selected');
 }
 
@@ -543,78 +543,22 @@ function calc_term_size () {
   LINES = Math.floor(page_h / char_h);
 }
 
-function filter_key (event) {
-  ch = event.charCode;
-	if (event.ctrlKey) {
-		ch = String.fromCharCode(event.keyCode - 64);
-		return ch;
-	}
+var pref_win;
+$(document).ready(function () {
+  pref_win = $("#term_pref").kendoWindow({title: 'Terminal Preferences', modal: true, width: "600px", visible: false}).data("kendoWindow");
+});
 
-	if (!ch && event.keyCode >= 112 && event.keyCode <= 123) { // F1-F12
-	    ch = '\x1b' + (event.keyCode - 111);
-	    return ch;
-	}
+function show_pref () {
+  pref_win.center();
+  pref_win.open();
+  $("#term_pref iframe").attr('src', '/term_pref/');
+}
 
-	if (ch) {
-		if (event.ctrlKey) {
-			ch = String.fromCharCode(ch - 96);
-		} else {
-			ch = String.fromCharCode(ch);
-			if (ch == '\r')
-				ch = '\n';
-		}
-	} else {
-		event.preventDefault();
-    switch (event.keyCode) {
-		    case 8:
-			ch = '\b';
-			break;
-		    case 9:
-			ch = '\t';
-			break;
-		    case 13:
-		    case 10:
-			ch = '\r';
-			break;
-		    case 38:
-				ch = '\x1b[A';
-			break;
-		    case 40:
-				ch = '\x1b[B';
-			break;
-		    case 39:
-				ch = '\x1b[C';
-			break;
-		    case 37:
-				ch = '\x1b[D';
-			break;
-		    case 46:
-			ch = '\x1b[3~';
-			break;
-		    case 35: //end
-			ch = '\x1b[F';
-			break;
-		    case 36: //home
-		    ch = '\x1b[H';
-			break;
-		    case 34: //pgup
-		    ch = '\x1b[6~';
-			break;
-		    case 33: //pgdown
-		    ch = '\x1b[5~';
-			break;
-		    case 27:
-			ch = '\x1b';
-			break;
-		    default:
-			return '';
-		}
-	}
-	
-  //tab
-  if (event.keyCode == 9) {
-    event.preventDefault();
-  }
+function update_prefs (new_prefs) {
+  pref_win.close();
   
-	return ch;
+  $('body').css('background-image', 'url(' + new_prefs.bg + ')');
+  $('body').css('font-family', new_prefs.font);
+  
+  $('#terminal').css('font-family', new_prefs.font);
 }

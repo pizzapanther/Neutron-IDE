@@ -1,0 +1,33 @@
+{% extends "ide/master_iframe.html" %}
+{% block head %}
+<base target="_blank">
+<style type="text/css">
+  input[type="text"] {
+    width: 400px;
+  }
+</style>
+{% endblock %}
+{% block content %}
+<form action="" method="post" class="pref_form" enctype="multipart/form-data" target="_self">
+  {% csrf_token %}
+  <table>
+    <tr>
+      <td>
+        {% if form.errors.bg %}{{ form.errors.bg }}{% endif %}
+        <strong>Background Image</strong>:<br>{{ form.bg }}
+      </td>
+    </tr>
+    <tr>
+      <td>
+        {% if form.errors.font %}{{ form.errors.font }}{% endif %}
+        <strong>Font</strong>:<br>{{ form.font }}
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <input type="submit" name="task" value="Save"/>
+      </td>
+    </tr>
+  </table>
+</form>
+{% endblock %}

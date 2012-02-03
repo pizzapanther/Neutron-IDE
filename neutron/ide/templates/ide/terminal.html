@@ -1,14 +1,23 @@
 <!DOCTYPE html>
 <html> 
-  <head
-    <meta charset="utf-8"/> 
+  <head>
+    <meta charset="utf-8"> 
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <title>Terminal &sdot; Neutron IDE</title>
-    <link rel="shortcut icon" href="{{ STATIC_URL }}ide/img/terminal.png" />
+    <link rel="shortcut icon" href="{{ STATIC_URL }}ide/img/terminal.png">
+    
+    <link href='{{ STATIC_URL }}ide/css/kendo_styles/kendo.common.min.css' rel='stylesheet' type='text/css'/>
+    <link href='{{ STATIC_URL }}ide/css/kendo_styles/kendo.{{ request.user.preferences.uitheme }}.min.css' id="kendoStyle" rel='stylesheet' type='text/css'/>
+    
     <link href='{{ STATIC_URL }}ide/css/terminal_black.css' rel='stylesheet' type='text/css'/>
     <style type="text/css">
       body {
         background-image: url('{{ bg }}');
+        font-family: {{ font|safe }};
+      }
+      
+      #terminal {
+        font-family: {{ font|safe }};
       }
     </style>
   </head>
@@ -20,9 +29,12 @@
       </div>
     </div>
     <div id="icons">
-      <a href="javascript: void(0);" onclick="select_mode()">
+      <div class="a" onclick="show_pref()" id="pref_icon">
+        <img src="{{ STATIC_URL }}ide/img/term/gears.png" alt="Preferences" title="Preferences">
+      </div>
+      <div class="a" onclick="select_mode()" id="sel_icon">
         <img src="{{ STATIC_URL }}ide/img/term/sel.png" alt="Select Mode" title="Select Mode">
-      </a>
+      </div>
     </div>
     <div id="terminal_wrapper">
       <div>
@@ -32,7 +44,11 @@
     <div id="reconnect" class="hidden">
       <input type="button" name="connect" value="Start A New Terminal" onclick="return start_terminal()">
     </div>
+    <div id="term_pref">
+      <iframe width="100%" height="220" frameBorder="0" scrolling="auto" src="/term_pref/"></iframe>
+    </div>
     <script type="text/javascript" src='{{ STATIC_URL }}ide/js/jquery.js'></script>
+    <script type="text/javascript" src='{{ STATIC_URL }}ide/js/kendo.all.min.js'></script>
     <script type="text/javascript" src='{{ STATIC_URL }}ide/js/term/rawinflate.js'></script>
     <script type="text/javascript" src='{{ STATIC_URL }}ide/js/common.js'></script>
     <script type="text/javascript" src='{{ STATIC_URL }}ide/js/terminal.js'></script>

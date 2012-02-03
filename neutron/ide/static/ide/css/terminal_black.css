@@ -1,7 +1,6 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace;
   overflow: hidden;
   color: #ccc;
   background-color: black;
@@ -64,7 +63,6 @@ img {
   height: 100%;
   padding: 2px;
   margin: 0;
-  font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace;
 }
 
 #terminal > div {
@@ -73,6 +71,10 @@ img {
 
 #terminal div span {
  padding: 0 0 1px 0; 
+}
+
+#term_pref {
+  
 }
 
 #icons {
@@ -89,10 +91,15 @@ img {
 
 #icons img {
   margin: 0 auto;
+  cursor: pointer;
 }
 
 #icons img.selected {
   border: 1px solid #dc0000;
+}
+
+#icons div {
+  margin-bottom: 10px;
 }
 
 #input_wrapper {
