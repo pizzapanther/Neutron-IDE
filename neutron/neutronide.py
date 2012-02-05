@@ -5,6 +5,9 @@ import os
 import argparse
 import subprocess
 import logging
+import socket
+import time
+import functools
 
 import django.core.handlers.wsgi
 import tornado.httpserver
@@ -12,6 +15,7 @@ import tornado.ioloop
 import tornado.wsgi
 import tornado.web
 import tornado.options
+import tornado.autoreload
 
 MYPATH = os.path.abspath(os.path.dirname(__file__))
 sys.path.insert(0, MYPATH)
@@ -28,6 +32,16 @@ def generate_cert (key, csr, crt):
   systemcmd('openssl req -nodes -newkey rsa:2048 -keyout "%s" -out "%s"' % (key, csr))
   systemcmd('openssl x509 -req -days 999 -in "%s" -signkey "%s" -out "%s"' % (csr, key, crt))
   
+#def cleanup_tornado_sockets (io_loop):
+#  for fd in io_loop._handlers.keys()[:]:
+#    print fd
+#    try:
+#      os.close(fd)
+#      
+#    except Exception:
+#      import traceback
+#      traceback.print_exc()
+#      
 if __name__ == "__main__":
   os.environ["DJANGO_SETTINGS_MODULE"] = 'settings'
   
@@ -82,5 +96,8 @@ if __name__ == "__main__":
     
   print "Web Server Started"
   
-  tornado.ioloop.IOLoop.instance().start()
+  io = tornado.ioloop.IOLoop.instance()
+  #tornado.autoreload.add_reload_hook(functools.partial(cleanup_tornado_sockets, io))
+  io.start()
+  
   

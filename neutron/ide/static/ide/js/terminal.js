@@ -85,26 +85,6 @@ function terminal_write (ch) {
   ws.send(JSON.stringify(data));
 }
 
-function keyme (event, noenter, prevent) {
-  if (noenter) {
-    if (event.which != 13) {
-      var ch = filter_key(event);
-      terminal_write(ch);
-    }
-  }
-  
-  else {
-    var ch = filter_key(event);
-    terminal_write(ch);
-  }
-  
-  if (prevent) {
-    event.preventDefault();
-  }
-  
-  return false;
-}
-
 var lastKeyDownEvent;
 var lastKeyPressedEvent;
 var lastNormalKeyDownEvent;
@@ -507,6 +487,9 @@ function init_term () {
     $('#cursor').addClass('outline');
   });
   
+  $('#term_input').dblclick(function (event) { select_mode(); });
+  $('#terminal').dblclick(function (event) { select_mode(); });
+  
   $("#term_input").bind('paste', function(e) {
     setTimeout(function () {
       var data = $('#term_input').val();
@@ -533,11 +516,11 @@ var char_w;
 var char_h;
 
 function calc_term_size () {
-  var page_w = $('#terminal').outerWidth() - 4;
-  var page_h = $('#terminal').outerHeight() - 4;
+  var page_w = $('#term_input').outerWidth() - 4;
+  var page_h = $('#term_input').outerHeight() - 4;
   
-  char_w = $('#terminal span').outerWidth();
-  char_h = $('#terminal div').outerHeight();
+  char_w = $('#terminal_calc span').outerWidth();
+  char_h = $('#terminal_calc div').outerHeight();
   
   COLS = Math.floor(page_w / char_w);
   LINES = Math.floor(page_h / char_h);
@@ -559,6 +542,31 @@ function update_prefs (new_prefs) {
   
   $('body').css('background-image', 'url(' + new_prefs.bg + ')');
   $('body').css('font-family', new_prefs.font);
+  $('body').css('font-size', new_prefs.fontsize);
   
   $('#terminal').css('font-family', new_prefs.font);
+  send_resize();
 }
+
+function send_resize () {
+  var OLDC = COLS;
+  var OLDL = LINES;
+  
+  calc_term_size();
+  
+  if (OLDC != COLS || OLDL != LINES) {
+    var data = {
+      action: 'resize',
+      cols: COLS,
+      lines: LINES
+    };
+    
+    resize_term();
+    ws.send(JSON.stringify(data));
+  }
+}
+
+$(window).resize(function() {
+  send_resize();
+});
+

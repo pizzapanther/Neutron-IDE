@@ -8,7 +8,6 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
-  font-size: 13px;
 }
 
 img {
@@ -54,6 +53,11 @@ img {
   left: 0;
 }
 
+#terminal_calc {
+  position: absolute;
+  z-index: -5;
+}
+
 #terminal_wrapper > div {
   padding-right: 34px;
   height: 100%;
@@ -69,7 +73,7 @@ img {
   display: inline-block;
 }
 
-#terminal div span {
+#terminal div span, #terminal_calc span {
  padding: 0 0 1px 0; 
 }
 

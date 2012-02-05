@@ -34,64 +34,80 @@ class TerminalWebSocket (WebSocketHandler):
     self.terminal = ide.terminal.Terminal()
     self.terminal.start('/bin/bash', user.preferences.basedir, width, height, self.close)
     
-  def term_refresh (self, full=False):
-    #print self.terminal._proc.popen.poll()
-    #if full:
-    #  data = self.terminal._proc.history()
+  def process_line (self, num, line):
+    html = ''
+    last_class = None
+    count = 0
+    
+    #pline = ''
+    #for ch in line:
+    #  pline += ch[0]
     #  
-    data = self.terminal._proc.read()
+    #print pline
+    
+    for ch in line:
+      classes = ''
       
-    if data != self.last_sent:
-      send_data = {'cursor': data['cursor'], 'cx': data['cx'], 'cy': data['cy'] , 'lines': {}}
-      for num, line in data['lines'].items():
-        html = ''
-        last_class = None
-        count = 0
-        for ch in line:
-          classes = ''
-          
-          if ch[1]  != 'default':
-            classes += 'fg' + ch[1] + ' '
-            
-          if ch[2]  != 'default':
-            classes += 'bg' + ch[2] + ' '
-            
-          if ch[3]:
-            classes += 'b '
-            
-          if ch[4]:
-            classes += 'i '
-            
-          if ch[5]:
-            classes += 'u '
-            
-          if ch[6]:
-            classes += 's '
-            
-          if ch[7]:
-            classes += 'r '
-            
-          if classes != '':
-            classes = classes[:-1]
-            
-          if classes != last_class:
-            if count != 0 and last_class != '':
-              html += '</span>';
-              
-            if classes != '':
-              html += '<span class="' + classes + '">'
-              
-          html += escape(ch[0])
-          
-          last_class = classes;
-          count += 1
-          
-        if last_class != '':
+      if ch[1]  != 'default':
+        classes += 'fg' + ch[1] + ' '
+        
+      if ch[2]  != 'default':
+        classes += 'bg' + ch[2] + ' '
+        
+      if ch[3]:
+        classes += 'b '
+        
+      if ch[4]:
+        classes += 'i '
+        
+      if ch[5]:
+        classes += 'u '
+        
+      if ch[6]:
+        classes += 's '
+        
+      if ch[7]:
+        classes += 'r '
+        
+      if classes != '':
+        classes = classes[:-1]
+        
+      if classes != last_class:
+        if count != 0 and last_class != '':
           html += '</span>';
           
-        #print html
-        send_data['lines'][num] = html
-        
+        if classes != '':
+          html += '<span class="' + classes + '">'
+          
+      html += escape(ch[0])
+      
+      last_class = classes;
+      count += 1
+      
+    if last_class != '':
+      html += '</span>';
+      
+    return html
+    
+  def term_refresh (self, full=False):
+    if full:
+      data = self.terminal._proc.history()
+      
+    else:
+      data = self.terminal._proc.read()
+      
+    if full or data != self.last_sent:
+      send_data = {'cursor': data['cursor'], 'cx': data['cx'], 'cy': data['cy'] , 'lines': {}}
+      
+      if full:
+        for num in range(0, len(data['lines'])):
+          send_data['lines'][num] = self.process_line(num, data['lines'][num])
+          
+      else:
+        for num, line in data['lines'].items():
+          send_data['lines'][num] = self.process_line(num, line)
+          
+      #print '------------------------------------------------------------------'
       dump = json.dumps({'action': 'update', 'data': send_data})
       dump = dump.encode('zlib')[2:-4]
       dump = unicode(base64.b64encode(dump))
@@ -126,11 +142,19 @@ class TerminalWebSocket (WebSocketHandler):
           
       elif data['action'] == 'write':
         self.terminal.write(data['write'])
-        self.term_refresh()
+        #self.term_refresh()
+        self.term_refresh(True)
+        
+      elif data['action'] == 'resize':
+        self.terminal.resize(data['lines'], data['cols'])
+        self.term_refresh(True)
+        
+      elif data['action'] == 'full':
+        self.term_refresh(True)
         
   def on_close(self):
     logging.info('Closing Terminal Web Socket')
     if self.terminal:
       self.scheduler.stop()
-      self.terminal._proc.kill()
+      self.terminal.kill()
       

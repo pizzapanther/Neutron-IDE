@@ -478,6 +478,7 @@ def term_pref (request):
       new_prefs = {
         'bg': bgurl,
         'font': p.font,
+        'fontsize': p.tfontsize,
       }
       return TemplateResponse(request, 'ide/term_pref_success.html', {'new_prefs': json.dumps(new_prefs)})
       
@@ -585,7 +586,14 @@ def terminal (request):
     else:
       bg = settings.STATIC_URL + ide.settings.BG_IMG
       
-    return TemplateResponse(request, 'ide/terminal.html', {'cookie': settings.SESSION_COOKIE_NAME, 'bg': bg, 'font': request.user.preferences.font})
+    c = {
+      'cookie': settings.SESSION_COOKIE_NAME,
+      'bg': bg,
+      'font': request.user.preferences.font,
+      'fontsize': request.user.preferences.tfontsize
+    }
+    
+    return TemplateResponse(request, 'ide/terminal.html', c)
     
   else:
     raise http.Http404

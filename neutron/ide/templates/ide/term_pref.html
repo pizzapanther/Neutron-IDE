@@ -5,6 +5,10 @@
   input[type="text"] {
     width: 400px;
   }
+  
+  input#id_tfontsize {
+    width: 40px;
+  }
 </style>
 {% endblock %}
 {% block content %}
@@ -15,6 +19,12 @@
       <td>
         {% if form.errors.bg %}{{ form.errors.bg }}{% endif %}
         <strong>Background Image</strong>:<br>{{ form.bg }}
+      </td>
+    </tr>
+    <tr>
+      <td>
+        {% if form.errors.tfontsize %}{{ form.errors.tfontsize }}{% endif %}
+        <strong>Font Size</strong>:<br>{{ form.tfontsize }}
       </td>
     </tr>
     <tr>

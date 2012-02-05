@@ -3,6 +3,8 @@ import sys
 import subprocess
 import pty
 import fcntl
+import struct
+import termios
 from base64 import b64decode, b64encode
 
 import pyte
@@ -14,7 +16,7 @@ class Terminal:
     def __init__(self):
         self._proc = None
 
-    def start(self, app, home, width=TERM_W, height=TERM_H, onclose=None):
+    def start(self, app, home, width, height, onclose=None):
         env = {}
         env.update(os.environ)
         env['TERM'] = 'linux'
@@ -22,8 +24,9 @@ class Terminal:
         env['LINES'] = str(height)
         env['LC_ALL'] = 'en_US.UTF8'
         sh = app 
-
+        
         pid, master = pty.fork()
+        self.pid = pid
         if pid == 0:
             os.chdir(home)
             p = subprocess.Popen(
@@ -54,8 +57,10 @@ class Terminal:
 
     def kill(self):
         self._proc.kill()
-
-
+        
+    def resize (self, lines, columns):
+        self._proc.resize(lines, columns)
+        
 class PTYProtocol():
     def __init__(self, proc, stream, width, height):
         self.data = ''
@@ -73,7 +78,14 @@ class PTYProtocol():
         self.stream.attach(self.term)
         self.data = ''
         self.unblock()
-
+        
+    def resize (self, lines, columns):
+      fd = self.master
+      self.term.resize(lines, columns)
+      s = struct.pack("HHHH", lines, columns, 0, 0)
+      fcntl.ioctl(fd, termios.TIOCSWINSZ, s)
+      self.term.reset()
+      
     def unblock(self):
         fd = self.master
         fl = fcntl.fcntl(fd, fcntl.F_GETFL)
@@ -108,7 +120,12 @@ class PTYProtocol():
         l = {}
         self.term.dirty.add(self.term.cursor.y)
         for k in self.term.dirty:
-            l[k] = self.term[k]
+            try:
+              l[k] = self.term[k]
+              
+            except:
+              pass
+              
         self.term.dirty.clear()
         r = {
             'lines': self.term if full else l,

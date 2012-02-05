@@ -111,6 +111,7 @@ class Preferences (models.Model):
   
   bg = models.ImageField('Terminal Background Image', blank=True, null=True, upload_to='bg')
   font = models.CharField('Terminal Font', max_length=255, default='"Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace')
+  tfontsize = models.CharField('Terminal Font Size', max_length=25, default='13px')
   
   def last_session (self):
     if self.session:

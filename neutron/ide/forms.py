@@ -5,7 +5,7 @@ import ide.models
 class EditorPref (forms.ModelForm):
   class Meta:
     model = ide.models.Preferences
-    exclude = ('user', 'basedir', 'session', 'bg', 'font')
+    exclude = ('user', 'basedir', 'session', 'bg', 'font', 'tfontsize')
     
 class TermPref (forms.ModelForm):
   class Meta:
