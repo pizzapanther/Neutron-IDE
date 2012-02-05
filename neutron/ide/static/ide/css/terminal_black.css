@@ -74,7 +74,7 @@ img {
 }
 
 #terminal div span, #terminal_calc span {
- padding: 0 0 1px 0; 
+ padding: 0; 
 }
 
 #term_pref {
@@ -162,11 +162,12 @@ img {
   background-color: rgba(200, 200, 200, 0.4);
   position: absolute;
   z-index: 7;
-  padding-bottom: 1px;
+  padding-bottom: 0;
 }
 
 span.b {
-  font-weight: bold;
+  text-stroke-width: 1.1px;
+  -webkit-text-stroke-width: 1.1px;
 }
 
 span.i {

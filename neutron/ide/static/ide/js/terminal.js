@@ -47,10 +47,7 @@ function read_return (data) {
   //var count = 0;
   for (i=0; i < LINES; i++) {
     if (data.lines[i]) {
-      var html = '';
-      var last_class = '';
-      $('#line' + i).html(data.lines[i]);
-      //count = count + 1;
+      $('#line' + i).html('<span>' + data.lines[i] +'</span>');
     }
   }
   
