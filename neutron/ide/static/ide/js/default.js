@@ -83,7 +83,7 @@ function set_edit_pref (sess, id) {
   
   if (load_theme) {
     $.ajax({
-      url: static_url + 'ide/js/ace/theme-' + pref.theme + '.js',
+      url: static_url + 'ide/js/ace/build/src/theme-' + pref.theme + '.js',
       dataType: "script",
       async: false,
     });
@@ -158,6 +158,7 @@ function create_tab (data, textStatus, jqXHR, range) {
       
       if (!editor_global) {
         editor_global = ace.edit("editor_global");
+        add_commands(editor_global);
       }
       
       var sess = new EditSession(data.data); 
@@ -471,25 +472,34 @@ window.onbeforeunload = function() {
     return 'Leaving so soon!';
 }
 
-var canon = require('pilot/canon');
-
-canon.addCommand({
-    name: 'SaveFile',
+function add_commands (e) {
+  e.commands.addCommand({
+      name: 'SaveFile',
+      bindKey: {
+        win: 'Ctrl-S',
+        mac: 'Command-S',
+        sender: 'editor'
+      },
+      exec: function(env, args, request) { SaveCurrentTab(); }
+  });
+  
+  e.commands.addCommand({
+      name: 'QuickSearch',
+      bindKey: {
+        win: 'Ctrl-Q',
+        mac: 'Command-Q',
+        sender: 'editor'
+      },
+      exec: function(env, args, request) { $('#quick_search').focus().select(); }
+  });
+  
+  e.commands.addCommand({
+    name: 'SaveAllFile',
     bindKey: {
-      win: 'Ctrl-S',
-      mac: 'Command-S',
+      win: 'Ctrl-shift-S',
+      mac: 'Command-shift-S',
       sender: 'editor'
     },
-    exec: function(env, args, request) { SaveCurrentTab(); }
-});
-
-canon.addCommand({
-    name: 'QuickSearch',
-    bindKey: {
-      win: 'Ctrl-Q',
-      mac: 'Command-Q',
-      sender: 'editor'
-    },
-    exec: function(env, args, request) { $('#quick_search').focus().select(); }
-});
-
+    exec: function(env, args, request) { SaveAll(); }
+  });
+}

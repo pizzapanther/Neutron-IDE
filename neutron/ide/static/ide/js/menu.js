@@ -74,13 +74,3 @@ function SaveAll () {
     });
   }
 }
-
-canon.addCommand({
-    name: 'SaveFile',
-    bindKey: {
-      win: 'Ctrl-shift-S',
-      mac: 'Command-shift-S',
-      sender: 'editor'
-    },
-    exec: function(env, args, request) { SaveAll(); }
-});

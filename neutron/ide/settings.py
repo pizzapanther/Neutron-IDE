@@ -3,7 +3,9 @@ from django.conf import settings
 MODES_DEFAULT = (
   'c_cpp', 'coffee', 'css', 'java', 'perl', 'python',
   'scss', 'xml', 'clojure', 'csharp', 'html', 'javascript', 'php',
-  'ruby', 'svg', 'groovy', 'json', 'ocaml', 'scad', 'scala', 'textile'
+  'ruby', 'svg', 'groovy', 'json', 'ocaml', 'scad', 'scala', 'textile',
+  'coldfusion', 'haxe', 'latex', 'lua', 'markdown', 'pgsql', 'powershell',
+  'sql', 
 )
 
 THEMES_DEFAULT = (
@@ -18,11 +20,15 @@ TEXT_EXTENSIONS_DEFAULT = {
   
   'c': 'c_cpp', 'cpp': 'c_cpp',
   
+  'cfm': 'coldfusion', 'cfc': 'coldfusion', 'cfml': 'coldfusion',
+  
   'cof': 'coffee',
   
   'cs': 'csharp',
   
   'css': 'css',
+  
+  'hx': 'haxe',
   
   'htm': 'html', 'html': 'html',
   
@@ -32,15 +38,27 @@ TEXT_EXTENSIONS_DEFAULT = {
   
   'json': 'json',
   
+  'tex': 'latex', 'latex': 'latex',
+  
+  'lua': 'lua',
+  
+  'md': 'markdown',
+  
+  'pgsql': 'pgsql',
+  
   'php': 'php',
   
   'pl': 'perl', 'pm': 'perl',
+  
+  'ps1': 'powershell',
   
   'py': 'python',
   
   'rb': 'ruby', 'rbx': 'ruby',
   
   'sass': 'scss', 'scss': 'scss', 'less': 'scss',
+  
+  'sql': 'sql',
   
   'svg': 'svg',
   
