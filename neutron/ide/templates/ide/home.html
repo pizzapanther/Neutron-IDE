@@ -84,6 +84,16 @@
     <li><a href="javascript: void(0)" onclick="show_pref()" class="pref">Editor Preferences</a></li>
     <li class="btop">
       <span class="submenu">
+        <span class="arrow">&raquo;</span>Editor Mode
+        <ul class="emodes">
+          {% for mode in MODES %}<li><a href="javascript: void(0)" onclick="set_editor_mode('{{ mode.0 }}')">{{ mode.1 }}</a></li>
+          {% endfor %}
+        </ul>
+        <div class="clear"></div>
+      </span>
+    </li>
+    <li class="btop">
+      <span class="submenu">
         <span class="arrow">&raquo;</span>Help! 
         <ul>
           <li><a href="https://github.com/pizzapanther/Neutron-IDE/wiki/Default-Key-Bindings" target="_blank" class="link">Key Bindings</a></li>

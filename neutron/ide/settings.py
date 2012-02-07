@@ -1,11 +1,47 @@
 from django.conf import settings
 
 MODES_DEFAULT = (
-  'c_cpp', 'coffee', 'css', 'java', 'perl', 'python',
-  'scss', 'xml', 'clojure', 'csharp', 'html', 'javascript', 'php',
-  'ruby', 'svg', 'groovy', 'json', 'ocaml', 'scad', 'scala', 'textile',
-  'coldfusion', 'haxe', 'latex', 'lua', 'markdown', 'pgsql', 'powershell',
-  'sql', 
+  ('csharp', 'C#'),
+  ('c_cpp', 'C/C++'),
+  ('clojure', 'Clojure'),
+  ('coffee', 'Coffee Script'),
+  ('coldfusion', 'Cold Fusion'),
+  ('css', 'CSS'),
+  
+  ('groovy', 'Groovy'),
+  
+  ('haxe', 'Haxe'),
+  ('html', 'HTML'),
+  
+  ('java', 'Java'),
+  ('javascript', 'Javascript'),
+  ('json', 'JSON'),
+  
+  ('latex', 'Latex'),
+  ('lua', 'Lua'),
+  
+  ('markdown', 'Markdown'),
+  
+  ('ocaml', 'OCaml'),
+  
+  ('perl', 'Perl'),
+  ('php', 'PHP'),
+  ('text', 'Plain Text'),
+  ('pgsql', 'PostgreSQL'),
+  ('powershell', 'PowerShell'),
+  ('python', 'Python'),
+  
+  ('ruby', 'Ruby'),
+  
+  ('scad', 'Scad'),
+  ('scala', 'Scala'),
+  ('scss', 'SCSS'),
+  ('sql', 'SQL'),
+  ('svg', 'SVG'),
+  
+  ('textile', 'Textile'),
+  
+  ('xml', 'XML')
 )
 
 THEMES_DEFAULT = (

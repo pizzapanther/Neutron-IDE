@@ -38,6 +38,15 @@ button img {
   clear: both;
 }
 
+ul.emodes {
+  width: 310px;
+}
+
+ul.emodes li {
+  float: left;
+  width: 150px;
+}
+
 #editor_global {
   height: 300px;
   width: 300px;
