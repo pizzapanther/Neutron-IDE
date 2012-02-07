@@ -93,7 +93,10 @@
         </ul>
       </span>
     </li>
-    {% if TERMINAL_ON %}<li><a href="{% url ide-terminal %}" target="_blank" class="term">Terminal</a></li>{% endif %}
+    {% if TERMINAL_ON %}
+    <li><a href="{% url ide-terminal %}" target="_blank" class="term">Terminal</a></li>
+    <li><a href="javascript: void(0)" onclick="window.open('{% url ide-terminal %}', '_blank', 'height=400,width=650,location=no,menubar=no,status=no,titlebar=no,toolbar=no,top=0')" class="term">Terminal (Pop Up)</a></li>
+    {% endif %}
     <li><a href="javascript: void(0)" onclick="about()" class="about">About</a></li>
   </ul>
 </div>
