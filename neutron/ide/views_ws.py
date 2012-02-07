@@ -142,8 +142,7 @@ class TerminalWebSocket (WebSocketHandler):
           
       elif data['action'] == 'write':
         self.terminal.write(data['write'])
-        #self.term_refresh()
-        self.term_refresh(True)
+        self.term_refresh()
         
       elif data['action'] == 'resize':
         self.terminal.resize(data['lines'], data['cols'])
