@@ -320,9 +320,11 @@ function set_results_dir_search(task_id, dsid, results) {
       var dp = result[0];
       var uid = result[1];
       var ranges = result[2];
-      var fn = result[0].replace(basedir + "/", "");
       
-      html += search_lines(dp, fn, uid, ranges);
+      if ($('#search_tr_'+ uid).length == 0) {
+        var fn = result[0].replace(basedir + "/", "");
+        html += search_lines(dp, fn, uid, ranges);
+      }
     }
     
     $("#search_panel_results > table > tbody").append(html);
@@ -365,7 +367,7 @@ function search_lines (dp, fn, uid, ranges) {
     dir_results_list.push(dp);
     
     if (ranges.length == 0) {
-      html += '<tr>';
+      html += '<tr id="search_tr_'+ uid + '">';
       html += '<td><a class="expand" href="javascript: void(0)" onclick="get_file (\'' + dpnoa + '\', new Range(0, 0, 0, 0))">' + fn +'</a></td><td></td>';
       html += '</tr>';
     }
@@ -380,7 +382,7 @@ function search_lines (dp, fn, uid, ranges) {
       
       lines += '</div>';
       
-      html += '<tr>';
+      html += '<tr id="search_tr_'+ uid + '">';
       html += '<td><a class="expand" href="javascript: void(0)" onclick="show_line_results(\'' + uid + '\')">' + fn +'</a>' + lines + '</td><td>' + ranges.length + '</td>';
       html += '</tr>';
     }
