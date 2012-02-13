@@ -28,7 +28,9 @@ class Terminal:
         env['COLUMNS'] = str(width)
         env['LINES'] = str(height)
         env['LC_ALL'] = 'en_US.UTF8'
-        sh = app 
+        sh = app
+        self.lines = height
+        self.cols = width
         
         pid, master = pty.fork()
         self.pid = pid
@@ -58,13 +60,16 @@ class Terminal:
         return self._proc is None 
 
     def write(self, data):
-        self._proc.write(b64decode(data))
+        self._proc.write(data)
+        #self._proc.write(b64decode(data))
 
     def kill(self):
         if self._proc:
           self._proc.kill()
           
     def resize (self, lines, columns):
+        self.lines = lines
+        self.cols = columns
         self._proc.resize(lines, columns)
         
 class PTYProtocol():

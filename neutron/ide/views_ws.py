@@ -209,9 +209,9 @@ class TerminalWebSocket (WebSocketHandler):
         
       elif data['action'] == 'full':
         if data.has_key('lines') and data.has_key('cols'):
-          if self.cols != data['cols'] or self.lines != data['lines']:
-            self.cols = data['cols']
-            self.lines = data['lines']
+          self.cols = data['cols']
+          self.lines = data['lines']
+          if self.cols != self.terminals[tsid].cols or self.lines != self.terminals[tsid].lines:
             self.terminals[tsid].resize(data['lines'], data['cols'])
             
         self.term_refresh(tsid, True)
