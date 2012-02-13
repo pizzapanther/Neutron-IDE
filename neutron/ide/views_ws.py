@@ -209,10 +209,11 @@ class TerminalWebSocket (WebSocketHandler):
         
       elif data['action'] == 'full':
         if data.has_key('lines') and data.has_key('cols'):
-          self.cols = data['cols']
-          self.lines = data['lines']
-          self.terminals[tsid].resize(data['lines'], data['cols'])
-          
+          if self.cols != data['cols'] or self.lines != data['lines']:
+            self.cols = data['cols']
+            self.lines = data['lines']
+            self.terminals[tsid].resize(data['lines'], data['cols'])
+            
         self.term_refresh(tsid, True)
         
   def remove_terminal (self, tsid):
