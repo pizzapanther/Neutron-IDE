@@ -1,6 +1,8 @@
 import sys
 import os
+import re
 import json
+import subprocess
 import traceback
 import logging
 import base64
@@ -23,16 +25,56 @@ from tornado.websocket import WebSocketHandler
 from tornado import ioloop
 
 import ide.terminal
+import ide.settings
 
+SCREEN_COMMAND = False
+if os.path.exists(ide.settings.TERMINAL_SCREEN):
+  SCREEN_COMMAND = ide.settings.TERMINAL_SCREEN + ' ' + ide.settings.TERMINAL_SHELL
+  
 class TerminalWebSocket (WebSocketHandler):
   def open (self):
     logging.info('Opening Terminal Web Socket')
     self.last_sent = None
-    self.terminal = None
+    self.terminals = {}
+    self.current_tsid = None
+    self.cols = None
+    self.lines = None
     
-  def create_terminal (self, user, width, height):
-    self.terminal = ide.terminal.Terminal()
-    self.terminal.start('/bin/bash', user.preferences.basedir, width, height, self.close)
+    self.io_loop = ioloop.IOLoop.instance()
+    #self.io_loop.set_blocking_signal_threshold(3)
+    self.scheduler = ioloop.PeriodicCallback(self.refresh_loop, 100, io_loop=self.io_loop)
+    self.scheduler.start()
+    
+    if SCREEN_COMMAND:
+      old = []
+      pipe = subprocess.Popen(ide.settings.TERMINAL_SCREEN + " -ls", shell=True, stdout=subprocess.PIPE).stdout
+      for line in pipe.readlines():
+        regex = re.search("(\d+\.\S+)\s+\(.*\)\s+\(\S+\)", line)
+        if regex:
+          old.append(regex.group(1))
+          
+      if old:
+        self.write_message(json.dumps({'action': 'oldterms', 'data': old}))
+        
+  def refresh_loop (self):
+    try:
+      if self.current_tsid is not None:
+        self.term_refresh()
+        
+    except:
+      import traceback
+      traceback.print_exc()
+      
+  def create_terminal (self, tsid, user, width, height, sock=None):
+    self.terminals[tsid] = ide.terminal.Terminal()
+    
+    cmd = ide.settings.TERMINAL_SHELL
+    if SCREEN_COMMAND:
+      cmd = SCREEN_COMMAND
+      if sock:
+        cmd = ide.settings.TERMINAL_SCREEN + ' -d -r ' + sock + ' ' + ide.settings.TERMINAL_SHELL
+        
+    self.terminals[tsid].start(cmd, user.preferences.basedir, width, height, tsid=tsid, onclose=self.remove_terminal)
     
   def process_line (self, num, line):
     html = ''
@@ -89,12 +131,19 @@ class TerminalWebSocket (WebSocketHandler):
       
     return html
     
-  def term_refresh (self, full=False):
+  def term_refresh (self, tsid=None, full=False):
+    if tsid is None:
+      if self.current_tsid is not None:
+        tsid = self.current_tsid
+        
+      else:
+        return None
+        
     if full:
-      data = self.terminal._proc.history()
+      data = self.terminals[tsid]._proc.history()
       
     else:
-      data = self.terminal._proc.read()
+      data = self.terminals[tsid]._proc.read()
       
     if full or data != self.last_sent:
       send_data = {'cursor': data['cursor'], 'cx': data['cx'], 'cy': data['cy'] , 'lines': {}}
@@ -109,15 +158,21 @@ class TerminalWebSocket (WebSocketHandler):
           
       #print '------------------------------------------------------------------'
       dump = json.dumps({'action': 'update', 'data': send_data})
-      dump = dump.encode('zlib')[2:-4]
-      dump = unicode(base64.b64encode(dump))
       self.write_message(dump)
       self.last_sent = data
       
+  def write_message (self, message):
+    dump = message.encode('zlib')[2:-4]
+    dump = unicode(base64.b64encode(dump))
+    super(TerminalWebSocket, self).write_message(dump)
+    
   def on_message (self, message):
     data = json.loads(message)
     
     if hasattr(data, 'has_key') and data.has_key('action'):
+      tsid = data['tsid']
+      self.current_tsid = tsid
+      
       if data['action'] == 'start':
         session = ENGINE.SessionStore(data['session'])
         if session.has_key('_auth_user_id') and session['_auth_user_id']:
@@ -128,32 +183,49 @@ class TerminalWebSocket (WebSocketHandler):
             user = None
             
           if user and user.is_active:
-            self.create_terminal(user, data['cols'], data['lines'])
+            sock = None
+            if data.has_key('sock'):
+              sock = data['sock']
+              
+            self.create_terminal(tsid, user, data['cols'], data['lines'], sock=sock)
+            self.term_refresh(tsid, True)
+            self.cols = data['cols']
+            self.lines = data['lines']
             
-            self.term_refresh(True)
-            self.io_loop = ioloop.IOLoop.instance()
-            #self.io_loop.set_blocking_signal_threshold(3)
-            self.scheduler = ioloop.PeriodicCallback(self.term_refresh, 100, io_loop=self.io_loop)
-            self.scheduler.start()
             return None
             
         self.write_message(unicode(json.dumps({'action': 'message', 'data': 'Invalid User Credentials'})))
         self.close()
           
       elif data['action'] == 'write':
-        self.terminal.write(data['write'])
-        self.term_refresh()
+        self.terminals[tsid].write(data['write'])
+        self.term_refresh(tsid)
         
       elif data['action'] == 'resize':
-        self.terminal.resize(data['lines'], data['cols'])
-        self.term_refresh(True)
+        self.terminals[tsid].resize(data['lines'], data['cols'])
+        self.cols = data['cols']
+        self.lines = data['lines']
+        self.term_refresh(tsid, True)
         
       elif data['action'] == 'full':
-        self.term_refresh(True)
+        if data.has_key('lines') and data.has_key('cols'):
+          self.cols = data['cols']
+          self.lines = data['lines']
+          self.terminals[tsid].resize(data['lines'], data['cols'])
+          
+        self.term_refresh(tsid, True)
         
+  def remove_terminal (self, tsid):
+    self.terminals[tsid].kill()
+    del self.terminals[tsid]
+    self.current_tsid = None
+    self.write_message(unicode(json.dumps({'action': 'killed', 'data': tsid})))
+    
   def on_close(self):
     logging.info('Closing Terminal Web Socket')
-    if self.terminal:
-      self.scheduler.stop()
-      self.terminal.kill()
+    self.scheduler.stop()
+    if len(self.terminals.keys()) > 0:
+      for t, term in self.terminals.items():
+        term.kill()
+        
       

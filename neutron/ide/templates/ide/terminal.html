@@ -36,6 +36,9 @@
       <div class="a" onclick="select_mode()" id="sel_icon">
         <img src="{{ STATIC_URL }}ide/img/term/sel.png" alt="Select Mode" title="Select Mode">
       </div>
+      <div class="a" onclick="start_terminal()" id="add_icon">
+        <img src="{{ STATIC_URL }}ide/img/term/add.png" alt="New Terminal" title="New Terminal">
+      </div>
     </div>
     <div id="terminal_wrapper">
       <div>
@@ -45,33 +48,35 @@
     <div id="terminal_calc">
       <pre><div><span>&nbsp;</span></div></pre>
     </div>
-    <div id="reconnect" class="hidden">
+    <div id="reconnect">
       <input type="button" name="connect" value="Start A New Terminal" onclick="return start_terminal()">
+    </div>
+    <div id="refresh" class="hidden">
+      <input type="button" name="connect" value="Reload to Reconnect" onclick="window.location.reload()">
     </div>
     <div id="term_pref">
       <iframe width="100%" height="260" frameBorder="0" scrolling="auto" src="/term_pref/"></iframe>
     </div>
+    <script type="text/javascript">
+      var ws;
+      var cookie_name = '{{ cookie }}';
+      
+      {% if request.is_secure %}
+      var wsurl = "wss://{{ request.get_host }}/websocket";
+      {% else %}
+      var wsurl = "ws://{{ request.get_host }}/websocket";
+      {% endif %}
+      
+      var terminals = {};
+      var terminal_count = 0;
+      var static_url = '{{ STATIC_URL }}';
+      
+      var ws;
+    </script>
     <script type="text/javascript" src='{{ STATIC_URL }}ide/js/jquery.js'></script>
     <script type="text/javascript" src='{{ STATIC_URL }}ide/js/kendo.all.min.js'></script>
     <script type="text/javascript" src='{{ STATIC_URL }}ide/js/term/rawinflate.js'></script>
     <script type="text/javascript" src='{{ STATIC_URL }}ide/js/common.js'></script>
     <script type="text/javascript" src='{{ STATIC_URL }}ide/js/terminal.js'></script>
-    <script type="text/javascript">
-      var ws;
-      var cookie_name = '{{ cookie }}';
-      
-      function start_socket () {
-        {% if request.is_secure %}
-        ws = new WebSocket("wss://{{ request.get_host }}/websocket");
-        {% else %}
-        ws = new WebSocket("ws://{{ request.get_host }}/websocket");
-        {% endif %}
-        ws.onopen = wsopen;
-        ws.onmessage = wsmessage;
-        ws.onclose = wsclose;
-      }
-      
-      $(window).load(function () { init_term(); start_socket(); });
-    </script>
   </body>
 </html>

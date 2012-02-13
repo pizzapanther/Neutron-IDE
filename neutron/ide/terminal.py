@@ -1,4 +1,5 @@
 import os
+import re
 import sys
 import subprocess
 import pty
@@ -6,17 +7,21 @@ import fcntl
 import struct
 import termios
 from base64 import b64decode, b64encode
-
+INVALID_CHARS = re.compile(u'[\xe2\x80\x99]')
+  
 import pyte
 
 TERM_W = 80
 TERM_H = 24
 
+def remove_invalid_char (value):
+  return INVALID_CHARS.sub('', value)
+  
 class Terminal:
     def __init__(self):
         self._proc = None
 
-    def start(self, app, home, width, height, onclose=None):
+    def start(self, app, home, width, height, tsid=None, onclose=None, screen=None):
         env = {}
         env.update(os.environ)
         env['TERM'] = 'linux'
@@ -37,18 +42,18 @@ class Terminal:
             )
             p.wait()
             
-            if onclose:
-              onclose()
+            if onclose and tsid:
+              onclose(tsid)
               
             sys.exit(0)
             
         self._proc = PTYProtocol(pid, master, width, height)
-
+        
     def restart(self):
         if self._proc is not None:
             self._proc.kill()
         self.start()
-
+        
     def dead(self):
         return self._proc is None 
 
@@ -56,8 +61,9 @@ class Terminal:
         self._proc.write(b64decode(data))
 
     def kill(self):
-        self._proc.kill()
-        
+        if self._proc:
+          self._proc.kill()
+          
     def resize (self, lines, columns):
         self._proc.resize(lines, columns)
         
@@ -102,14 +108,18 @@ class PTYProtocol():
                 d = self.mstream.read()
                 self.data += d
                 if len(self.data) > 0:
-                    u = unicode(str(self.data))
+                    u = unicode(remove_invalid_char(str(self.data)))
                     self.stream.feed(u)
                     self.data = ''
                 break
             except IOError, e:
                 pass
+                
             except UnicodeDecodeError, e:
                 print 'UNICODE'
+                print e
+                import traceback
+                traceback.print_exc()
                 
         return self.format()
 

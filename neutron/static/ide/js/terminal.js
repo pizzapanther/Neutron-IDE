@@ -1,14 +1,85 @@
+function initws () {
+  init_term();
+  ws = new WebSocket(wsurl);
+  ws.onopen = wsopen;
+  ws.onmessage = wsmessage;
+  ws.onclose = wsclose;
+}
+      
+$(window).load(initws);
 
-function wsopen (evt) {
+function start_terminal () {
+  var ts = new Date().getTime();
+  
+  terminals[ts] = {};
+  
+  current_ts = ts;
+  terminal_count = terminal_count + 1;
   
   var data = {
     action: 'start',
     lines: LINES,
     cols: COLS,
+    tsid: ts,
     session: getCookie(cookie_name)
   }
   
   ws.send(JSON.stringify(data));
+  
+  var html = '<div class="a term" onclick="view_terminal(' + ts + ')" id="terminal_' + ts +'">\
+<div class="n">'+ terminal_count + '</div><img src="' + static_url + 'ide/img/term/terminal_black.png"\
+alt="View Terminal '+ terminal_count + '" title="New Terminal '+ terminal_count + '"></div>';
+  $('#icons').append(html);
+  $('#icons .a.term img').removeClass('selected');
+  $('#icons #terminal_' + ts + ' img').addClass('selected');
+  $('#reconnect').addClass('hidden');
+}
+
+function restart_terminal (tsid, sock) {
+  var ts = tsid;
+  terminals[ts] = {};
+  current_ts = ts;
+  terminal_count = terminal_count + 1;
+  
+  var data = {
+    action: 'start',
+    lines: LINES,
+    cols: COLS,
+    tsid: ts,
+    session: getCookie(cookie_name),
+    sock: sock
+  }
+  
+  ws.send(JSON.stringify(data));
+  
+  var html = '<div class="a term" onclick="view_terminal(' + ts + ')" id="terminal_' + ts +'">\
+<div class="n">'+ terminal_count + '</div><img src="' + static_url + 'ide/img/term/terminal_black.png"\
+alt="View Terminal '+ terminal_count + '" title="New Terminal '+ terminal_count + '"></div>';
+  $('#icons').append(html);
+  $('#icons .a.term img').removeClass('selected');
+  $('#icons #terminal_' + ts + ' img').addClass('selected');
+  $('#reconnect').addClass('hidden');
+}
+
+function view_terminal (ts) {
+  var data = {
+    action: 'full',
+    tsid: ts,
+    lines: LINES,
+    cols: COLS
+  };
+  
+  ws.send(JSON.stringify(data));
+  
+  $('#icons .a.term img').removeClass('selected');
+  $('#icons #terminal_' + ts + ' img').addClass('selected');
+  
+  current_ts = ts;
+  $('#term_input').focus();
+}
+
+function wsopen (evt) {
+  
 };
 
 function wsmessage (evt) {
@@ -26,16 +97,40 @@ function wsmessage (evt) {
   else if (data.action == 'message') {
     alert(data.data);
   }
+  
+  else if (data.action == 'oldterms') {
+    for (i = 0; i < data.data.length; i++) {
+      restart_terminal(i + 1, data.data[i]);
+    }
+  }
+  
+  else if (data.action == 'killed') {
+    delete terminals[data.data];
+    terminal_count = terminal_count - 1;
+    $('#terminal_' + data.data).remove();
+    
+    if (terminal_count == 0) {
+      $('#reconnect').removeClass('hidden');
+    }
+    
+    else {
+      renumber();
+      $('.term .n').first().click();
+    }
+  }
 };
 
-function wsclose (evt) {
-  //alert('Terminal Closed');
-  $('#reconnect').removeClass('hidden');
+function renumber () {
+  $('.term .n').each(function(index, ele) {
+    $(ele).html(index + 1);
+  });
 }
 
-function start_terminal () {
-  start_socket();
-  $('#reconnect').addClass('hidden');
+function wsclose (evt) {
+  terminals = {};
+  terminal_count = 0;
+  current_ts = null;
+  $('#refresh').removeClass('hidden');
 }
 
 function select_mode () {
@@ -73,10 +168,12 @@ function read_return (data) {
 
 var COLS;
 var LINES;
+var current_ts = null;
 function terminal_write (ch) {
   var data = {
     action: 'write',
-    write: btoa(ch)
+    write: btoa(ch),
+    tsid: current_ts
   };
   
   ws.send(JSON.stringify(data));
@@ -552,14 +649,16 @@ function send_resize () {
   calc_term_size();
   
   if (OLDC != COLS || OLDL != LINES) {
-    var data = {
-      action: 'resize',
-      cols: COLS,
-      lines: LINES
-    };
-    
-    resize_term();
-    ws.send(JSON.stringify(data));
+    if (current_ts) {
+      var data = {
+        action: 'resize',
+        cols: COLS,
+        lines: LINES,
+        tsid: current_ts
+      };
+      resize_term();
+      ws.send(JSON.stringify(data));
+    }
   }
 }
 
