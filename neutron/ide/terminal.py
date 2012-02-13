@@ -60,8 +60,8 @@ class Terminal:
         return self._proc is None 
 
     def write(self, data):
-        self._proc.write(data)
-        #self._proc.write(b64decode(data))
+        #self._proc.write(data)
+        self._proc.write(b64decode(data))
 
     def kill(self):
         if self._proc:
