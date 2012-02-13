@@ -51,7 +51,7 @@ class TerminalWebSocket (WebSocketHandler):
       for line in pipe.readlines():
         regex = re.search("(\d+\.\S+)\s+\(.*\)\s+\(\S+\)", line)
         if regex:
-          old.append(regex.group(1))
+          old.insert(0, regex.group(1))
           
       if old:
         self.write_message(json.dumps({'action': 'oldterms', 'data': old}))
