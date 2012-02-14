@@ -60,8 +60,8 @@ class Terminal:
         return self._proc is None 
 
     def write(self, data):
-        #self._proc.write(data)
-        self._proc.write(b64decode(data))
+        self._proc.write(data)
+        #self._proc.write(b64decode(data))
 
     def kill(self):
         if self._proc:
@@ -85,7 +85,7 @@ class PTYProtocol():
         self.mstream = os.fdopen(self.master, 'r+')
         
         self.term = pyte.DiffScreen(width, height)
-        self.stream = pyte.Stream()
+        self.stream = pyte.ByteStream()
         self.stream.attach(self.term)
         self.data = ''
         self.unblock()
@@ -113,8 +113,8 @@ class PTYProtocol():
                 d = self.mstream.read()
                 self.data += d
                 if len(self.data) > 0:
-                    u = unicode(remove_invalid_char(str(self.data)))
-                    self.stream.feed(u)
+                    #u = unicode(remove_invalid_char(str(self.data)))
+                    self.stream.feed(self.data)
                     self.data = ''
                 break
             except IOError, e:

@@ -170,11 +170,15 @@ var COLS;
 var LINES;
 var current_ts = null;
 function terminal_write (ch) {
-  var data = {
-    action: 'write',
-    write: btoa(ch),
-    tsid: current_ts
-  };
+  try {
+    var data = {
+      action: 'write',
+      write: ch,
+      tsid: current_ts
+    };
+  }
+  
+  catch (e) { console.log(e); }
   
   ws.send(JSON.stringify(data));
 }
@@ -300,7 +304,7 @@ function fixEvent (event) {
 function handleKey (event) {
   var ch = event.charCode;
   var key = event.keyCode;
-
+  
   // Apply modifier keys (ctrl and shift)
   if (ch) {
     key = undefined;
@@ -439,8 +443,13 @@ function handleKey (event) {
     } else if (ch.length == 1 && (event.altKey || event.metaKey)) {
       ch                              = '\u001B' + ch;
     }
+    
+    if (ch.length == 2 && ch[0] == '\u001B') {
+      if (ch[1] == '\u0004') {ch = '\u0004';}
+      else if (ch[1] == '\u0012') {ch = '\u0012';}
+    }
   }
-
+  
   if (ch) {
     terminal_write(ch);
   }
