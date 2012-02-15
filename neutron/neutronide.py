@@ -58,6 +58,10 @@ def start_loop (args):
   import ide.settings
   from ide.views_ws import TerminalWebSocket
   
+  ld = os.path.dirname(settings.PKLPATH)
+  if not os.path.exists(ld):
+    os.makedirs(ld)
+    
   p = {'pid': os.getpid(), 'args': args}
   output = open(settings.PKLPATH, 'wb')
   pickle.dump(p, output)
