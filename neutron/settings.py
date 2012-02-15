@@ -179,6 +179,9 @@ IMG_EDITOR_PORT = 8001
 
 BG_IMG = 'ide/img/neutron.jpg'
 
+LOGPATH = os.path.join(os.environ['HOME'], 'logs', 'neutronide.log')
+ERRPATH = os.path.join(os.environ['HOME'], 'logs', 'neutronide.err')
+
 import djcelery
 djcelery.setup_loader()
 
