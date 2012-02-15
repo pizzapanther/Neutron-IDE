@@ -12,6 +12,7 @@ import functools
 import signal
 import traceback
 from cStringIO import StringIO
+import cPickle as pickle
 
 import django.core.handlers.wsgi
 
@@ -56,6 +57,11 @@ def start_loop (args):
   
   import ide.settings
   from ide.views_ws import TerminalWebSocket
+  
+  p = {'pid': os.getpid(), 'args': args}
+  output = open(settings.PKLPATH, 'wb')
+  pickle.dump(p, output)
+  output.close()
   
   ld = os.path.dirname(settings.LOGPATH)
   if not os.path.exists(ld):
@@ -110,18 +116,19 @@ def start_loop (args):
     
   io = tornado.ioloop.IOLoop.instance()
   #tornado.autoreload.add_reload_hook(functools.partial(cleanup_tornado_sockets, io))
-  print "Web Server Started"
   io.start()
   
 def stop_loop ():
-  print "Stopping Web Server"
-  io = tornado.ioloop.IOLoop.instance()
-  io.stop()
+  os.environ["DJANGO_SETTINGS_MODULE"] = 'settings'
   
-def hup_handler (signum, frame):
-  stop_loop()
-  #tornado.ioloop.IOLoop.instance()
-  start_loop()
+  from django.conf import settings
+  
+  pkl = open(settings.PKLPATH, 'rb')
+  p = pickle.load(pkl)
+  pkl.close()
+  
+  os.kill(p['pid'], signal.SIGKILL)
+  return p['args']
   
 #def cleanup_tornado_sockets (io_loop):
 #  for fd in io_loop._handlers.keys()[:]:
@@ -138,11 +145,21 @@ if __name__ == "__main__":
   parser.add_argument('-l', '--logging', action='store_true', dest='logging', help='Log to screen instead of file logging.')
   parser.add_argument('-f', '--foreground', action='store_true', dest='foreground', help='Run in foreground instead of as a daemon.')
   parser.add_argument('-n', '--nossl', action='store_true', dest='nossl', help='turn off ssl.')
+  parser.add_argument('action', nargs=1, help='start|stop|restart')
   
   args = parser.parse_args()
-  if args.foreground:
-    start_loop(args)
-    
-  with daemon.DaemonContext():
-    start_loop(args)
-    
+  
+  if 'stop' in args.action or 'restart' in args.action:
+    print "Stopping Web Server"
+    oldargs = stop_loop()
+    if 'restart' in args.action:
+      args = oldargs
+      
+  if 'start' in args.action or 'restart' in args.action:
+    print "Starting Web Server"
+    if args.foreground:
+      start_loop(args)
+      
+    with daemon.DaemonContext():
+      start_loop(args)
+      

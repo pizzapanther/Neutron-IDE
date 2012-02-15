@@ -121,7 +121,7 @@ function wsmessage (evt) {
     
     else {
       renumber();
-      $('.term .n').first().click();
+      $('.term .n').last().click();
     }
   }
 }
