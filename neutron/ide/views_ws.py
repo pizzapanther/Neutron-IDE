@@ -216,8 +216,13 @@ class TerminalWebSocket (WebSocketHandler):
             
         self.term_refresh(tsid, True)
         
+      elif data['action'] == 'solong':
+        self.so_long(tsid)
+        
   def remove_terminal (self, tsid):
     self.terminals[tsid].kill()
+    
+  def so_long (self, tsid):
     del self.terminals[tsid]
     self.current_tsid = None
     self.write_message(unicode(json.dumps({'action': 'killed', 'data': tsid})))

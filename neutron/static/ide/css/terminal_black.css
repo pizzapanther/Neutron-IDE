@@ -116,6 +116,12 @@ img {
   margin-bottom: 10px;
 }
 
+#close_icon {
+  position: absolute;
+  bottom: 2px;
+  width: 32px;
+}
+
 #input_wrapper {
   position: absolute;
   z-index: 10;

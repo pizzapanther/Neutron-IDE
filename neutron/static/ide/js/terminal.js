@@ -33,6 +33,7 @@ alt="View Terminal '+ terminal_count + '" title="New Terminal '+ terminal_count 
   $('#icons .a.term img').removeClass('selected');
   $('#icons #terminal_' + ts + ' img').addClass('selected');
   $('#reconnect').addClass('hidden');
+  $('#term_input').focus();
 }
 
 function restart_terminal (tsid, sock) {
@@ -59,6 +60,7 @@ alt="View Terminal '+ terminal_count + '" title="New Terminal '+ terminal_count 
   $('#icons .a.term img').removeClass('selected');
   $('#icons #terminal_' + ts + ' img').addClass('selected');
   $('#reconnect').addClass('hidden');
+  $('#term_input').focus();
 }
 
 function view_terminal (ts) {
@@ -109,6 +111,10 @@ function wsmessage (evt) {
     terminal_count = terminal_count - 1;
     $('#terminal_' + data.data).remove();
     
+    if (data.data == current_ts) {
+      current_ts = null;
+    }
+    
     if (terminal_count == 0) {
       $('#reconnect').removeClass('hidden');
     }
@@ -118,7 +124,12 @@ function wsmessage (evt) {
       $('.term .n').first().click();
     }
   }
-};
+}
+
+function close_current () {
+  var data = {action: 'solong', tsid: current_ts};
+  ws.send(JSON.stringify(data));
+}
 
 function renumber () {
   $('.term .n').each(function(index, ele) {
