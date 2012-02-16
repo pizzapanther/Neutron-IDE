@@ -91,6 +91,8 @@ class PTYProtocol():
         self.data = ''
         self.unblock()
         self.updated = None
+        self.lastx = None
+        self.lasty = None
         
     def resize (self, lines, columns):
       fd = self.master
@@ -137,6 +139,12 @@ class PTYProtocol():
 
     def format(self, full=False):
         l = {}
+        
+        if self.lastx != self.term.cursor.x or self.lasty != self.term.cursor.y:
+          self.lastx = self.term.cursor.x
+          self.lasty = self.term.cursor.y
+          self.updated = datetime.datetime.now()
+          
         self.term.dirty.add(self.term.cursor.x)
         self.term.dirty.add(self.term.cursor.y)
         for k in self.term.dirty:
