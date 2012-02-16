@@ -6,6 +6,7 @@ import pty
 import fcntl
 import struct
 import termios
+import datetime
 from base64 import b64decode, b64encode
 INVALID_CHARS = re.compile(u'[\xe2\x80\x99]')
   
@@ -89,6 +90,7 @@ class PTYProtocol():
         self.stream.attach(self.term)
         self.data = ''
         self.unblock()
+        self.updated = None
         
     def resize (self, lines, columns):
       fd = self.master
@@ -108,7 +110,7 @@ class PTYProtocol():
         fcntl.fcntl(fd, fcntl.F_SETFL, fl - os.O_NONBLOCK)
 
     def read(self):
-        for i in range(0,45):
+        for i in range(0, 45):
             try:
                 d = self.mstream.read()
                 self.data += d
@@ -116,6 +118,8 @@ class PTYProtocol():
                     #u = unicode(remove_invalid_char(str(self.data)))
                     self.stream.feed(self.data)
                     self.data = ''
+                    self.updated = datetime.datetime.now()
+                    
                 break
             except IOError, e:
                 pass
@@ -133,6 +137,7 @@ class PTYProtocol():
 
     def format(self, full=False):
         l = {}
+        self.term.dirty.add(self.term.cursor.x)
         self.term.dirty.add(self.term.cursor.y)
         for k in self.term.dirty:
             try:

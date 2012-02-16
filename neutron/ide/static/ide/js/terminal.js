@@ -63,6 +63,13 @@ alt="View Terminal '+ terminal_count + '" title="New Terminal '+ terminal_count 
   $('#term_input').focus();
 }
 
+function refresh_full () {
+  if (current_ts) {
+    var data = {action: 'full', tsid: current_ts};
+    ws.send(JSON.stringify(data));
+  }
+}
+
 function view_terminal (ts) {
   var data = {
     action: 'full',

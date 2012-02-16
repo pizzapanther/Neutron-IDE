@@ -154,16 +154,19 @@ if __name__ == "__main__":
   args = parser.parse_args()
   
   if 'stop' in args.action or 'restart' in args.action:
-    print "Stopping Web Server"
+    print "Stopping Web Server ...",
     oldargs = stop_loop()
     if 'restart' in args.action:
       args = oldargs
       
+    print "Done"
+    
   if 'start' in args.action or 'restart' in args.action:
-    print "Starting Web Server"
     if args.foreground:
       start_loop(args)
       
-    with daemon.DaemonContext():
-      start_loop(args)
-      
+    else:
+      print "Starting Web Server ...",
+      with daemon.DaemonContext():
+        start_loop(args)
+        

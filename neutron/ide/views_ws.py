@@ -7,6 +7,7 @@ import traceback
 import logging
 import base64
 import datetime
+import threading
 
 MYPATH = os.path.abspath(os.path.dirname(__file__))
 sys.path.insert(0, os.path.abspath(os.path.join(MYPATH, '..')))
@@ -44,6 +45,7 @@ class TerminalWebSocket (WebSocketHandler):
     #self.io_loop.set_blocking_signal_threshold(3)
     self.scheduler = ioloop.PeriodicCallback(self.refresh_loop, 100, io_loop=self.io_loop)
     self.scheduler.start()
+    self.lock = threading.Lock()
     
     if SCREEN_COMMAND:
       old = []
@@ -85,7 +87,7 @@ class TerminalWebSocket (WebSocketHandler):
     #for ch in line:
     #  pline += ch[0]
     #  
-    #print pline
+    #print num, pline
     
     for ch in line:
       classes = ''
@@ -132,6 +134,7 @@ class TerminalWebSocket (WebSocketHandler):
     return html
     
   def term_refresh (self, tsid=None, full=False):
+    self.lock.acquire()
     if tsid is None:
       if self.current_tsid is not None:
         tsid = self.current_tsid
@@ -145,10 +148,11 @@ class TerminalWebSocket (WebSocketHandler):
     else:
       data = self.terminals[tsid]._proc.read()
       
-    if full or data != self.last_sent:
+    if full or self.terminals[tsid]._proc.updated != self.last_sent:
       send_data = {'cursor': data['cursor'], 'cx': data['cx'], 'cy': data['cy'] , 'lines': {}}
       
       if full:
+        self.last_sent = self.terminals[tsid]._proc.updated = None
         for num in range(0, len(data['lines'])):
           send_data['lines'][num] = self.process_line(num, data['lines'][num])
           
@@ -159,8 +163,10 @@ class TerminalWebSocket (WebSocketHandler):
       #print '------------------------------------------------------------------'
       dump = json.dumps({'action': 'update', 'data': send_data})
       self.write_message(dump)
-      self.last_sent = data
+      self.last_sent = self.terminals[tsid]._proc.updated
       
+    self.lock.release()
+    
   def write_message (self, message):
     dump = message.encode('zlib')[2:-4]
     dump = unicode(base64.b64encode(dump))
