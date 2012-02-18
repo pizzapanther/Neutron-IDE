@@ -53,6 +53,7 @@ class TerminalWebSocket (WebSocketHandler):
       old = os.listdir(settings.TERM_DIR)
       
       if old:
+        old.reverse()
         self.write_message(json.dumps({'action': 'oldterms', 'data': old}))
         
   def refresh_loop (self):
@@ -192,11 +193,12 @@ class TerminalWebSocket (WebSocketHandler):
             self.create_terminal(tsid, user, data['cols'], data['lines'], restart)
             self.cols = data['cols']
             self.lines = data['lines']
-            self.term_refresh(tsid, True)
             
             if restart:
-              self.write_message(unicode(json.dumps({'action': 'doreset', 'data': True})))
+              self.terminals[tsid].write(u'\x0c') # ctrl-l
               
+            self.term_refresh(tsid, True)
+            
             return None
             
         self.write_message(unicode(json.dumps({'action': 'message', 'data': 'Invalid User Credentials'})))
