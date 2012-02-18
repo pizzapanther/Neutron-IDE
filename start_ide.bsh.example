@@ -1,0 +1,7 @@
+#!/bin/bash
+
+source ~/env/ide/bin/activate
+cd ~/git/Neutron-IDE/neutron
+/usr/bin/authbind --deep ~/git/Neutron-IDE/neutron/neutronide.py start
+/home/pam/git/Neutron-IDE/neutron/manage.py celeryd 1> ~/neutron/logs/celery.log 2> ~/neutron/logs/celery.log &
+

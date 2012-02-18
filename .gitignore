@@ -8,4 +8,4 @@ neutron/static/uploads/
 pip-log.txt
 cert/*.*
 _site
-
+start_ide.bsh
