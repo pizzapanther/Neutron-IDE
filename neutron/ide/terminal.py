@@ -7,6 +7,7 @@ import fcntl
 import struct
 import termios
 import datetime
+import traceback
 from base64 import b64decode, b64encode
 INVALID_CHARS = re.compile(u'[\xe2\x80\x99]')
   
@@ -82,12 +83,16 @@ class PTYProtocol():
         fd = self.master
         fl = fcntl.fcntl(fd, fcntl.F_GETFL)
         fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NONBLOCK)
-
+        
         self.mstream = os.fdopen(self.master, 'r+')
         
-        self.term = pyte.DiffScreen(width, height)
+        self.term = pyte.HistoryScreen(width, height, 1000)
+        
         self.stream = pyte.ByteStream()
+        self.stream.escape["N"] = "next_page"
+        self.stream.escape["P"] = "prev_page"
         self.stream.attach(self.term)
+        
         self.data = ''
         self.unblock()
         self.updated = None
@@ -145,7 +150,6 @@ class PTYProtocol():
           self.lasty = self.term.cursor.y
           self.updated = datetime.datetime.now()
           
-        self.term.dirty.add(self.term.cursor.x)
         self.term.dirty.add(self.term.cursor.y)
         for k in self.term.dirty:
             try:

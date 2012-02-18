@@ -2,6 +2,7 @@ import sys
 import os
 import re
 import json
+import time
 import subprocess
 import traceback
 import logging
@@ -30,7 +31,7 @@ import ide.settings
 
 SCREEN_COMMAND = False
 if os.path.exists(ide.settings.TERMINAL_SCREEN):
-  SCREEN_COMMAND = ide.settings.TERMINAL_SCREEN + ' ' + ide.settings.TERMINAL_SHELL
+  SCREEN_COMMAND = ide.settings.TERMINAL_SCREEN
   
 class TerminalWebSocket (WebSocketHandler):
   def open (self):
@@ -49,12 +50,8 @@ class TerminalWebSocket (WebSocketHandler):
     
     if SCREEN_COMMAND:
       old = []
-      pipe = subprocess.Popen(ide.settings.TERMINAL_SCREEN + " -ls", shell=True, stdout=subprocess.PIPE).stdout
-      for line in pipe.readlines():
-        regex = re.search("(\d+\.\S+)\s+\(.*\)\s+\(\S+\)", line)
-        if regex:
-          old.insert(0, regex.group(1))
-          
+      old = os.listdir(settings.TERM_DIR)
+      
       if old:
         self.write_message(json.dumps({'action': 'oldterms', 'data': old}))
         
@@ -67,15 +64,13 @@ class TerminalWebSocket (WebSocketHandler):
       import traceback
       traceback.print_exc()
       
-  def create_terminal (self, tsid, user, width, height, sock=None):
+  def create_terminal (self, tsid, user, width, height, restart=False):
     self.terminals[tsid] = ide.terminal.Terminal()
     
     cmd = ide.settings.TERMINAL_SHELL
     if SCREEN_COMMAND:
-      cmd = SCREEN_COMMAND
-      if sock:
-        cmd = ide.settings.TERMINAL_SCREEN + ' -d -r ' + sock + ' ' + ide.settings.TERMINAL_SHELL
-        
+      cmd = SCREEN_COMMAND + ' -A ' + os.path.join(settings.TERM_DIR, str(tsid)) + ' -E -z -r none ' + ide.settings.TERMINAL_SHELL
+      
     self.terminals[tsid].start(cmd, user.preferences.basedir, width, height, tsid=tsid, onclose=self.remove_terminal)
     
   def process_line (self, num, line):
@@ -135,6 +130,7 @@ class TerminalWebSocket (WebSocketHandler):
     
   def term_refresh (self, tsid=None, full=False):
     self.lock.acquire()
+    
     if tsid is None:
       if self.current_tsid is not None:
         tsid = self.current_tsid
@@ -189,20 +185,35 @@ class TerminalWebSocket (WebSocketHandler):
             user = None
             
           if user and user.is_active:
-            sock = None
-            if data.has_key('sock'):
-              sock = data['sock']
+            restart = False
+            if data.has_key('restart') and data['restart']:
+              restart = True
               
-            self.create_terminal(tsid, user, data['cols'], data['lines'], sock=sock)
-            self.term_refresh(tsid, True)
+            self.create_terminal(tsid, user, data['cols'], data['lines'], restart)
             self.cols = data['cols']
             self.lines = data['lines']
+            self.term_refresh(tsid, True)
             
+            if restart:
+              self.write_message(unicode(json.dumps({'action': 'doreset', 'data': True})))
+              
             return None
             
         self.write_message(unicode(json.dumps({'action': 'message', 'data': 'Invalid User Credentials'})))
         self.close()
-          
+        
+      elif data['action'] == 'reset':
+        self.terminals[tsid].write(u'\x0c') # ctrl-l
+        self.term_refresh(tsid, True)
+        
+      elif data['action'] == 'prev':
+        self.terminals[tsid]._proc.term.prev_page()
+        self.term_refresh(tsid, True)
+        
+      elif data['action'] == 'next':
+        self.terminals[tsid]._proc.term.next_page()
+        self.term_refresh(tsid, True)
+        
       elif data['action'] == 'write':
         self.terminals[tsid].write(data['write'])
         self.term_refresh(tsid)

@@ -90,12 +90,14 @@ def start_loop (args):
     application = tornado.web.Application([
       (r"/websocket", TerminalWebSocket),
       (r"/static/(.*)", tornado.web.StaticFileHandler, {'path': settings.STATIC_ROOT}),
+      (r"/uploads/(.*)", tornado.web.StaticFileHandler, {'path': settings.MEDIA_ROOT}),
       (r".*", tornado.web.FallbackHandler, {'fallback': wsgi_app}),
     ], debug=settings.DEBUG)
     
   else:
     application = tornado.web.Application([
       (r"/static/(.*)", tornado.web.StaticFileHandler, {'path': settings.STATIC_ROOT}),
+      (r"/uploads/(.*)", tornado.web.StaticFileHandler, {'path': settings.MEDIA_ROOT}),
       (r".*", tornado.web.FallbackHandler, {'fallback': wsgi_app}),
     ], debug=settings.DEBUG)
     

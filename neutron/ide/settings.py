@@ -147,7 +147,7 @@ IDE_TRACK_CODE_DEFAULT = """
 """
 
 TERMINAL_SHELL = getattr(settings, 'TERMINAL_SHELL', '/bin/bash')
-TERMINAL_SCREEN = getattr(settings, 'TERMINAL_SCREEN', '/usr/bin/screen')
+TERMINAL_SCREEN = getattr(settings, 'TERMINAL_SCREEN', '/usr/bin/dtach')
 
 TEXT_EXTENSIONS = getattr(settings, 'TEXT_EXTENSIONS', TEXT_EXTENSIONS_DEFAULT)
 MODES = getattr(settings, 'MODES', MODES_DEFAULT)

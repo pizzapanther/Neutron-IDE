@@ -36,7 +36,7 @@ alt="View Terminal '+ terminal_count + '" title="New Terminal '+ terminal_count 
   $('#term_input').focus();
 }
 
-function restart_terminal (tsid, sock) {
+function restart_terminal (tsid) {
   var ts = tsid;
   terminals[ts] = {};
   current_ts = ts;
@@ -48,7 +48,7 @@ function restart_terminal (tsid, sock) {
     cols: COLS,
     tsid: ts,
     session: getCookie(cookie_name),
-    sock: sock
+    restart: true
   }
   
   ws.send(JSON.stringify(data));
@@ -107,9 +107,14 @@ function wsmessage (evt) {
     alert(data.data);
   }
   
+  else if (data.action == 'doreset') {
+    var data = {action: 'reset', tsid: current_ts};
+    ws.send(JSON.stringify(data));
+  }
+  
   else if (data.action == 'oldterms') {
     for (i = 0; i < data.data.length; i++) {
-      restart_terminal(i + 1, data.data[i]);
+      restart_terminal(parseInt(data.data[i]));
     }
   }
   
@@ -135,6 +140,16 @@ function wsmessage (evt) {
 
 function close_current () {
   var data = {action: 'solong', tsid: current_ts};
+  ws.send(JSON.stringify(data));
+}
+
+function prev_page () {
+  var data = {action: 'prev', tsid: current_ts};
+  ws.send(JSON.stringify(data));
+}
+
+function next_page () {
+  var data = {action: 'next', tsid: current_ts};
   ws.send(JSON.stringify(data));
 }
 

@@ -14,17 +14,6 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': os.path.join(SPATH, '..', 'neutron.sql3'),                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
-    }
-}
-
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
@@ -48,36 +37,12 @@ USE_I18N = False
 # calendars according to the current locale
 USE_L10N = True
 
-# Absolute filesystem path to the directory that will hold user-uploaded files.
-# Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = os.path.join(SPATH, 'static', 'uploads')
+MEDIA_URL = '/uploads/'
 
-# URL that handles the media served from MEDIA_ROOT. Make sure to use a
-# trailing slash.
-# Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
-MEDIA_URL = '/static/uploads/'
-
-# Absolute path to the directory static files should be collected to.
-# Don't put anything in this directory yourself; store your static files
-# in apps' "static/" subdirectories and in STATICFILES_DIRS.
-# Example: "/home/media/media.lawrence.com/static/"
 STATIC_ROOT = os.path.join(SPATH, 'static')
-
-# URL prefix for static files.
-# Example: "http://media.lawrence.com/static/"
 STATIC_URL = '/static/'
-
-# URL prefix for admin static files -- CSS, JavaScript and images.
-# Make sure to use a trailing slash.
-# Examples: "http://foo.com/static/admin/", "/static/admin/".
 ADMIN_MEDIA_PREFIX = '/static/admin/'
-
-# Additional locations of static files
-STATICFILES_DIRS = (
-    # Put strings here, like "/home/html/static" or "C:/www/django/static".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-)
+STATICFILES_DIRS = ()
 
 # List of finder classes that know how to find static files in
 # various locations.
@@ -179,9 +144,6 @@ IMG_EDITOR_PORT = 8001
 
 BG_IMG = 'ide/img/neutron.jpg'
 
-LOGPATH = os.path.join(os.environ['HOME'], 'logs', 'neutronide.log')
-PKLPATH = os.path.join(os.environ['HOME'], 'logs', 'neutronide.pkl')
-
 import djcelery
 djcelery.setup_loader()
 
@@ -195,3 +157,40 @@ except:
   except:
     pass
     
+if not globals().has_key('WORKING_DIR'):
+  WORKING_DIR = os.path.join(os.environ['HOME'], 'neutron')
+  
+if not globals().has_key('TERM_DIR'):
+  TERM_DIR = os.path.join(WORKING_DIR, 'terms')
+  
+if not globals().has_key('LOG_DIR'):
+  LOG_DIR = os.path.join(WORKING_DIR, 'logs')
+  
+if not globals().has_key('LOGPATH'):
+  if DEBUG:
+    LOGPATH = os.path.join(LOG_DIR, 'neutronide_debug.log')
+    
+  else:
+    LOGPATH = os.path.join(LOG_DIR, 'neutronide.log')
+  
+if not globals().has_key('PKLPATH'):
+  PKLPATH = os.path.join(WORKING_DIR, 'neutronide.pkl')
+  
+if not globals().has_key('MEDIA_ROOT'):
+  MEDIA_ROOT = os.path.join(WORKING_DIR, 'uploads')
+
+for d in (WORKING_DIR, LOG_DIR, TERM_DIR, MEDIA_ROOT):
+  if not os.path.exists(d):
+    os.makedirs(d)
+    
+if not globals().has_key('DATABASES'):
+  DATABASES = {
+      'default': {
+          'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+          'NAME': os.path.join(WORKING_DIR, 'neutron.sql3'),                      # Or path to database file if using sqlite3.
+          'USER': '',                      # Not used with sqlite3.
+          'PASSWORD': '',                  # Not used with sqlite3.
+          'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+          'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+      }
+  }
