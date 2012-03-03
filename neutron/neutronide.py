@@ -105,10 +105,6 @@ def start_loop (args):
     ssl_options = None
     
   else:
-    if not os.path.exists(settings.SERVER_CERT) or not os.path.exists(settings.SERVER_KEY):
-      generate_cert(settings.SERVER_KEY, settings.SERVER_CSR, settings.SERVER_CERT)
-      print "Certificate Generation Complete"
-      
     ssl_options = {
       'certfile': settings.SERVER_CERT,
       'keyfile': settings.SERVER_KEY,
@@ -164,6 +160,17 @@ if __name__ == "__main__":
     print "Done"
     
   if 'start' in args.action or 'restart' in args.action:
+    os.environ["DJANGO_SETTINGS_MODULE"] = 'settings'
+    from django.conf import settings
+    
+    if args.nossl:
+      pass
+    
+    else:
+      if not os.path.exists(settings.SERVER_CERT) or not os.path.exists(settings.SERVER_KEY):
+        generate_cert(settings.SERVER_KEY, settings.SERVER_CSR, settings.SERVER_CERT)
+        print "Certificate Generation Complete"
+        
     if args.foreground:
       start_loop(args)
       
