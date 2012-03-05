@@ -1,6 +1,7 @@
 import os
 import re
 import sys
+import signal
 import subprocess
 import pty
 import fcntl
@@ -24,6 +25,8 @@ class Terminal:
         self._proc = None
 
     def start(self, app, home, width, height, tsid=None, onclose=None, screen=None):
+        signal.signal(signal.SIGCHLD, signal.SIG_IGN)
+        
         env = {}
         env.update(os.environ)
         env['TERM'] = 'linux'
@@ -44,8 +47,12 @@ class Terminal:
                 close_fds=True,
                 env=env,
             )
-            p.wait()
-            
+            try:
+              p.wait()
+            except OSError:
+              pass
+              #exit typed
+              
             if onclose and tsid:
               onclose(tsid)
               
@@ -64,11 +71,7 @@ class Terminal:
     def write(self, data):
         self._proc.write(data)
         #self._proc.write(b64decode(data))
-
-    def kill(self):
-        if self._proc:
-          self._proc.kill()
-          
+        
     def resize (self, lines, columns):
         self.lines = lines
         self.cols = columns
@@ -172,7 +175,4 @@ class PTYProtocol():
         self.mstream.write(data)
         self.mstream.flush()
         self.unblock()
-
-    def kill(self):
-        os.kill(self.proc, 9)
         

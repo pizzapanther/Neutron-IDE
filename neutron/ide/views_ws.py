@@ -62,17 +62,18 @@ class TerminalWebSocket (WebSocketHandler):
         self.term_refresh()
         
     except:
-      import traceback
-      traceback.print_exc()
+      pass
+      #import traceback
+      #traceback.print_exc()
       
   def create_terminal (self, tsid, user, width, height, restart=False):
     self.terminals[tsid] = ide.terminal.Terminal()
     
     cmd = ide.settings.TERMINAL_SHELL
     if SCREEN_COMMAND:
-      cmd = SCREEN_COMMAND + ' -A ' + os.path.join(settings.TERM_DIR, str(tsid)) + ' -E -z -r none ' + ide.settings.TERMINAL_SHELL
+      cmd = SCREEN_COMMAND + ' -A ' + os.path.join(settings.TERM_DIR, str(tsid)) + ' -z -r ctrl_l ' + ide.settings.TERMINAL_SHELL
       
-    self.terminals[tsid].start(cmd, user.preferences.basedir, width, height, tsid=tsid, onclose=self.remove_terminal)
+    self.terminals[tsid].start(cmd, user.preferences.basedir, width, height, tsid=tsid, onclose=self.cleanup_terminal)
     
   def process_line (self, num, line):
     html = ''
@@ -217,6 +218,7 @@ class TerminalWebSocket (WebSocketHandler):
         self.term_refresh(tsid, True)
         
       elif data['action'] == 'write':
+        #print repr(data['write'])
         self.terminals[tsid].write(data['write'])
         self.term_refresh(tsid)
         
@@ -238,10 +240,15 @@ class TerminalWebSocket (WebSocketHandler):
       elif data['action'] == 'solong':
         self.so_long(tsid)
         
-  def remove_terminal (self, tsid):
-    self.terminals[tsid].kill()
-    
+  def cleanup_terminal (self, tsid):
+    del self.terminals[tsid]
+    if self.current_tsid == tsid:
+      self.current_tsid = None
+      
   def so_long (self, tsid):
+    if SCREEN_COMMAND:
+      self.terminals[tsid].write(u'\x1c') #ctrl-\
+      
     del self.terminals[tsid]
     self.current_tsid = None
     self.write_message(unicode(json.dumps({'action': 'killed', 'data': tsid})))
@@ -251,6 +258,12 @@ class TerminalWebSocket (WebSocketHandler):
     self.scheduler.stop()
     if len(self.terminals.keys()) > 0:
       for t, term in self.terminals.items():
-        term.kill()
-        
-      
+        try:
+          if SCREEN_COMMAND:
+            self.terminals[t].write(u'\x1c') #ctrl-\
+            
+          del self.terminals[t]
+          
+        except:
+          pass
+          
