@@ -51,6 +51,7 @@ def exc_hook (t, v, trace):
   fh.close()
   
 def start_loop (args):
+  os.umask(022)
   os.environ["DJANGO_SETTINGS_MODULE"] = 'settings'
   
   from django.conf import settings
