@@ -59,6 +59,7 @@ class Terminal:
             sys.exit(0)
             
         self._proc = PTYProtocol(pid, master, width, height)
+        self.resize(self.lines, self.cols)
         
     def restart(self):
         if self._proc is not None:
