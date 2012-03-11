@@ -97,7 +97,9 @@ function wsmessage (evt) {
   //console.log(d.getMilliseconds());
   
   //manually deflate/inflate for speed until tornado supports WebSocket GZip
-  var data = $.parseJSON(RawDeflate.inflate(atob(evt.data)));
+  //var data = $.parseJSON(RawDeflate.inflate(atob(evt.data)));
+  
+  var data = $.parseJSON(atob(evt.data));
   
   if (data.action == 'update') {
     read_return(data.data);

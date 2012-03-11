@@ -82,6 +82,7 @@ def start_loop (args):
     formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
     fileLogger.setFormatter(formatter)
     logger.addHandler(fileLogger)
+    logger.propagate = 0
     sys.excepthook = exc_hook
     
   wsgi_app = tornado.wsgi.WSGIContainer(django.core.handlers.wsgi.WSGIHandler())
@@ -92,14 +93,14 @@ def start_loop (args):
       (r"/static/(.*)", tornado.web.StaticFileHandler, {'path': settings.STATIC_ROOT}),
       (r"/uploads/(.*)", tornado.web.StaticFileHandler, {'path': settings.MEDIA_ROOT}),
       (r".*", tornado.web.FallbackHandler, {'fallback': wsgi_app}),
-    ], debug=settings.DEBUG)
+    ], debug=settings.DEBUG, gzip=True)
     
   else:
     application = tornado.web.Application([
       (r"/static/(.*)", tornado.web.StaticFileHandler, {'path': settings.STATIC_ROOT}),
       (r"/uploads/(.*)", tornado.web.StaticFileHandler, {'path': settings.MEDIA_ROOT}),
       (r".*", tornado.web.FallbackHandler, {'fallback': wsgi_app}),
-    ], debug=settings.DEBUG)
+    ], debug=settings.DEBUG, gzip=True)
     
   if args.nossl:
     ssl_options = None

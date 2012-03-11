@@ -166,8 +166,8 @@ class TerminalWebSocket (WebSocketHandler):
     self.lock.release()
     
   def write_message (self, message):
-    dump = message.encode('zlib')[2:-4]
-    dump = unicode(base64.b64encode(dump))
+    #dump = message.encode('zlib')[2:-4]
+    dump = unicode(base64.b64encode(message))
     super(TerminalWebSocket, self).write_message(dump)
     
   def on_message (self, message):
