@@ -1,6 +1,7 @@
 Updating Version Change:
-  ide/static/ide/js/menu.js
-  ide/templates/ide/home.html
+  neutron/ide/static/ide/js/menu.js
+  neutronide/templates/ide/home.html
+  VERSION
 
 Tagging Release
   git tag -a v11.11 -m 'version 11.11'
