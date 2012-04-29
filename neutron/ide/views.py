@@ -104,8 +104,15 @@ def new (request):
     uh = urllib.urlopen(name)
     
     if uh.info().has_key('Content-Disposition'):
-      fn = uh.info()['Content-Disposition']
-      
+      if 'filename' in uh.info()['Content-Disposition']:
+        fn = uh.info()['Content-Disposition'].split('filename=')[1]
+        
+      else:
+        fn = uh.info()['Content-Disposition']
+        
+      if fn[0] == '"' or fn[0] == "'":
+        fn = fn[1:-1]
+        
     else:
       fn = name.split('/')[-1]
       if fn == '':
