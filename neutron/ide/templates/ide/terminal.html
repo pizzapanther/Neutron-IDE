@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html> 
   <head>
+    {% block head %}
     <meta charset="utf-8"> 
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <title>Terminal &sdot; Neutron IDE</title>
@@ -15,77 +16,94 @@
         background-image: url('{{ bg }}');
         font-family: {{ font|safe }};
         font-size: {{ fontsize|safe }};
+        color: #ccc;
+        background-color: black;
+        background-size: 100%;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-position: center;
       }
       
       #terminal {
         font-family: {{ font|safe }};
       }
     </style>
+    {% endblock %}
   </head>
   <body>
-    <div id="cursor">&nbsp;</div>
-    <div id="input_wrapper">
-      <div>
-        <textarea name="term_input" id="term_input"></textarea>
+    <div id="termbody">
+      <div id="cursor">&nbsp;</div>
+      <div id="input_wrapper">
+        <div>
+          <textarea name="term_input" id="term_input"></textarea>
+        </div>
       </div>
+      <div id="icons">
+        <div class="a" onclick="close_current()" id="close_icon">
+          <img src="{{ STATIC_URL }}ide/img/term/close.png" alt="Close Terminal" title="Close Terminal">
+        </div>
+        <div class="a" onclick="show_pref()" id="pref_icon">
+          <img src="{{ STATIC_URL }}ide/img/term/gears.png" alt="Preferences" title="Preferences">
+        </div>
+        <div class="a" onclick="select_mode()" id="sel_icon">
+          <img src="{{ STATIC_URL }}ide/img/term/sel.png" alt="Select Mode" title="Select Mode">
+        </div>
+        <div class="a" onclick="prev_page()" id="up_icon">
+          <img src="{{ STATIC_URL }}ide/img/term/up.png" alt="Page Up" title="Page Up">
+        </div>
+        <div class="a" onclick="next_page()" id="down_icon">
+          <img src="{{ STATIC_URL }}ide/img/term/down.png" alt="Page Down" title="Page Down">
+        </div>
+        <div class="a" onclick="start_terminal()" id="add_icon">
+          <img src="{{ STATIC_URL }}ide/img/term/add.png" alt="New Terminal" title="New Terminal">
+        </div>
+      </div>
+      <div id="terminal_wrapper">
+        <div>
+          <pre id="terminal"><div id="line0"><span>&nbsp;</span></div></pre>
+        </div>
+      </div>
+      <div id="terminal_calc">
+        <pre><div><span>&nbsp;</span></div></pre>
+      </div>
+      <div id="reconnect">
+        <input type="button" name="connect" value="Start A New Terminal" onclick="return start_terminal()">
+      </div>
+      <div id="refresh" class="hidden">
+        <input type="button" name="connect" value="Reconnect" onclick="reconnect()">
+      </div>
+      <div id="term_pref">
+        <iframe width="100%" height="260" frameBorder="0" scrolling="auto"></iframe>
+      </div>
+      <script type="text/javascript">
+        var ws;
+        var cookie_name = '{{ cookie }}';
+        
+        {% if request.is_secure %}
+        var wsurl = "wss://{{ request.get_host }}/websocket";
+        {% else %}
+        var wsurl = "ws://{{ request.get_host }}/websocket";
+        {% endif %}
+        
+        var terminals = {};
+        var terminal_count = 0;
+        var static_url = '{{ STATIC_URL }}';
+        
+        var ws;
+      </script>
+      {% block footer_scripts %}
+      <script type="text/javascript" src='{{ STATIC_URL }}ide/js/jquery.js'></script>
+      <script type="text/javascript" src='{{ STATIC_URL }}ide/js/kendo.all.min.js'></script>
+      <script type="text/javascript" src='{{ STATIC_URL }}ide/js/common.js'></script>
+      <script type="text/javascript" src='{{ STATIC_URL }}ide/js/terminal.js'></script>
+      <script type="text/javascript">
+        var tsplit = false;
+        
+        $(window).resize(function() {
+          send_resize();
+        });
+      </script>
+      {% endblock %}
     </div>
-    <div id="icons">
-      <div class="a" onclick="close_current()" id="close_icon">
-        <img src="{{ STATIC_URL }}ide/img/term/close.png" alt="Close Terminal" title="Close Terminal">
-      </div>
-      <div class="a" onclick="show_pref()" id="pref_icon">
-        <img src="{{ STATIC_URL }}ide/img/term/gears.png" alt="Preferences" title="Preferences">
-      </div>
-      <div class="a" onclick="select_mode()" id="sel_icon">
-        <img src="{{ STATIC_URL }}ide/img/term/sel.png" alt="Select Mode" title="Select Mode">
-      </div>
-      <div class="a" onclick="prev_page()" id="up_icon">
-        <img src="{{ STATIC_URL }}ide/img/term/up.png" alt="Page Up" title="Page Up">
-      </div>
-      <div class="a" onclick="next_page()" id="down_icon">
-        <img src="{{ STATIC_URL }}ide/img/term/down.png" alt="Page Down" title="Page Down">
-      </div>
-      <div class="a" onclick="start_terminal()" id="add_icon">
-        <img src="{{ STATIC_URL }}ide/img/term/add.png" alt="New Terminal" title="New Terminal">
-      </div>
-    </div>
-    <div id="terminal_wrapper">
-      <div>
-        <pre id="terminal"><div id="line0"><span>&nbsp;</span></div></pre>
-      </div>
-    </div>
-    <div id="terminal_calc">
-      <pre><div><span>&nbsp;</span></div></pre>
-    </div>
-    <div id="reconnect">
-      <input type="button" name="connect" value="Start A New Terminal" onclick="return start_terminal()">
-    </div>
-    <div id="refresh" class="hidden">
-      <input type="button" name="connect" value="Reload to Reconnect" onclick="window.location.reload()">
-    </div>
-    <div id="term_pref">
-      <iframe width="100%" height="260" frameBorder="0" scrolling="auto"></iframe>
-    </div>
-    <script type="text/javascript">
-      var ws;
-      var cookie_name = '{{ cookie }}';
-      
-      {% if request.is_secure %}
-      var wsurl = "wss://{{ request.get_host }}/websocket";
-      {% else %}
-      var wsurl = "ws://{{ request.get_host }}/websocket";
-      {% endif %}
-      
-      var terminals = {};
-      var terminal_count = 0;
-      var static_url = '{{ STATIC_URL }}';
-      
-      var ws;
-    </script>
-    <script type="text/javascript" src='{{ STATIC_URL }}ide/js/jquery.js'></script>
-    <script type="text/javascript" src='{{ STATIC_URL }}ide/js/kendo.all.min.js'></script>
-    <!--<script type="text/javascript" src='{{ STATIC_URL }}ide/js/term/rawinflate.js'></script>-->
-    <script type="text/javascript" src='{{ STATIC_URL }}ide/js/common.js'></script>
-    <script type="text/javascript" src='{{ STATIC_URL }}ide/js/terminal.js'></script>
   </body>
 </html>

@@ -105,6 +105,7 @@ class Preferences (models.Model):
   pmargin = models.BooleanField('Show Print Margin', default=True)
   softab = models.BooleanField('Use Soft Tab', default=True)
   behave = models.BooleanField('Enable Behaviors', default=True)
+  splitterm = models.BooleanField('Use Split Terminal/IDE', default=True)
   
   save_session = models.BooleanField('Save Session', default=True)
   session = models.TextField(blank=True, null=True)

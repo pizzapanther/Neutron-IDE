@@ -2,15 +2,9 @@ body {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  color: #ccc;
-  background-color: black;
-  background-size: 100%;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-position: center;
 }
 
-img {
+#termbody img {
   border: 0;
   display: block;
 }

@@ -5,6 +5,20 @@ function initws () {
   ws.onmessage = wsmessage;
   ws.onclose = wsclose;
 }
+
+function reconnect () {
+  $('#refresh').addClass('hidden');
+  $('.a.term').remove();
+  current_ts = null;
+  
+  ws = new WebSocket(wsurl);
+  ws.onopen = wsopen;
+  ws.onmessage = wsmessage;
+  ws.onclose = wsclose;
+  
+  terminals = {};
+  terminal_count = 0;
+}
       
 $(window).load(initws);
 
@@ -678,9 +692,17 @@ function show_pref () {
 function update_prefs (new_prefs) {
   pref_win.close();
   
-  $('body').css('background-image', 'url(' + new_prefs.bg + ')');
-  $('body').css('font-family', new_prefs.font);
-  $('body').css('font-size', new_prefs.fontsize);
+  if (tsplit) {
+    $('#termbody').css('background-image', 'url(' + new_prefs.bg + ')');
+    $('#termbody').css('font-family', new_prefs.font);
+    $('#termbody').css('font-size', new_prefs.fontsize);
+  }
+  
+  else {
+    $('body').css('background-image', 'url(' + new_prefs.bg + ')');
+    $('body').css('font-family', new_prefs.font);
+    $('body').css('font-size', new_prefs.fontsize);
+  }
   
   $('#terminal').css('font-family', new_prefs.font);
   send_resize();
@@ -705,8 +727,3 @@ function send_resize () {
     }
   }
 }
-
-$(window).resize(function() {
-  send_resize();
-});
-

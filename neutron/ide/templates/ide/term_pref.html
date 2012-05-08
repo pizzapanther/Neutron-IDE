@@ -12,7 +12,7 @@
 </style>
 {% endblock %}
 {% block content %}
-<form action="" method="post" class="pref_form" enctype="multipart/form-data" target="_self">
+<form action="{% url ide-terminal-pref %}" method="post" class="pref_form" enctype="multipart/form-data" target="_self">
   {% csrf_token %}
   <table>
     <tr>

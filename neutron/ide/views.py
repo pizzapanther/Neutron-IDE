@@ -587,6 +587,7 @@ def submit_replace (request):
 @login_required
 def terminal (request):
   if ide.settings.TERMINAL_ON:
+    split_term = request.GET.get('split', '')
     if request.user.preferences.bg:
       bg = request.user.preferences.bg.url
       
@@ -600,6 +601,9 @@ def terminal (request):
       'fontsize': request.user.preferences.tfontsize
     }
     
+    if split_term == '1':
+      return TemplateResponse(request, 'ide/terminal_split.html', c)
+      
     return TemplateResponse(request, 'ide/terminal.html', c)
     
   else:

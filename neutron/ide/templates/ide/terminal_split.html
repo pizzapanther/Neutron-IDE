@@ -1,0 +1,27 @@
+{% extends "ide/terminal.html" %}
+{% block head %}
+<link href='{{ STATIC_URL }}ide/css/terminal_black.css' rel='stylesheet' type='text/css'/>
+<style type="text/css">
+  #termbody {
+    background-image: url('{{ bg }}');
+    font-family: {{ font|safe }};
+    font-size: {{ fontsize|safe }};
+    height: 100%;
+    background-color: black;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+  }
+  
+  #terminal {
+    font-family: {{ font|safe }};
+  }
+</style>
+{% endblock %}
+{% block footer_scripts %}
+<script type="text/javascript" src='{{ STATIC_URL }}ide/js/terminal.js'></script>
+<script type="text/javascript">
+  var tsplit = true;
+</script>
+{% endblock %}
