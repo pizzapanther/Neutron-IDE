@@ -678,19 +678,19 @@ function calc_term_size () {
   LINES = Math.floor(page_h / char_h);
 }
 
-var pref_win;
+var pref_win_term;
 $(document).ready(function () {
-  pref_win = $("#term_pref").kendoWindow({title: 'Terminal Preferences', modal: true, width: "600px", visible: false}).data("kendoWindow");
+  pref_win_term = $("#term_pref").kendoWindow({title: 'Terminal Preferences', modal: true, width: "630px", visible: false}).data("kendoWindow");
 });
 
-function show_pref () {
-  pref_win.center();
-  pref_win.open();
+function show_pref_term () {
+  pref_win_term.center();
+  pref_win_term.open();
   $("#term_pref iframe").attr('src', '/term_pref/');
 }
 
-function update_prefs (new_prefs) {
-  pref_win.close();
+function update_prefs_term (new_prefs) {
+  pref_win_term.close();
   
   if (tsplit) {
     $('#termbody').css('background-image', 'url(' + new_prefs.bg + ')');
