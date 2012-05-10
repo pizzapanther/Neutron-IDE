@@ -185,6 +185,10 @@ function wsclose (evt) {
 function select_mode () {
   $('#icons #sel_icon img').toggleClass('selected');
   $('#input_wrapper').toggleClass('selected');
+  
+  if (!$('#input_wrapper').hasClass('selected')) {
+    $('#term_input').focus();
+  }
 }
 
 function read_return (data) {
