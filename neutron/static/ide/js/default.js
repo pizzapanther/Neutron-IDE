@@ -228,6 +228,8 @@ function resize_editor (skip_splitter) {
   }
   
   if (tsplitter) {
+    var hme = $("#splitter_right").height() - ($("#ide_bottom").height() + 2);
+    tsplitter.size("#ide_top", hme + 'px');
     var h = $("#ide_top").height() - 2;
   }
   
@@ -241,6 +243,10 @@ function resize_editor (skip_splitter) {
   if (editor_global) {
     editor_global.resize();
     editor_global.focus();
+  }
+  
+  else {
+    
   }
   
   resize_tabs();
