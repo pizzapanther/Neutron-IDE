@@ -228,8 +228,6 @@ function resize_editor (skip_splitter) {
   }
   
   if (tsplitter) {
-    var hme = $("#splitter_right").height() - ($("#ide_bottom").height() + 2);
-    tsplitter.size("#ide_top", hme + 'px');
     var h = $("#ide_top").height() - 2;
   }
   
@@ -431,7 +429,12 @@ function size_search (e) {
       var h = $("#ide_top").height() - 2;
       $("#editor_global").height(h - $('.ui-widget-header').outerHeight());
       
-      send_resize();
+      if (window.send_resize) {
+        if ($("#ide_bottom").height() > 0) {
+          send_resize();
+        }
+      }
+      
     }
     
     if (editor_global) {
@@ -453,7 +456,7 @@ $(document).ready(function () {
     $('.right_menu').css('display', 'none');
     
     if (eObj.target.id && eObj.target.id == 'menu_button') {}
-    else if (eObj.target.parentElement.id && eObj.target.parentElement.id == 'menu_button') {}
+    else if (eObj.target.parentElement && eObj.target.parentElement.id && eObj.target.parentElement.id == 'menu_button') {}
     else {
       hide_menu();
     }
@@ -474,7 +477,12 @@ $(document).ready(function () {
   esplitter = $("#splitter").kendoSplitter({resize: size_search, panes: [{collapsible: true, size: '250px', scrollable: false}, {scrollable: false}], resize: size_search}).data("kendoSplitter");
   
   if (splitterm) {
-    tsplitter = $("#splitter_right").kendoSplitter({orientation: 'vertical', resize: size_search, panes: [{collapsible: false, scrollable: false, resizable: true}, {contentUrl: "/terminal/?split=1", resizable: true, collapsible: true, scrollable: false, size: '300px'}]}).data("kendoSplitter");
+    setTimeout(
+      function () {
+        tsplitter = $("#splitter_right").kendoSplitter({orientation: 'vertical', resize: size_search, panes: [{collapsible: false, scrollable: false}, {contentUrl: "/terminal/?split=1", resizable: true, collapsible: true, scrollable: false, size: '300px'}]}).data("kendoSplitter");
+      },
+      0
+    )
   }
   
   if (pref.save_session) {
