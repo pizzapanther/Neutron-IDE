@@ -5,7 +5,7 @@ import sys
 SFILE = __file__
 SPATH = os.path.normpath(os.path.dirname(SFILE))
 
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
