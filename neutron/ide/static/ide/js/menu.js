@@ -89,6 +89,26 @@ function doSaveAll () {
   }
 }
 
+function runCompile () {
+  SaveCurrentTab()
+  var dp = CurrentTab();
+ //TODO SaveCurrentTab(runCompile) 
+  $("#status").html('Compiling... ' + tab_paths[dp].filename);
+  
+  $.ajax({
+    type: 'POST',
+    url: '/run/',
+    data: {'path': dp },
+    success: function (data, textStatus, jqXHR) {
+      $("#status").html('');
+      if (data.result == 'bad') {
+        alert(data.error);
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) { alert('Error Saving: ' + dp); $("#status").html(''); },
+  });
+}
+
 function set_editor_mode(mode) {
   var sess = editor_global.getSession();
   var Mode = require("ace/mode/" + mode).Mode;

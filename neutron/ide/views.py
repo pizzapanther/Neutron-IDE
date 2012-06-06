@@ -178,7 +178,10 @@ def filesave (request):
       error = 'File Access Denied'
       
   return http.HttpResponse(json.dumps({'result': ret, 'error': error, 'uid': hashstr(path)}), mimetype=settings.JSON_MIME)
-    
+
+@login_required
+def run (request): 
+  
 @login_required
 def fileget (request):
   try:
