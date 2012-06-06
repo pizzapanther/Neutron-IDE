@@ -227,3 +227,53 @@
   </ul>
 </div>
 {% endblock %}
+ <script type="text/javascript">
+    /**
+     * Guiders are created with guiders.createGuider({settings}).
+     *
+     * You can show a guider with the .show() method immediately
+     * after creating it, or with guiders.show(id) and the guider's id.
+     *
+     * guiders.next() will advance to the next guider, and
+     * guiders.hideAll() will hide all guiders.
+     *
+     * By default, a button named "Next" will have guiders.next as
+     * its onclick handler.  A button named "Close" will have
+     * its onclick handler set to guiders.hideAll.  onclick handlers
+     * can be customized too.
+     */
+     
+    guiders.createGuider({
+      buttons: [{name: "Next"}],
+      description: "Lorem ipsum.",
+      id: "first",
+      next: "second",
+      overlay: true,
+      title: "Velkomin í sýnikennslu"
+    }).show();
+    /**
+     * .show() means that this guider will get shown immediately after creation.
+     *
+     * Using .show() is one way of starting your guiders.
+     * 
+     * Another way is by directing the user to a special URL with the guider id in
+     * its hash tag, such as:
+     *
+     * http://www.local.com/README.html#guider=first
+     *
+     * This makes it easy to only show guiders for new users.  It can also be used
+     * to route people among multiple web pages and still keep showing the guiders.
+     */
+    
+    guiders.createGuider({
+      attachTo: "#menu_button",
+      buttons: [{name: "Close"},
+                {name: "Next"}],
+      description: "For example, this guider is attached to the 12 o'clock direction relative to the attached element. The Guiders.js API uses a clock model to determine where the guider should be placed.<br/><br/>Attaching a guider to an element focuses user on the area of interest.",
+      id: "second",
+      next: "third",
+      position: 12,
+      title: "Guiders are typically attached to an element on the page."
+    });
+               
+    </script>
