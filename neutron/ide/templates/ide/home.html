@@ -35,6 +35,13 @@
   var splitterm = false;
   {% endif %}
 </script>
+<script>
+  
+    $(document).ready(function(){
+  $("#editor_global").children().keyup(function() {
+    SaveCurrentTempTab();
+});       
+});
 <style type="text/css">
   .ace_editor { font-size: {{ pref.fontsize }}; }
 </style>
