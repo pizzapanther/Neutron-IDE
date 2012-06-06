@@ -61,7 +61,7 @@
 					<li><a href="#" onclick="SaveCurrentTab()"><div class="memu-icon sprite-disk"></div>Save</a></li>
 					<li><a href="#" onclick="SaveAll()"><div class="memu-icon sprite-disk"></div>Save All</a></li>
 					<li><a href="#"><div class="memu-icon sprite-disk_multiple"></div>Save As...</a></li>
-					<li><a href="#"><div class="memu-icon sprite-page_white_edit"></div>Page Setup...</a></li>
+					<li><a href="#" onclick="show_pref()" ><div class="memu-icon sprite-page_white_edit"></div>Page Setup...</a></li>
 					<li><a href="#"><div class="memu-icon sprite-printer"></div>Print</a></li>
 					<li><a href="#" onclick="CloseAll()"><div class="memu-icon sprite-delete"></div>Close All</a></li>
 					<li><a href="#"><div class="memu-icon sprite-delete"></div>Exit</a></li>
@@ -111,14 +111,16 @@
 			<li class="memu-root">
 				<a href="#">Format</a>
 				<ul>
+					<li class="has-children">
+						<a href="#">Editor Mode</a>
+						<ul>
+							{% for mode in MODES %}
+							<li><a href="#" onclick="set_editor_mode('{{ mode.0 }}')">{{ mode.1 }}</a></li>
+					          {% endfor %}
+						</ul>
+					</li>
 					<li><a href="#">Word Wrap</a></li>
 					<li><a href="#">Font...</a></li>
-				</ul>
-			</li>
-			<li class="memu-root">
-				<a href="#">View</a>
-				<ul>
-					<li><a href="#">Status Bar</a></li>
 				</ul>
 			</li>
 		</ul>
@@ -138,9 +140,10 @@
 				rootWidth: 75,
 				height: 25
 			});
-		 )};
+		 });
 		</script>
-    <button id="menu_button" class="k-button" onclick="return show_menu()"><img src="{{ STATIC_URL }}ide/img/menu.png" alt="Menu" title="Menu"/></button>
+  <!--  <button id="menu_button" class="k-button" onclick="return show_menu()"><img src="{{ STATIC_URL }}ide/img/menu.png" alt="Menu" title="Menu"/></button> -->
+	<button id="menu_button" class="k-button" onclick="return run()"><img src="{{ STATIC_URL }}ide/img/run.png" alt="Run" title="Run"/></button>
     <div style="display: inline-block"><input type="text" id="quick_search"/></div>
     <div id="current_edit">Welcome to Neutron IDE</div>
     <div id="status"></div>
