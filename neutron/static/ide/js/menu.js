@@ -89,6 +89,19 @@ function doSaveAll () {
   }
 }
 
+function SaveAll () {
+  save_win.center();
+  save_win.open();
+  
+  $("#saveall").css('display', 'block');
+  $("#saveall").empty();
+  for (dp in tab_paths) {
+    $("#saveall").append('<p id="saveall_' + tab_paths[dp].uid + '">Saving ' + tab_paths[dp].filename + ' ...</p>');
+  }
+  
+  setTimeout(function () { doSaveAll(); }, 300);
+}
+
 function set_editor_mode(mode) {
   var sess = editor_global.getSession();
   var Mode = require("ace/mode/" + mode).Mode;
