@@ -186,13 +186,8 @@ def compile (request):
   outfile = path
   outfile = outfile.split(".")[0]
   outfile = outfile + ".out"
-  compiling = "g++ " + path + " -o " +  outfile
-  #os.system(compiling)
-  p = subprocess.Popen(["g++",path,"-o",outfile], stdout=subprocess.PIPE)
+  p = subprocess.Popen(["g++",path,"-o",outfile], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
   out, err = p.communicate()
-
-  #subprocess.call(["ls", "-l"], shell=True)
-  #proc = os.popen(outfile)
   return http.HttpResponse(json.dumps({'result': out, 'error': err}), mimetype=settings.JSON_MIME)
   
 
