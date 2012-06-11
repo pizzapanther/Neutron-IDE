@@ -181,7 +181,14 @@ def filesave (request):
 
 @login_required
 def compile (request): 
-  return ide.utils.good_json("Compile was a success")
+  path = request.POST.get('path', '')
+  outfile = path
+  outfile = outfile.split(".")[0]
+  outfile = outfile + ".out"
+  compiling = "g++ " + path + " -o " +  outfile
+  os.system(compiling)
+  mess = os.popen(outfile)
+  return ide.utils.good_json(mess.read())
   
 
 
