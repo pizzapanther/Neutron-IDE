@@ -180,8 +180,11 @@ def filesave (request):
   return http.HttpResponse(json.dumps({'result': ret, 'error': error, 'uid': hashstr(path)}), mimetype=settings.JSON_MIME)
 
 @login_required
-def run (request): 
+def compile (request): 
+  return ide.utils.good_json("Compile was a success")
   
+
+
 @login_required
 def fileget (request):
   try:
