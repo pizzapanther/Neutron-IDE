@@ -35,24 +35,6 @@
   var splitterm = false;
   {% endif %}
 </script>
-<script>
-  
-    $(document).ready(function(){
-   
-        var autoSavePending = false;
-      editor_global.getSession().on('change', function(e){
-        console.log(e.data.text);
-        if (autoSavePending == false){
-          autoSavePending = true;          
-          setTimeout(function(){
-            SaveAll();
-            autoSavePending = false;
-            console.log("Saved");
-          },5000);
-        }
-      });       
-});
-</script>
 <style type="text/css">
   .ace_editor { font-size: {{ pref.fontsize }}; }
 </style>
