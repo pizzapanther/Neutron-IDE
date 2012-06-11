@@ -18,7 +18,7 @@
     pmargin: {{ pref.pmargin|js_bool }},
     softab: {{ pref.softab|js_bool }},
     behave: {{ pref.behave|js_bool }},
-    
+    guide_tour: {{ pref.guide_tour|js_bool }}, 
     save_session: {{ pref.save_session|js_bool }},
   };
   
@@ -140,6 +140,8 @@
 				rootWidth: 75,
 				height: 25
 			});
+			
+		if(pref.guide_tour){
 	
 		 guiders.createGuider({
 		      buttons: [{name: "Next"}],
@@ -183,7 +185,12 @@
 		 	  width: 300
 		    });
 		
+			}
+		
 		 });
+		
+	
+		
 		
 		</script>
   <!--  <button id="menu_button" class="k-button" onclick="return show_menu()"><img src="{{ STATIC_URL }}ide/img/menu.png" alt="Menu" title="Menu"/></button> -->

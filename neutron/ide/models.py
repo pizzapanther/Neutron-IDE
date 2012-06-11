@@ -111,6 +111,7 @@ class Preferences (models.Model):
   session = models.TextField(blank=True, null=True)
 
   
+  guide_tour = models.BooleanField('Guide Tour', default=True)
   
   bg = models.ImageField('Terminal Background Image', blank=True, null=True, upload_to='bg')
   font = models.CharField('Terminal Font', max_length=255, default='"Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace')
