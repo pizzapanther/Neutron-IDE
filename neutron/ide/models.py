@@ -109,6 +109,8 @@ class Preferences (models.Model):
   
   save_session = models.BooleanField('Save Session', default=True)
   session = models.TextField(blank=True, null=True)
+
+  
   
   bg = models.ImageField('Terminal Background Image', blank=True, null=True, upload_to='bg')
   font = models.CharField('Terminal Font', max_length=255, default='"Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace')
