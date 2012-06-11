@@ -6,6 +6,7 @@ import urllib
 import datetime
 import cPickle as pickle
 import traceback
+import subprocess
 
 from django import http
 from django.conf import settings
@@ -186,9 +187,13 @@ def compile (request):
   outfile = outfile.split(".")[0]
   outfile = outfile + ".out"
   compiling = "g++ " + path + " -o " +  outfile
-  os.system(compiling)
-  mess = os.popen(outfile)
-  return ide.utils.good_json(mess.read())
+  #os.system(compiling)
+  p = subprocess.Popen(["g++",path,"-o",outfile], stdout=subprocess.PIPE)
+  out, err = p.communicate()
+
+  #subprocess.call(["ls", "-l"], shell=True)
+  #proc = os.popen(outfile)
+  return http.HttpResponse(json.dumps({'result': out, 'error': err}), mimetype=settings.JSON_MIME)
   
 
 
