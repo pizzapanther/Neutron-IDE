@@ -110,7 +110,6 @@ class Preferences (models.Model):
   save_session = models.BooleanField('Save Session', default=True)
   session = models.TextField(blank=True, null=True)
 
-  
   guide_tour = models.BooleanField('Guide Tour', default=True)
   
   bg = models.ImageField('Terminal Background Image', blank=True, null=True, upload_to='bg')
