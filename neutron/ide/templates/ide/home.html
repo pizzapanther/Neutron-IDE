@@ -38,10 +38,21 @@
 <script>
   
     $(document).ready(function(){
-  $("#editor_global").children().keyup(function() {
-    SaveCurrentTempTab();
-});       
+   
+        var autoSavePending = false;
+      editor_global.getSession().on('change', function(e){
+        console.log(e.data.text);
+        if (autoSavePending == false){
+          autoSavePending = true;          
+          setTimeout(function(){
+            SaveAll();
+            autoSavePending = false;
+            console.log("Saved");
+          },5000);
+        }
+      });       
 });
+</script>
 <style type="text/css">
   .ace_editor { font-size: {{ pref.fontsize }}; }
 </style>
