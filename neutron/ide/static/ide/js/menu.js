@@ -89,6 +89,7 @@ function doSaveAll () {
   }
 }
 
+
 function set_editor_mode(mode) {
   var sess = editor_global.getSession();
   var Mode = require("ace/mode/" + mode).Mode;

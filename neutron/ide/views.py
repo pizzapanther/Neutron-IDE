@@ -6,6 +6,7 @@ import urllib
 import datetime
 import cPickle as pickle
 import traceback
+import subprocess
 
 from django import http
 from django.conf import settings
@@ -178,7 +179,19 @@ def filesave (request):
       error = 'File Access Denied'
       
   return http.HttpResponse(json.dumps({'result': ret, 'error': error, 'uid': hashstr(path)}), mimetype=settings.JSON_MIME)
-    
+
+@login_required
+def compile (request): 
+  path = request.POST.get('path', '')
+  outfile = path
+  outfile = outfile.split(".")[0]
+  outfile = outfile + ".out"
+  p = subprocess.Popen(["g++",path,"-o",outfile], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+  out, err = p.communicate()
+  return http.HttpResponse(json.dumps({'result': out, 'error': err}), mimetype=settings.JSON_MIME)
+  
+
+
 @login_required
 def fileget (request):
   try:
