@@ -1,5 +1,7 @@
 from django.conf import settings
 
+USERDIR = "/home/userfolders"
+
 MODES_DEFAULT = (
   ('csharp', 'C#'),
   ('c_cpp', 'C/C++'),
