@@ -1,6 +1,8 @@
+from os import environ
 from django.conf import settings
 
-USERDIR = "${HOME}/userfolders"
+homedir=environ['HOME']
+USERDIR = homedir + "/userfolders"
 
 MODES_DEFAULT = (
   ('csharp', 'C#'),
