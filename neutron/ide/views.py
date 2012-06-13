@@ -200,8 +200,10 @@ def compile (request):
   outfile = path
   outfile = outfile.split(".")[0]
   outfile = outfile + ".out"
-  p = subprocess.Popen(["g++",path,"-o",outfile], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+  command = "g++ "+path+" -o "+outfile
+  p = subprocess.Popen([command], stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
   out, err = p.communicate()
+
   return http.HttpResponse(json.dumps({'result': out, 'error': err}), mimetype=settings.JSON_MIME)
   
 

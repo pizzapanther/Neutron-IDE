@@ -76,7 +76,7 @@ function doCompile () {
     data: {'path': dp},
     success: function (data, textStatus, jqXHR) {
       $("#status").html('');
-      if (data.result == 'bad') {
+      if (data.error != '') {
         alert(data.error);
       }
     },
