@@ -43,7 +43,48 @@ function CurrentTab () {
   }
 }
 
-function SaveCurrentTab () {
+function run () {
+  var dp = CurrentTab();
+  
+  $("#status").html('Running ' + tab_paths[dp].filename);
+  
+  $.ajax({
+    type: 'POST',
+    url: '/run/',
+    data: {'path': dp},
+    success: function (data, textStatus, jqXHR) {
+      $("#status").html('');
+      if (data.result != '') {
+        alert(data.result);
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) { alert('Error while running: ' + dp); $("#status").html(''); },
+  });
+}
+function compile(){
+  SaveCurrentTab(doCompile);
+}
+
+function doCompile () {
+  var dp = CurrentTab();
+  
+  $("#status").html('Compiling ' + tab_paths[dp].filename);
+  
+  $.ajax({
+    type: 'POST',
+    url: '/compile/',
+    data: {'path': dp},
+    success: function (data, textStatus, jqXHR) {
+      $("#status").html('');
+      if (data.result == 'bad') {
+        alert(data.error);
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) { alert('Error Compiling: ' + dp); $("#status").html(''); },
+  });
+}
+
+function SaveCurrentTab (func) {
   var dp = CurrentTab();
   var contents = editor_global.getSession().getValue();
   
@@ -55,6 +96,31 @@ function SaveCurrentTab () {
     data: {'path': dp, 'contents': contents},
     success: function (data, textStatus, jqXHR) {
       $("#status").html('');
+      if (data.result == 'bad') {
+        alert(data.error);
+      }
+      else {
+        if (func != undefined)
+          func();
+      }
+      
+      
+    },
+    error: function (jqXHR, textStatus, errorThrown) { alert('Error Saving: ' + dp); $("#status").html(''); },
+  });
+}
+function SaveCurrentTempTab () {
+  var dp = CurrentTab();
+  var contents = editor_global.getSession().getValue();
+  
+ /* $("#status").html('Saving ' + tab_paths[dp].filename);*/
+  
+  $.ajax({
+    type: 'POST',
+    url: '/filesave/',
+    data: {'path': dp, 'contents': contents},
+    success: function (data, textStatus, jqXHR) {
+      /*$("#status").html('');*/
       if (data.result == 'bad') {
         alert(data.error);
       }
@@ -543,22 +609,4 @@ function add_commands (e) {
     },
     exec: function(env, args, request) { SaveAll(); }
   });
-}
-function Compile () {
-  SaveCurrentTab()
-  var dp = CurrentTab();
- //TODO SaveCurrentTab(runCompile) 
-  $("#status").html('Compiling... ' + tab_paths[dp].filename);
-  
-  $.ajax({
-    type: 'POST',
-    url: '/compile/',
-    data: {'path': dp },
-    success: function (data, textStatus, jqXHR) {
-      $("#status").html('');
-      if (data.result == 'bad') {
-        alert(data.error);
-      }
-    },
-    error: function (jqXHR, textStatus, errorThrown) { alert('Error Compiling: ' + dp); $("#status").html(''); }, });
 }
