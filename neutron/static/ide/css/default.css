@@ -72,7 +72,12 @@ ul.emodes li {
   display: -moz-box;
   -moz-box-align: center;
 }
-
+#neutron_menubar #top{
+  border: 2px solid red;
+}
+#neutron_menubar #bottom{
+  border: 2px solid blue;
+}
 #neutron_menubar .k-button {
   font-size: 80%;
 }
