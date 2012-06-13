@@ -109,6 +109,25 @@ function SaveCurrentTab (func) {
     error: function (jqXHR, textStatus, errorThrown) { alert('Error Saving: ' + dp); $("#status").html(''); },
   });
 }
+function SaveCurrentTempTab () {
+  var dp = CurrentTab();
+  var contents = editor_global.getSession().getValue();
+  
+ /* $("#status").html('Saving ' + tab_paths[dp].filename);*/
+  
+  $.ajax({
+    type: 'POST',
+    url: '/filesave/',
+    data: {'path': dp, 'contents': contents},
+    success: function (data, textStatus, jqXHR) {
+      /*$("#status").html('');*/
+      if (data.result == 'bad') {
+        alert(data.error);
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) { alert('Error Saving: ' + dp); $("#status").html(''); },
+  });
+}
 
 function set_all_pref () {
   for (dp in tab_paths) {
