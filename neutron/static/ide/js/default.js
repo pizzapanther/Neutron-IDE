@@ -575,9 +575,11 @@ function track_ide () {
   setTimeout(track_ide, track_int);
 }
 
+/*
 window.onbeforeunload = function() {
     return 'Leaving so soon!';
 }
+*/
 
 function add_commands (e) {
   e.commands.addCommand({
