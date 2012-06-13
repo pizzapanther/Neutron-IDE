@@ -6,8 +6,10 @@ import urllib
 import datetime
 import cPickle as pickle
 import traceback
+import pprint
 import subprocess
 
+from django.contrib.auth.signals import user_logged_in
 from django import http
 from django.conf import settings
 from django.template.response import TemplateResponse
@@ -28,6 +30,18 @@ import ide.tasks
 from ide.templatetags.ntags import hashstr
 
 GOOD_CSTATES = ("SUCCESS", "STARTED", "RECEIVED")
+
+def user_folder_check (sender, user, request, **kwargs):
+  theFolder = settings.USERDIR + "/" + user.username
+  prefs = ide.models.Preferences.objects.get(user=user)
+  if not prefs == None:
+    if not prefs.basedir == theFolder :
+      prefs.basedir = theFolder
+      prefs.save()
+      if not os.path.exists(theFolder):
+        os.mkdir(theFolder)
+  
+user_logged_in.connect(user_folder_check)
 
 def login (request):
   return auth_views.login(request)
