@@ -409,23 +409,7 @@ $(document).ready( function() {
       var index = $( "li", $tabs ).index(p);
       $tabs.tabs( "remove", index );
     });
-     //Implementation of autoSave
-    var autoSavePending = false;
-    
-      editor_global.getSession().on('change', function(){
-        $("#status").html(' ');
-        if (autoSavePending == false){
-          autoSavePending = true;          
-                    
-          setTimeout(function(){
-            $("#status").html('All Files Auto Saved');  
-            doSaveAll();
-            autoSavePending = false;
-            
-          },5000);
-          
-        }
-      });
+     
 });
 
 function size_search (e) {
@@ -517,6 +501,23 @@ $(document).ready(function () {
   if (track_ajax) {
     setTimeout(track_ide, track_int);
   }
+  //Implementation of autoSave
+    var autoSavePending = false;
+    
+      editor_global.getSession().on('change', function(){
+        $("#status").html(' ');
+        if (autoSavePending == false){
+          autoSavePending = true;          
+                    
+          setTimeout(function(){
+            $("#status").html('All Files Auto Saved');  
+            doSaveAll();
+            autoSavePending = false;
+            
+          },5000);
+          
+        }
+      });
 });
 
 function track_ide () {
