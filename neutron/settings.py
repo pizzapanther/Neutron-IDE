@@ -2,8 +2,6 @@
 import os
 import sys
 
-USERDIR = "/home/snoogms/userfolders"
-
 SFILE = __file__
 SPATH = os.path.normpath(os.path.dirname(SFILE))
 
