@@ -43,6 +43,7 @@
 {% block content %}
 <div id="neutron_ui">
   <div id="neutron_menubar">
+    	<div class = "menu_top">
     	<ul class="memu">
 			<li class="memu-root">
 				<a href="#">File</a>
@@ -123,8 +124,14 @@
 					<li><a href="#">Font...</a></li>
 				</ul>
 			</li>
+      <li class = "memu-root">
+        <a href="#">Help</a>
+        <ul>
+        <li><a href = "#">Help</a></li>
+        <li><a href = "#">Help</a></li>
+        </ul>
+    </li>
 		</ul>
-		
 		<script type="text/javascript">
 		
 		$(document).ready(function(){
@@ -188,17 +195,20 @@
 			}
 		
 		 });
-		
-	
-		
-		
+    
 		</script>
   <!--  <button id="menu_button" class="k-button" onclick="return show_menu()"><img src="{{ STATIC_URL }}ide/img/menu.png" alt="Menu" title="Menu"/></button> -->
-	<button id="menu_button" class="k-button" onclick="return run()"><img src="{{ STATIC_URL }}ide/img/run.png" alt="Run" title="Run"/></button>
+	
+  <div class ="menu_bottom">
+<button id="menu_button" class="k-button" onclick="return run()"><img src="{{ STATIC_URL }}ide/img/run.png" alt="Run" title="Run"/></button>
     <div style="display: inline-block"><input type="text" id="quick_search"/></div>
     <div id="current_edit">Welcome to Neutron IDE</div>
     <div id="status"></div>
+    </div>
+    
   </div>
+  </div>
+  
   <div id="neutron_body">
     <div id="splitter">
       <div id="splitter_left">
