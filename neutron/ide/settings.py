@@ -1,6 +1,6 @@
 from django.conf import settings
 
-USERDIR = "/home/userfolders"
+USERDIR = "${HOME}/userfolders"
 
 MODES_DEFAULT = (
   ('csharp', 'C#'),
