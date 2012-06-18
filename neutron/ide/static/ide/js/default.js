@@ -441,6 +441,8 @@ function size_search (e) {
     if (editor_global) {
       editor_global.resize();
     }
+	
+		$(".menu_bottom").css("padding-left", $("#splitter_left").width());
     
   }, 400);
 }
@@ -462,6 +464,8 @@ $(document).ready(function () {
       hide_menu();
     }
   });
+
+  $(".menu_bottom").css("padding-left", $("#splitter_left").width());
   
   search_panel = $("#search_panel").kendoPanelBar().data("kendoPanelBar");
   $("#search_panel_search > span").click();

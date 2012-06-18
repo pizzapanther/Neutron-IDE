@@ -77,17 +77,15 @@ ul.emodes li {
 }
 #neutron_menubar .menu_bottom{
   float:left;
+  
   width:100%;
   display: block;
-  border: 2px solid red;
   height: 30px;
 }
 #neutron_menubar .menu_top{
-  width:100%;
-  
+  width:100%;  
   float: left;
   display: block;
-  border: 2px solid red;
 }
 #neutron_menubar .k-button {
   font-size: 80%;
