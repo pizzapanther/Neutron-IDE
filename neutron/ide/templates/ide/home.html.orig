@@ -18,7 +18,7 @@
     pmargin: {{ pref.pmargin|js_bool }},
     softab: {{ pref.softab|js_bool }},
     behave: {{ pref.behave|js_bool }},
-    
+    guide_tour: {{ pref.guide_tour|js_bool }}, 
     save_session: {{ pref.save_session|js_bool }},
   };
   
@@ -43,7 +43,7 @@
 {% block content %}
 <div id="neutron_ui">
   <div id="neutron_menubar">
-<<<<<<< HEAD
+    	<div class = "menu_top">
     	<ul class="memu">
 			<li class="memu-root">
 				<a href="#">File</a>
@@ -124,8 +124,14 @@
 					<li><a href="#">Font...</a></li>
 				</ul>
 			</li>
+			<li class="memu-root">
+				<a href="#">Help</a>
+				<ul>
+					<li><a href="#">HELP</a></li>
+					<li><a href="#">HELP</a></li>
+				</ul>
+			</li>
 		</ul>
-		
 		<script type="text/javascript">
 		
 		$(document).ready(function(){
@@ -141,22 +147,74 @@
 				rootWidth: 75,
 				height: 25
 			});
+		
+			
+		if(pref.guide_tour){
+	
+		 guiders.createGuider({
+		      buttons: [{name: "Next"}],
+		      description: "Lorem ipsum Lorem ipsum Lorem ipsum.",
+		      id: "first",
+		      next: "second",
+		      overlay: true,
+		      title: "Velkomin í sýnikennslu"
+		    }).show();
+		
+		guiders.createGuider({
+			  attachTo: "#file_browser",
+			  buttons: [{name: "Next"}],
+			  description: "Here are all your files stored.",
+			  id: "second",
+			  next: "third",
+			  position: 2,
+			  title: "File Browser",
+			  width: 300
+		   });
+		
+		guiders.createGuider({
+			  attachTo: "#editor_global",
+			  buttons: [{name: "Close" },{ name: "Next"}],
+			  description: "Here you can edit your code, all your code is autosaved.",
+			  id: "third",
+			  next: "fourth",
+			  offset: {top: -10},
+			  title: "Coding editor",
+			  width: 300
+		   });
+		
+		   guiders.createGuider({
+		      attachTo: "#menu_button",
+		      buttons: [{name: "Close"}],
+		      description: "Here you can compile and run your program.",
+		      id: "fourth",
+		      next: "fifth",
+		      position:2,
+		      title: "Run",
+		 	  width: 300
+		    });
+		
+			}
+		
 		 });
+    
 		</script>
   <!--  <button id="menu_button" class="k-button" onclick="return show_menu()"><img src="{{ STATIC_URL }}ide/img/menu.png" alt="Menu" title="Menu"/></button> -->
-	<button id="menu_button" class="k-button" onclick="return run()"><img src="{{ STATIC_URL }}ide/img/run.png" alt="Run" title="Run"/></button>
+<<<<<<< HEAD
+	<button id="menu_button" class="k-button" onclick="return compile()">Compile</button>
+	<button id="menu_button" class="k-button" onclick="return run()">Run</button>
 =======
-    <span id="logo" class="logo">Neutron IDE v12.05</span>
-    <button class="k-button" onclick="SaveCurrentTab()">Save</button>
-    <button class="k-button" onclick="SaveAll()">Save All</button>
-    <button class="k-button" onclick="CloseAll()">Close All</button>
-    <button class="k-button" onclick="Compile()">Compile</button>
-    <button id="menu_button" class="k-button" onclick="return show_menu()"><img src="{{ STATIC_URL }}ide/img/menu.png" alt="Menu" title="Menu"/></button>
->>>>>>> c789253a4f7d63fe2c13a777aba0eae5a13dcbc1
+	
+  <div class ="menu_bottom">
+<button id="run" class="k-button" onclick="return run()"><img src="{{ STATIC_URL }}ide/img/run.png" alt="Run" title="Run"/></button>
+>>>>>>> topbars
     <div style="display: inline-block"><input type="text" id="quick_search"/></div>
     <div id="current_edit">Welcome to Neutron IDE</div>
     <div id="status"></div>
+    </div>
+    
   </div>
+  </div>
+  
   <div id="neutron_body">
     <div id="splitter">
       <div id="splitter_left">
@@ -236,3 +294,4 @@
   </ul>
 </div>
 {% endblock %}
+

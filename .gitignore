@@ -26,3 +26,9 @@ neutron/.DS_Store
 neutron/ide/.DS_Store
 
 neutron/static/ide/css/.DS_Store
+
+neutron/static/ide/.DS_Store
+
+code/
+
+code/test.cpp

@@ -2,7 +2,8 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Open Sans', sans-serif;
-  overflow: hidden;
+ 
+
 }
 
 #quick_search {
@@ -53,8 +54,8 @@ ul.emodes li {
   background-color: #fff;
 }
 
-#neutron_ui {
-  
+#neutron s_ui {
+
 }
 
 #neutron_menubar button img {
@@ -64,15 +65,28 @@ ul.emodes li {
 
 #neutron_menubar {
  
+  margin-bottom: 200px;
   padding: 0 0 0 5px;
   
-  display: -webkit-box;
+  /*display: -webkit-box;
   -webkit-box-align: center;
   
   display: -moz-box;
-  -moz-box-align: center;
+  -moz-box-align: center;*/
+  display:block;
 }
-
+#neutron_menubar .menu_bottom{
+  float:left;
+  
+  width:100%;
+  display: block;
+  height: 30px;
+}
+#neutron_menubar .menu_top{
+  width:100%;  
+  float: left;
+  display: block;
+}
 #neutron_menubar .k-button {
   font-size: 80%;
 }
@@ -82,7 +96,7 @@ ul.emodes li {
 }
 
 #neutron_body {
-  margin-top: -3px;
+  margin-top: 25px;
 }
 
 #main_menu {
