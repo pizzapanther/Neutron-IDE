@@ -6,8 +6,10 @@ import urllib
 import datetime
 import cPickle as pickle
 import traceback
+import pprint
 import subprocess
 
+from django.contrib.auth.signals import user_logged_in
 from django import http
 from django.conf import settings
 from django.template.response import TemplateResponse
@@ -28,6 +30,18 @@ import ide.tasks
 from ide.templatetags.ntags import hashstr
 
 GOOD_CSTATES = ("SUCCESS", "STARTED", "RECEIVED")
+
+def user_folder_check (sender, user, request, **kwargs):
+  theFolder = settings.USERDIR + "/" + user.username
+  prefs = ide.models.Preferences.objects.get(user=user)
+  if not prefs == None:
+    if not prefs.basedir == theFolder :
+      prefs.basedir = theFolder
+      prefs.save()
+      if not os.path.exists(theFolder):
+        os.mkdir(theFolder)
+  
+user_logged_in.connect(user_folder_check)
 
 def login (request):
   return auth_views.login(request)
@@ -186,11 +200,22 @@ def compile (request):
   outfile = path
   outfile = outfile.split(".")[0]
   outfile = outfile + ".out"
-  p = subprocess.Popen(["g++",path,"-o",outfile], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+  command = "g++ "+path+" -o "+outfile
+  p = subprocess.Popen([command], stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
   out, err = p.communicate()
+
   return http.HttpResponse(json.dumps({'result': out, 'error': err}), mimetype=settings.JSON_MIME)
   
 
+@login_required
+def run (request): 
+  path = request.POST.get('path', '')
+  outfile = path
+  outfile = outfile.split(".")[0]
+  outfile = outfile + ".out"
+  p = subprocess.Popen([outfile], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+  out, err = p.communicate()
+  return http.HttpResponse(json.dumps({'result': out, 'error': err}), mimetype=settings.JSON_MIME)
 
 @login_required
 def fileget (request):

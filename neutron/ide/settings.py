@@ -1,4 +1,8 @@
+from os import environ
 from django.conf import settings
+
+homedir=environ['HOME']
+USERDIR = homedir + "/userfolders"
 
 MODES_DEFAULT = (
   ('csharp', 'C#'),
@@ -166,7 +170,7 @@ IMG_EDITOR_API_KEY = getattr(settings, 'IMG_EDITOR_API_KEY', IMG_EDITOR_API_KEY_
 IMG_EDITOR_METHOD = getattr(settings, 'IMG_EDITOR_METHOD', IMG_EDITOR_METHOD_DEFAULT)
 IMG_EDITOR_PORT = getattr(settings, 'IMG_EDITOR_PORT', IMG_EDITOR_PORT_DEFAULT)
 
-SKIP_CELERY_CHECK = getattr(settings, 'SKIP_CELERY_CHECK', False)
+SKIP_CELERY_CHECK = getattr(settings, 'SKIP_CELERY_CHECK', True)
 CELERY_ON = getattr(settings, 'CELERY_ON', False)
 
 BG_IMG = getattr(settings, 'BG_IMG', 'ide/img/neutron.jpg')

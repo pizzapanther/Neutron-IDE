@@ -1,6 +1,10 @@
 # Django settings for neutron project.
 import os
+from os import environ
 import sys
+
+homedir=environ['HOME']
+USERDIR = homedir + "/userfolders"
 
 SFILE = __file__
 SPATH = os.path.normpath(os.path.dirname(SFILE))
