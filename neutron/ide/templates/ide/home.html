@@ -18,7 +18,7 @@
     pmargin: {{ pref.pmargin|js_bool }},
     softab: {{ pref.softab|js_bool }},
     behave: {{ pref.behave|js_bool }},
-    
+    guide_tour: {{ pref.guide_tour|js_bool }}, 
     save_session: {{ pref.save_session|js_bool }},
   };
   
@@ -140,7 +140,58 @@
 				rootWidth: 75,
 				height: 25
 			});
+			
+		if(pref.guide_tour){
+	
+		 guiders.createGuider({
+		      buttons: [{name: "Next"}],
+		      description: "Lorem ipsum Lorem ipsum Lorem ipsum.",
+		      id: "first",
+		      next: "second",
+		      overlay: true,
+		      title: "Velkomin í sýnikennslu"
+		    }).show();
+		
+		guiders.createGuider({
+			  attachTo: "#file_browser",
+			  buttons: [{name: "Next"}],
+			  description: "Here are all your files stored.",
+			  id: "second",
+			  next: "third",
+			  position: 2,
+			  title: "File Browser",
+			  width: 300
+		   });
+		
+		guiders.createGuider({
+			  attachTo: "#editor_global",
+			  buttons: [{name: "Close" },{ name: "Next"}],
+			  description: "Here you can edit your code, all your code is autosaved.",
+			  id: "third",
+			  next: "fourth",
+			  offset: {top: -10},
+			  title: "Coding editor",
+			  width: 300
+		   });
+		
+		   guiders.createGuider({
+		      attachTo: "#menu_button",
+		      buttons: [{name: "Close"}],
+		      description: "Here you can compile and run your program.",
+		      id: "fourth",
+		      next: "fifth",
+		      position:2,
+		      title: "Run",
+		 	  width: 300
+		    });
+		
+			}
+		
 		 });
+		
+	
+		
+		
 		</script>
   <!--  <button id="menu_button" class="k-button" onclick="return show_menu()"><img src="{{ STATIC_URL }}ide/img/menu.png" alt="Menu" title="Menu"/></button> -->
 	<button id="menu_button" class="k-button" onclick="return compile()">Compile</button>
@@ -228,3 +279,4 @@
   </ul>
 </div>
 {% endblock %}
+

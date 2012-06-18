@@ -1,0 +1,238 @@
+{% extends "ide/master.html" %}{% load ntags %}
+{% block head %}
+{% with pref=request.user.preferences %}
+<script type="text/javascript">
+  var pref = {
+    uitheme: '{{ pref.uitheme }}',
+    
+    theme: '{{ pref.theme }}',
+    fontsize: '{{ pref.fontsize }}',
+    keybind: '{{ pref.keybind }}',
+    swrap: '{{ pref.swrap }}',
+    tabsize: {{ pref.tabsize }},
+    
+    hactive: {{ pref.hactive|js_bool }},
+    hword: {{ pref.hword|js_bool }},
+    invisibles: {{ pref.invisibles|js_bool }},
+    gutter: {{ pref.gutter|js_bool }},
+    pmargin: {{ pref.pmargin|js_bool }},
+    softab: {{ pref.softab|js_bool }},
+    behave: {{ pref.behave|js_bool }},
+    
+    save_session: {{ pref.save_session|js_bool }},
+  };
+  
+  var init_session = {{ pref.last_session|safe }};
+  var skip_session = true;
+  var basedir = "{{ pref.basedir }}";
+  var loaded_themes = ['{{ pref.theme }}'];
+  var static_url = '{{ STATIC_URL }}';
+  var track_ajax = {% if request.track %}true{% else %}false{% endif %};
+  
+  {% if pref.splitterm and TERMINAL_ON %}
+  var splitterm = true;
+  {% else %}
+  var splitterm = false;
+  {% endif %}
+</script>
+<style type="text/css">
+  .ace_editor { font-size: {{ pref.fontsize }}; }
+</style>
+{% endwith %}
+{% endblock %}
+{% block content %}
+<div id="neutron_ui">
+  <div id="neutron_menubar">
+<<<<<<< HEAD
+    	<ul class="memu">
+			<li class="memu-root">
+				<a href="#">File</a>
+				<ul>
+					<li class="has-children">
+						<a href="sample_2.html"><div class="memu-icon sprite-page_white"></div>New</a>
+						<ul>
+							<li><a href="#"><div class="memu-icon sprite-page_white"></div>Text Document</a></li>
+							<li><a href="#"><div class="memu-icon sprite-script_code"></div>HTML Document</a></li>
+							<li><a href="#"><div class="memu-icon sprite-script_palette"></div>CSS Document</a></li>
+							<li><a href="#"><div class="memu-icon sprite-script"></div>JS Document</a></li>
+							<li><a href="#"><div class="memu-icon sprite-page_white_c"></div>C Document</a></li>
+						</ul>
+					</li>
+					<li><a href="#"><div class="memu-icon sprite-folder"></div>Open...</a></li>
+					<li><a href="#" onclick="SaveCurrentTab()"><div class="memu-icon sprite-disk"></div>Save</a></li>
+					<li><a href="#" onclick="SaveAll()"><div class="memu-icon sprite-disk"></div>Save All</a></li>
+					<li><a href="#"><div class="memu-icon sprite-disk_multiple"></div>Save As...</a></li>
+					<li><a href="#" onclick="show_pref()" ><div class="memu-icon sprite-page_white_edit"></div>Page Setup...</a></li>
+					<li><a href="#"><div class="memu-icon sprite-printer"></div>Print</a></li>
+					<li><a href="#" onclick="CloseAll()"><div class="memu-icon sprite-delete"></div>Close All</a></li>
+					<li><a href="#"><div class="memu-icon sprite-delete"></div>Exit</a></li>
+				</ul>
+			</li>
+			<li class="memu-root">
+				<a href="#">Edit</a>
+				<ul>
+					<li><a href="#">Undo</a></li>
+					<li><a href="#">Cut</a></li>
+					<li><a href="#">Copy</a></li>
+					<li><a href="#">Paste</a></li>
+					<li><a href="#">Delete</a></li>
+					<li><a href="#">Find...</a></li>
+					<li><a href="#">Find Next</a></li>
+					<li><a href="#">Replace...</a></li>
+					<li><a href="#">Go To...</a></li>
+					<li><a href="#">Select All</a></li>
+					<li><a href="#">Time/Date</a></li>
+					<li class="has-children">
+						<a href="#">Preferences</a>
+						<ul>
+							<li class="has-children">
+								<a href="#">Text Color</a>
+								<ul>
+									<li><a href="#">Blue</a></li>
+									<li><a href="#">Red</a></li>
+									<li><a href="#">Green</a></li>
+									<li><a href="#">Brown</a></li>
+									<li><a href="#">Orange</a></li>
+								</ul>
+							</li>
+							<li class="has-children">
+								<a href="#">Background</a>
+								<ul>
+									<li><a href="#">Blue</a></li>
+									<li><a href="#">Red</a></li>
+									<li><a href="#">Green</a></li>
+									<li><a href="#">Brown</a></li>
+									<li><a href="#">Orange</a></li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+			<li class="memu-root">
+				<a href="#">Format</a>
+				<ul>
+					<li class="has-children">
+						<a href="#">Editor Mode</a>
+						<ul>
+							{% for mode in MODES %}
+							<li><a href="#" onclick="set_editor_mode('{{ mode.0 }}')">{{ mode.1 }}</a></li>
+					          {% endfor %}
+						</ul>
+					</li>
+					<li><a href="#">Word Wrap</a></li>
+					<li><a href="#">Font...</a></li>
+				</ul>
+			</li>
+		</ul>
+		
+		<script type="text/javascript">
+		
+		$(document).ready(function(){
+			$('.memu').memu({ 
+				icon: {
+					inset: true,
+					margin: {
+						top: 4,
+						right: 10
+					}
+				},
+				width: 150,
+				rootWidth: 75,
+				height: 25
+			});
+		 });
+		</script>
+  <!--  <button id="menu_button" class="k-button" onclick="return show_menu()"><img src="{{ STATIC_URL }}ide/img/menu.png" alt="Menu" title="Menu"/></button> -->
+	<button id="menu_button" class="k-button" onclick="return run()"><img src="{{ STATIC_URL }}ide/img/run.png" alt="Run" title="Run"/></button>
+=======
+    <span id="logo" class="logo">Neutron IDE v12.05</span>
+    <button class="k-button" onclick="SaveCurrentTab()">Save</button>
+    <button class="k-button" onclick="SaveAll()">Save All</button>
+    <button class="k-button" onclick="CloseAll()">Close All</button>
+    <button class="k-button" onclick="Compile()">Compile</button>
+    <button id="menu_button" class="k-button" onclick="return show_menu()"><img src="{{ STATIC_URL }}ide/img/menu.png" alt="Menu" title="Menu"/></button>
+>>>>>>> c789253a4f7d63fe2c13a777aba0eae5a13dcbc1
+    <div style="display: inline-block"><input type="text" id="quick_search"/></div>
+    <div id="current_edit">Welcome to Neutron IDE</div>
+    <div id="status"></div>
+  </div>
+  <div id="neutron_body">
+    <div id="splitter">
+      <div id="splitter_left">
+        <div id="tooltabs">
+          <ul>
+            <li id="fbtab">Files</li>
+            <li id="searchtab">Search</li>
+          </ul>
+          <div>
+            <div id="file_browser">
+              <a href="javascript: void(0)">File Browser</a>
+              <div class="inner"></div>
+            </div>
+          </div>
+          <div>
+            {% include "ide/search_tab.html" %}
+          </div>
+        </div>
+      </div>
+      <div id="splitter_right" style="height: 100%;">
+        {% if request.user.preferences.splitterm and TERMINAL_ON %}
+        <div id="ide_top">
+          <div id="tabs">
+            <div id="tabsinner">
+              <ul></ul>
+            </div>
+          </div>
+          <div id="editor_global"></div>
+        </div>
+        <div id="ide_bottom">
+          <!--<iframe width="100%" height="300" frameBorder="0" scrolling="auto" src="/terminal/"></iframe>-->
+        </div>
+        {% else %}
+        <div id="tabs">
+          <div id="tabsinner">
+            <ul></ul>
+          </div>
+        </div>
+        <div id="editor_global"></div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% include "ide/right_menu_dir.html" %}
+{% endblock %}
+{% block footer %}
+<div id="main_menu">
+  <ul>
+    <li><a href="javascript: void(0)" onclick="show_pref()" class="pref">Editor Preferences</a></li>
+    <li class="btop">
+      <span class="submenu">
+        <span class="arrow">&raquo;</span>Editor Mode
+        <ul class="emodes">
+          {% for mode in MODES %}<li><a href="javascript: void(0)" onclick="set_editor_mode('{{ mode.0 }}')">{{ mode.1 }}</a></li>
+          {% endfor %}
+        </ul>
+        <div class="clear"></div>
+      </span>
+    </li>
+    <li class="btop">
+      <span class="submenu">
+        <span class="arrow">&raquo;</span>Help! 
+        <ul>
+          <li><a href="https://github.com/pizzapanther/Neutron-IDE/wiki/Default-Key-Bindings" target="_blank" class="link">Key Bindings</a></li>
+          <li><a href="https://github.com/pizzapanther/Neutron-IDE/wiki/Emacs-Key-Bindings" target="_blank" class="link">EMacs Key Bindings</a></li>
+          <li><a href="https://github.com/pizzapanther/Neutron-IDE/wiki/Vim-Key-Bindings" target="_blank" class="link">Vim Key Bindings</a></li>
+          <li><a href="http://neutronide.com/" target="_blank" class="link">NeutronIDE.com</a></li>
+        </ul>
+      </span>
+    </li>
+    {% if TERMINAL_ON %}
+    <li><a href="{% url ide-terminal %}" target="_blank" class="term">Terminal</a></li>
+    <li><a href="javascript: void(0)" onclick="window.open('{% url ide-terminal %}', '_blank', 'height=400,width=650,location=no,menubar=no,status=no,titlebar=no,toolbar=no,top=0,left=0')" class="term">Terminal (Pop Up)</a></li>
+    {% endif %}
+    <li><a href="javascript: void(0)" onclick="about()" class="about">About</a></li>
+  </ul>
+</div>
+{% endblock %}

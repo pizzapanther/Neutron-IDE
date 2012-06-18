@@ -1,0 +1,31 @@
+*.pyc
+*.pid
+*.log
+devserver
+neutron.sql3
+neutron/settings_local.py
+neutron/static/CACHE/
+neutron/static/uploads/
+pip-log.txt
+cert/*.*
+_site
+start_ide.bsh
+
+.DS_Store
+<<<<<<< HEAD
+=======
+
+neutron/ide/static/ide/.DS_Store
+
+neutron/ide/templates/.DS_Store
+
+neutron/ide/static/ide/.DS_Store
+
+neutron/ide/templates/.DS_Store
+
+neutron/.DS_Store
+
+neutron/ide/.DS_Store
+
+neutron/static/ide/css/.DS_Store
+>>>>>>> guidetour
