@@ -10,3 +10,5 @@ pip-log.txt
 cert/*.*
 _site
 start_ide.bsh
+
+.DS_Store
