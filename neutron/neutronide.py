@@ -103,7 +103,7 @@ def start_loop (args):
       (r".*", tornado.web.FallbackHandler, {'fallback': wsgi_app}),
     ], debug=settings.DEBUG, gzip=True)
     
-  if args.nossl:
+  if args.nossl or args.proxy:
     ssl_options = None
     
   else:
@@ -112,10 +112,11 @@ def start_loop (args):
       'keyfile': settings.SERVER_KEY,
     }
     
-  http_server = tornado.httpserver.HTTPServer(application, ssl_options=ssl_options)
+  xheaders = args.proxy
+  http_server = tornado.httpserver.HTTPServer(application, xheaders=xheaders, ssl_options=ssl_options)
   http_server.listen(settings.HTTP_PORT)
   if ssl_options:
-    http_server2 = tornado.httpserver.HTTPServer(application)
+    http_server2 = tornado.httpserver.HTTPServer(application, xheaders=xheaders)
     http_server2.listen(settings.IMG_EDITOR_PORT)
     
   io = tornado.ioloop.IOLoop.instance()
@@ -149,6 +150,7 @@ if __name__ == "__main__":
   parser.add_argument('-l', '--logging', action='store_true', dest='logging', help='Log to screen instead of file logging.')
   parser.add_argument('-f', '--foreground', action='store_true', dest='foreground', help='Run in foreground instead of as a daemon.')
   parser.add_argument('-n', '--nossl', action='store_true', dest='nossl', help='turn off ssl.')
+  parser.add_argument('-p', '--proxy', action='store_true', dest='proxy', help='Proxy mode.  For running behind an HTTP Proxy. Turns off SSL also.')
   parser.add_argument('action', nargs=1, help='start|stop|restart')
   
   args = parser.parse_args()
