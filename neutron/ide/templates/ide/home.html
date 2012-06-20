@@ -51,11 +51,15 @@
 					<li class="has-children">
 						<a href="sample_2.html"><div class="memu-icon sprite-page_white"></div>New</a>
 						<ul>
-							<li><a href="#"><div class="memu-icon sprite-page_white"></div>Text Document</a></li>
-							<li><a href="#"><div class="memu-icon sprite-script_code"></div>HTML Document</a></li>
-							<li><a href="#"><div class="memu-icon sprite-script_palette"></div>CSS Document</a></li>
-							<li><a href="#"><div class="memu-icon sprite-script"></div>JS Document</a></li>
-							<li><a href="#"><div class="memu-icon sprite-page_white_c"></div>C Document</a></li>
+							<li class="has-children" ><a href="#"><div class="memu-icon sprite-book"></div>Project</a>
+								<ul>
+									<li><a href="#"><div class="memu-icon sprite-page_white_cplusplus"></div>Console</a></li>
+									<li><a href="#"><div class="memu-icon sprite-page_white_cplusplus"></div>Empty</a></li>
+									<li><a href="#"><div class="memu-icon sprite-page_white_cplusplus"></div>Hello World</a></li>
+								</ul>
+							</li>
+							<li><a href="#"><div class="memu-icon sprite-page_white_cplusplus"></div>File</a></li>
+							<li><a href="#"><div class="memu-icon sprite-folder_add"></div>Folder</a></li>
 						</ul>
 					</li>
 					<li><a href="#"><div class="memu-icon sprite-folder"></div>Open...</a></li>
@@ -71,17 +75,12 @@
 			<li class="memu-root">
 				<a href="#">Edit</a>
 				<ul>
-					<li><a href="#">Undo</a></li>
-					<li><a href="#">Cut</a></li>
-					<li><a href="#">Copy</a></li>
-					<li><a href="#">Paste</a></li>
-					<li><a href="#">Delete</a></li>
-					<li><a href="#">Find...</a></li>
-					<li><a href="#">Find Next</a></li>
-					<li><a href="#">Replace...</a></li>
+					<li><a href="#"><div class="memu-icon sprite-arrow_undo"></div>Undo</a></li>
+					<li><a href="#"><div class="memu-icon sprite-cut"></div>Cut</a></li>
+					<li><a href="#"><div class="memu-icon sprite-page_copy"></div>Copy</a></li>
+					<li><a href="#"><div class="memu-icon sprite-page_paste"></div>Paste</a></li>
+					<li><a href="#"><div class="memu-icon sprite-find"></div>Find</a></li>
 					<li><a href="#">Go To...</a></li>
-					<li><a href="#">Select All</a></li>
-					<li><a href="#">Time/Date</a></li>
 					<li class="has-children">
 						<a href="#">Preferences</a>
 						<ul>
@@ -105,35 +104,52 @@
 									<li><a href="#">Orange</a></li>
 								</ul>
 							</li>
+								<li class="has-children">
+									<a href="#">Format</a>
+									<ul>
+										<li class="has-children">
+											<a href="#">Editor Mode</a>
+											<ul>
+												{% for mode in MODES %}
+												<li><a href="#" onclick="set_editor_mode('{{ mode.0 }}')">{{ mode.1 }}</a></li>
+										          {% endfor %}
+											</ul>
+										</li>
+										<li><a href="#">Word Wrap</a></li>
+										<li><a href="#">Font...</a></li>
+									</ul>
+								</li>
 						</ul>
 					</li>
 				</ul>
 			</li>
 			<li class="memu-root">
-				<a href="#">Format</a>
-				<ul>
-					<li class="has-children">
-						<a href="#">Editor Mode</a>
-						<ul>
-							{% for mode in MODES %}
-							<li><a href="#" onclick="set_editor_mode('{{ mode.0 }}')">{{ mode.1 }}</a></li>
-					          {% endfor %}
-						</ul>
-					</li>
-					<li><a href="#">Word Wrap</a></li>
-					<li><a href="#">Font...</a></li>
-				</ul>
+					<a href="#">Run</a>
+					<ul>
+						<li><a href="#"><div class="memu-icon sprite-control_play_blue"></div>Run</a></li>
+						<li><a href="#"><div class="memu-icon sprite-control_pause_blue"></div>Debug</a></li>
+						<li><a href="#"><div class="memu-icon sprite-control_fastforward_blue"></div>Step Over</a></li>
+						<li><a href="#"><div class="memu-icon sprite-control_end_blue"></div>Step Into</a></li>
+						<li><a href="#"><div class="memu-icon sprite-control_repeat_blue"></div>Step Out</a></li>
+					</ul>
 			</li>
+			
 			<li class="memu-root">
 				<a href="#">Help</a>
 				<ul>
-					<li><a href="#">HELP</a></li>
-					<li><a href="#">HELP</a></li>
+					<li><a href="#"><div class="memu-icon sprite-help"></div>Help</a></li>
+					<li class="has-children" ><a href="#"><div class="memu-icon sprite-user_comment"></div>Tutorials</a>
+						<ul>
+							<li><a href="#">Editor</a></li>
+							<li><a href="#">Coding</a></li>
+						</li>
+						</ul>
+					<li><a href="#"><div class="memu-icon sprite-information"></div>About</a></li>
 				</ul>
 			</li>
 		</ul>
 		<script type="text/javascript">
-		
+	
 		$(document).ready(function(){
 			$('.memu').memu({ 
 				icon: {
@@ -194,7 +210,16 @@
 		    });
 		
 			}
-		
+				// TODO: LAGA CSS
+				$('button#debug_button').hide();
+				$('#quick_search').hide();
+				
+				$("#quick_search").focusout(function() { 
+					$('#quick_search').hide("fast").focus().select(); 
+				}).blur(function() {
+				 	$('#quick_search').hide("fast").focus().select(); 
+				});
+				
 		 });
     
 		</script>
@@ -204,6 +229,9 @@
 	<button id="run" class="k-button" onclick="return run()"><img src="{{ STATIC_URL }}ide/img/run.png" alt="Run" title="Run"/></button>
 	<button id="menu_button" class="k-button" onclick="return compile()">Compile</button>
 	<button id="menu_button" class="k-button" onclick="return run()">Run</button>
+	<button id="debug_button" class="k-button" onclick="return debugover()">Step Over</button>
+	<button id="debug_button" class="k-button" onclick="return debugin()">Step Into</button>
+	<button id="debug_button" class="k-button" onclick="return debugin()">Step Out</button>
     <div style="display: inline-block"><input type="text" id="quick_search"/></div>
     <div id="current_edit">Welcome to Neutron IDE</div>
     <div id="status"></div>
@@ -292,3 +320,6 @@
 </div>
 {% endblock %}
 
+<script type="text/javascript">
+$('#debug_button').hide();
+	</script>
