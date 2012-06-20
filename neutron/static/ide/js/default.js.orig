@@ -409,6 +409,11 @@ $(document).ready( function() {
       var index = $( "li", $tabs ).index(p);
       $tabs.tabs( "remove", index );
     });
+<<<<<<< HEAD
+    
+=======
+     
+>>>>>>> topbars
 });
 
 function size_search (e) {
@@ -550,11 +555,11 @@ function add_commands (e) {
   e.commands.addCommand({
       name: 'QuickSearch',
       bindKey: {
-        win: 'Ctrl-F',
-        mac: 'Command-F',
+        win: 'Ctrl-Q',
+        mac: 'Command-Q',
         sender: 'editor'
       },
-      exec: function(env, args, request) { $('#quick_search').show("fast").focus().select(); }
+      exec: function(env, args, request) { $('#quick_search').focus().select(); }
   });
   
   e.commands.addCommand({
