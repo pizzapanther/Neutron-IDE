@@ -311,7 +311,7 @@ function uploadFile(id, onComplete) {
   xhr.addEventListener("error", function (evt) { alert('Upload Failed'); }, false);
   xhr.addEventListener("abort", function (evt) { alert('Upload Cancel'); }, false);
   
-  xhr.open("POST", "/temp_file/?name=" + encodeURIComponent(fd.fileName));
+  xhr.open("POST", "/temp_file/?name=" + encodeURIComponent(fd.name));
   xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
   xhr.send(fd);
 }
