@@ -19,7 +19,7 @@
  * the Initial Developer. All Rights Reserved.
  *
  * Contributor(s):
- *      André Fiedler <fiedler dot andre a t gmail dot com>
+ *      Fabian Jakobs <fabian AT ajax DOT org>
  *
  * Alternatively, the contents of this file may be used under the terms of
  * either the GNU General Public License Version 2 or later (the "GPL"), or
@@ -35,7 +35,7 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
-__ace_shadowed__.define('ace/theme/pastel_on_dark', ['require', 'exports', 'module' ], function(require, exports, module) {
+__ace_shadowed__.define('ace/theme/pastel_on_dark', ['require', 'exports', 'module', 'ace/lib/dom'], function(require, exports, module) {
 
 exports.isDark = true;
 exports.cssClass = "ace-pastel-on-dark";
@@ -75,13 +75,18 @@ exports.cssText = "\
   border-left: 0px;\
   border-bottom: 1px solid #A7A7A7;\
 }\
- \
+\
 .ace-pastel-on-dark .ace_marker-layer .ace_selection {\
   background: rgba(221, 240, 255, 0.20);\
 }\
 \
+.ace-pastel-on-dark.multiselect .ace_selection.start {\
+  box-shadow: 0 0 3px 0px #2C2828;\
+  border-radius: 2px;\
+}\
+\
 .ace-pastel-on-dark .ace_marker-layer .ace_step {\
-  background: rgb(198, 219, 174);\
+  background: rgb(102, 82, 0);\
 }\
 \
 .ace-pastel-on-dark .ace_marker-layer .ace_bracket {\
@@ -96,12 +101,12 @@ exports.cssText = "\
 .ace-pastel-on-dark .ace_marker-layer .ace_selected_word {\
   border: 1px solid rgba(221, 240, 255, 0.20);\
 }\
-       \
+\
 .ace-pastel-on-dark .ace_invisible {\
   color: rgba(255, 255, 255, 0.25);\
 }\
 \
-.ace-pastel-on-dark .ace_keyword {\
+.ace-pastel-on-dark .ace_keyword, .ace-pastel-on-dark .ace_meta {\
   color:#757aD8;\
 }\
 \
@@ -109,7 +114,15 @@ exports.cssText = "\
   color:#797878;\
 }\
 \
-.ace-pastel-on-dark .ace_constant {\
+.ace-pastel-on-dark .ace_constant, .ace-pastel-on-dark .ace_constant.ace_other {\
+  color:#4FB7C5;\
+}\
+\
+.ace-pastel-on-dark .ace_constant.ace_character,  {\
+  color:#4FB7C5;\
+}\
+\
+.ace-pastel-on-dark .ace_constant.ace_character.ace_escape,  {\
   color:#4FB7C5;\
 }\
 \
@@ -174,16 +187,6 @@ color:#D2A8A1;\
     text-decoration:underline;\
 }";
 
-var dom = require("../lib/dom");
-dom.importCssString(exports.cssText, exports.cssClass);
+    var dom = require("../lib/dom");
+    dom.importCssString(exports.cssText, exports.cssClass);
 });
-;
-            (function() {
-                __ace_shadowed__.require(["ace/ext/textarea"], function(a) {
-                    if (!window.__ace_shadowed__)
-                        window.__ace_shadowed__ = {};
-                    for (var key in a) if (a.hasOwnProperty(key))
-                        __ace_shadowed__[key] = a[key];
-                });
-            })();
-        

@@ -19,7 +19,7 @@
  * the Initial Developer. All Rights Reserved.
  *
  * Contributor(s):
- *      Michael Schwartz <mr.pants AT gmail DOT com>
+ *      Fabian Jakobs <fabian AT ajax DOT org>
  *
  * Alternatively, the contents of this file may be used under the terms of
  * either the GNU General Public License Version 2 or later (the "GPL"), or
@@ -35,7 +35,7 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
-__ace_shadowed__.define('ace/theme/merbivore_soft', ['require', 'exports', 'module' ], function(require, exports, module) {
+__ace_shadowed__.define('ace/theme/merbivore_soft', ['require', 'exports', 'module', 'ace/lib/dom'], function(require, exports, module) {
 
 exports.isDark = true;
 exports.cssClass = "ace-merbivore-soft";
@@ -75,13 +75,18 @@ exports.cssText = "\
   border-left: 0px;\
   border-bottom: 1px solid #FFFFFF;\
 }\
- \
+\
 .ace-merbivore-soft .ace_marker-layer .ace_selection {\
   background: #494949;\
 }\
 \
+.ace-merbivore-soft.multiselect .ace_selection.start {\
+  box-shadow: 0 0 3px 0px #1C1C1C;\
+  border-radius: 2px;\
+}\
+\
 .ace-merbivore-soft .ace_marker-layer .ace_step {\
-  background: rgb(198, 219, 174);\
+  background: rgb(102, 82, 0);\
 }\
 \
 .ace-merbivore-soft .ace_marker-layer .ace_bracket {\
@@ -96,16 +101,24 @@ exports.cssText = "\
 .ace-merbivore-soft .ace_marker-layer .ace_selected_word {\
   border: 1px solid #494949;\
 }\
-       \
+\
 .ace-merbivore-soft .ace_invisible {\
   color: #404040;\
 }\
 \
-.ace-merbivore-soft .ace_keyword {\
+.ace-merbivore-soft .ace_keyword, .ace-merbivore-soft .ace_meta {\
   color:#FC803A;\
 }\
 \
-.ace-merbivore-soft .ace_constant {\
+.ace-merbivore-soft .ace_constant, .ace-merbivore-soft .ace_constant.ace_other {\
+  color:#68C1D8;\
+}\
+\
+.ace-merbivore-soft .ace_constant.ace_character,  {\
+  color:#68C1D8;\
+}\
+\
+.ace-merbivore-soft .ace_constant.ace_character.ace_escape,  {\
   color:#68C1D8;\
 }\
 \
@@ -131,9 +144,17 @@ background-color:#FE3838;\
 background-color:#FE3838;\
 }\
 \
+.ace-merbivore-soft .ace_support.ace_constant {\
+  color:#8EC65F;\
+}\
+\
 .ace-merbivore-soft .ace_fold {\
     background-color: #FC803A;\
     border-color: #E6E1DC;\
+}\
+\
+.ace-merbivore-soft .ace_storage {\
+  color:#FC803A;\
 }\
 \
 .ace-merbivore-soft .ace_string {\
@@ -162,16 +183,6 @@ color:#AC4BB8;\
     text-decoration:underline;\
 }";
 
-var dom = require("../lib/dom");
-dom.importCssString(exports.cssText, exports.cssClass);
+    var dom = require("../lib/dom");
+    dom.importCssString(exports.cssText, exports.cssClass);
 });
-;
-            (function() {
-                __ace_shadowed__.require(["ace/ext/textarea"], function(a) {
-                    if (!window.__ace_shadowed__)
-                        window.__ace_shadowed__ = {};
-                    for (var key in a) if (a.hasOwnProperty(key))
-                        __ace_shadowed__[key] = a[key];
-                });
-            })();
-        

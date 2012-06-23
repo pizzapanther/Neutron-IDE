@@ -35,8 +35,8 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
-__ace_shadowed__.define('ace/theme/textmate', ['require', 'exports', 'module' ], function(require, exports, module) {
-"use strict";
+__ace_shadowed__.define('ace/theme/textmate', ['require', 'exports', 'module', 'ace/lib/dom'], function(require, exports, module) {
+
 
 exports.isDark = false;
 exports.cssClass = "ace-tm";
@@ -79,8 +79,13 @@ exports.cssText = ".ace-tm .ace_editor {\
   color: rgb(191, 191, 191);\
 }\
 \
+.ace-tm .ace_line .ace_storage,\
 .ace-tm .ace_line .ace_keyword {\
   color: blue;\
+}\
+\
+.ace-tm .ace_line .ace_constant {\
+  color: rgb(197, 6, 11);\
 }\
 \
 .ace-tm .ace_line .ace_constant.ace_buildin {\
@@ -96,8 +101,8 @@ exports.cssText = ".ace-tm .ace_editor {\
 }\
 \
 .ace-tm .ace_line .ace_invalid {\
-  background-color: rgb(153, 0, 0);\
-  color: white;\
+  background-color: rgba(255, 0, 0, 0.1);\
+  color: red;\
 }\
 \
 .ace-tm .ace_line .ace_support.ace_function {\
@@ -164,7 +169,10 @@ exports.cssText = ".ace-tm .ace_editor {\
 .ace-tm .ace_marker-layer .ace_selection {\
   background: rgb(181, 213, 255);\
 }\
-\
+.ace-tm.multiselect .ace_selection.start {\
+  box-shadow: 0 0 3px 0px white;\
+  border-radius: 2px;\
+}\
 .ace-tm .ace_marker-layer .ace_step {\
   background: rgb(252, 255, 0);\
 }\
@@ -181,6 +189,9 @@ exports.cssText = ".ace-tm .ace_editor {\
 .ace-tm .ace_marker-layer .ace_active_line {\
   background: rgba(0, 0, 0, 0.07);\
 }\
+.ace-tm .ace_gutter_active_line{\
+    background-color : #dcdcdc;\
+}\
 \
 .ace-tm .ace_marker-layer .ace_selected_word {\
   background: rgb(250, 250, 255);\
@@ -188,7 +199,7 @@ exports.cssText = ".ace-tm .ace_editor {\
 }\
 \
 .ace-tm .ace_meta.ace_tag {\
-  color:rgb(28, 2, 255);\
+  color:rgb(0, 50, 198);\
 }\
 \
 .ace-tm .ace_string.ace_regex {\
@@ -198,13 +209,3 @@ exports.cssText = ".ace-tm .ace_editor {\
 var dom = require("../lib/dom");
 dom.importCssString(exports.cssText, exports.cssClass);
 });
-;
-            (function() {
-                __ace_shadowed__.require(["ace/ext/textarea"], function(a) {
-                    if (!window.__ace_shadowed__)
-                        window.__ace_shadowed__ = {};
-                    for (var key in a) if (a.hasOwnProperty(key))
-                        __ace_shadowed__[key] = a[key];
-                });
-            })();
-        

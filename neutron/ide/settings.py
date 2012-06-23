@@ -8,6 +8,9 @@ MODES_DEFAULT = (
   ('coldfusion', 'Cold Fusion'),
   ('css', 'CSS'),
   
+  ('diff', 'Diff'),
+  
+  ('golang', 'Go'),
   ('groovy', 'Groovy'),
   
   ('haxe', 'Haxe'),
@@ -16,9 +19,14 @@ MODES_DEFAULT = (
   ('java', 'Java'),
   ('javascript', 'Javascript'),
   ('json', 'JSON'),
+  ('jsx', 'JSX'),
   
   ('latex', 'Latex'),
+  ('less', 'Less'),
+  ('liquid', 'Liquid Markup'),
   ('lua', 'Lua'),
+  ('luahtml', 'Lua HTML'),
+  ('luapage', 'Lua Page'),
   
   ('markdown', 'Markdown'),
   
@@ -36,12 +44,16 @@ MODES_DEFAULT = (
   ('scad', 'Scad'),
   ('scala', 'Scala'),
   ('scss', 'SCSS'),
+  ('sh', 'Shell'),
   ('sql', 'SQL'),
   ('svg', 'SVG'),
   
   ('textile', 'Textile'),
   
-  ('xml', 'XML')
+  ('xml', 'XML'),
+  ('xquery', 'XQuery'),
+  
+  ('yaml', 'YAML')
 )
 
 THEMES_DEFAULT = (
@@ -64,6 +76,10 @@ TEXT_EXTENSIONS_DEFAULT = {
   
   'css': 'css',
   
+  'diff': 'diff',
+  
+  'go': 'go',
+  
   'hx': 'haxe',
   
   'htm': 'html', 'html': 'html',
@@ -74,7 +90,13 @@ TEXT_EXTENSIONS_DEFAULT = {
   
   'json': 'json',
   
+  'jsx': 'jsx',
+  
   'tex': 'latex', 'latex': 'latex',
+  
+  'less': 'less',
+  
+  'liquid': 'liquid',
   
   'lua': 'lua',
   
@@ -92,13 +114,21 @@ TEXT_EXTENSIONS_DEFAULT = {
   
   'rb': 'ruby', 'rbx': 'ruby',
   
-  'sass': 'scss', 'scss': 'scss', 'less': 'scss',
+  'sass': 'scss', 'scss': 'scss',
+  
+  'sh': 'sh',
   
   'sql': 'sql',
   
   'svg': 'svg',
   
+  'txt': 'text', 'text': 'text',
+  
   'xml': 'xml', 'rss': 'xml', 'atom': 'xml',
+  
+  'xquery': 'xquery',
+  
+  'yml': 'yaml', 'yaml': 'yaml',
   
   'groovy': 'groovy',
   

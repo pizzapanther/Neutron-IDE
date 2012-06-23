@@ -35,7 +35,7 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
-__ace_shadowed__.define('ace/theme/idle_fingers', ['require', 'exports', 'module' ], function(require, exports, module) {
+__ace_shadowed__.define('ace/theme/idle_fingers', ['require', 'exports', 'module', 'ace/lib/dom'], function(require, exports, module) {
 
 exports.isDark = true;
 exports.cssClass = "ace-idle-fingers";
@@ -75,13 +75,18 @@ exports.cssText = "\
   border-left: 0px;\
   border-bottom: 1px solid #91FF00;\
 }\
- \
+\
 .ace-idle-fingers .ace_marker-layer .ace_selection {\
   background: rgba(90, 100, 126, 0.88);\
 }\
 \
+.ace-idle-fingers.multiselect .ace_selection.start {\
+  box-shadow: 0 0 3px 0px #323232;\
+  border-radius: 2px;\
+}\
+\
 .ace-idle-fingers .ace_marker-layer .ace_step {\
-  background: rgb(198, 219, 174);\
+  background: rgb(102, 82, 0);\
 }\
 \
 .ace-idle-fingers .ace_marker-layer .ace_bracket {\
@@ -96,22 +101,34 @@ exports.cssText = "\
 .ace-idle-fingers .ace_marker-layer .ace_selected_word {\
   border: 1px solid rgba(90, 100, 126, 0.88);\
 }\
-       \
+\
 .ace-idle-fingers .ace_invisible {\
   color: #404040;\
 }\
 \
-.ace-idle-fingers .ace_keyword {\
+.ace-idle-fingers .ace_keyword, .ace-idle-fingers .ace_meta {\
   color:#CC7833;\
 }\
 \
-.ace-idle-fingers .ace_constant {\
+.ace-idle-fingers .ace_constant, .ace-idle-fingers .ace_constant.ace_other {\
+  color:#6C99BB;\
+}\
+\
+.ace-idle-fingers .ace_constant.ace_character,  {\
+  color:#6C99BB;\
+}\
+\
+.ace-idle-fingers .ace_constant.ace_character.ace_escape,  {\
   color:#6C99BB;\
 }\
 \
 .ace-idle-fingers .ace_invalid {\
   color:#FFFFFF;\
 background-color:#FF0000;\
+}\
+\
+.ace-idle-fingers .ace_support.ace_constant {\
+  color:#6C99BB;\
 }\
 \
 .ace-idle-fingers .ace_fold {\
@@ -121,6 +138,10 @@ background-color:#FF0000;\
 \
 .ace-idle-fingers .ace_support.ace_function {\
   color:#B83426;\
+}\
+\
+.ace-idle-fingers .ace_variable.ace_parameter {\
+  font-style:italic;\
 }\
 \
 .ace-idle-fingers .ace_string {\
@@ -150,19 +171,9 @@ color:#BC9458;\
 \
 .ace-idle-fingers .ace_collab.ace_user1 {\
   color:#323232;\
-background-color:#FFF980;   \
+background-color:#FFF980;\
 }";
 
-var dom = require("../lib/dom");
-dom.importCssString(exports.cssText, exports.cssClass);
+    var dom = require("../lib/dom");
+    dom.importCssString(exports.cssText, exports.cssClass);
 });
-;
-            (function() {
-                __ace_shadowed__.require(["ace/ext/textarea"], function(a) {
-                    if (!window.__ace_shadowed__)
-                        window.__ace_shadowed__ = {};
-                    for (var key in a) if (a.hasOwnProperty(key))
-                        __ace_shadowed__[key] = a[key];
-                });
-            })();
-        

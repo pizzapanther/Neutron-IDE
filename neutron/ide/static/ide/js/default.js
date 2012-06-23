@@ -108,6 +108,7 @@ function set_edit_pref (sess, id) {
   editor_global.setShowInvisibles(pref.invisibles);
   editor_global.setBehavioursEnabled(pref.behave);
   
+  editor_global.renderer.setFadeFoldWidgets(false);
   editor_global.renderer.setShowGutter(pref.gutter);
   editor_global.renderer.setShowPrintMargin(pref.pmargin);
   

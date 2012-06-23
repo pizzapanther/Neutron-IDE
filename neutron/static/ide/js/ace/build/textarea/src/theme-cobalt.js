@@ -35,7 +35,7 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
-__ace_shadowed__.define('ace/theme/cobalt', ['require', 'exports', 'module' ], function(require, exports, module) {
+__ace_shadowed__.define('ace/theme/cobalt', ['require', 'exports', 'module', 'ace/lib/dom'], function(require, exports, module) {
 
 exports.isDark = true;
 exports.cssClass = "ace-cobalt";
@@ -75,13 +75,18 @@ exports.cssText = "\
   border-left: 0px;\
   border-bottom: 1px solid #FFFFFF;\
 }\
- \
+\
 .ace-cobalt .ace_marker-layer .ace_selection {\
   background: rgba(179, 101, 57, 0.75);\
 }\
 \
+.ace-cobalt.multiselect .ace_selection.start {\
+  box-shadow: 0 0 3px 0px #002240;\
+  border-radius: 2px;\
+}\
+\
 .ace-cobalt .ace_marker-layer .ace_step {\
-  background: rgb(198, 219, 174);\
+  background: rgb(127, 111, 19);\
 }\
 \
 .ace-cobalt .ace_marker-layer .ace_bracket {\
@@ -96,16 +101,24 @@ exports.cssText = "\
 .ace-cobalt .ace_marker-layer .ace_selected_word {\
   border: 1px solid rgba(179, 101, 57, 0.75);\
 }\
-       \
+\
 .ace-cobalt .ace_invisible {\
   color: rgba(255, 255, 255, 0.15);\
 }\
 \
-.ace-cobalt .ace_keyword {\
+.ace-cobalt .ace_keyword, .ace-cobalt .ace_meta {\
   color:#FF9D00;\
 }\
 \
-.ace-cobalt .ace_constant {\
+.ace-cobalt .ace_constant, .ace-cobalt .ace_constant.ace_other {\
+  color:#FF628C;\
+}\
+\
+.ace-cobalt .ace_constant.ace_character,  {\
+  color:#FF628C;\
+}\
+\
+.ace-cobalt .ace_constant.ace_character.ace_escape,  {\
   color:#FF628C;\
 }\
 \
@@ -118,6 +131,10 @@ background-color:#800F00;\
   color:#80FFBB;\
 }\
 \
+.ace-cobalt .ace_support.ace_constant {\
+  color:#EB939A;\
+}\
+\
 .ace-cobalt .ace_fold {\
     background-color: #FF9D00;\
     border-color: #FFFFFF;\
@@ -125,6 +142,10 @@ background-color:#800F00;\
 \
 .ace-cobalt .ace_support.ace_function {\
   color:#FFB054;\
+}\
+\
+.ace-cobalt .ace_storage {\
+  color:#FFEE80;\
 }\
 \
 .ace-cobalt .ace_string.ace_regexp {\
@@ -161,16 +182,6 @@ background-color:#001221;\
   background-color:#130D26;\
 }";
 
-var dom = require("../lib/dom");
-dom.importCssString(exports.cssText, exports.cssClass);
+    var dom = require("../lib/dom");
+    dom.importCssString(exports.cssText, exports.cssClass);
 });
-;
-            (function() {
-                __ace_shadowed__.require(["ace/ext/textarea"], function(a) {
-                    if (!window.__ace_shadowed__)
-                        window.__ace_shadowed__ = {};
-                    for (var key in a) if (a.hasOwnProperty(key))
-                        __ace_shadowed__[key] = a[key];
-                });
-            })();
-        

@@ -35,7 +35,7 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
-__ace_shadowed__.define('ace/theme/tomorrow', ['require', 'exports', 'module' ], function(require, exports, module) {
+__ace_shadowed__.define('ace/theme/tomorrow', ['require', 'exports', 'module', 'ace/lib/dom'], function(require, exports, module) {
 
 exports.isDark = false;
 exports.cssClass = "ace-tomorrow";
@@ -75,13 +75,18 @@ exports.cssText = "\
   border-left: 0px;\
   border-bottom: 1px solid #AEAFAD;\
 }\
- \
+\
 .ace-tomorrow .ace_marker-layer .ace_selection {\
   background: #D6D6D6;\
 }\
 \
+.ace-tomorrow.multiselect .ace_selection.start {\
+  box-shadow: 0 0 3px 0px #FFFFFF;\
+  border-radius: 2px;\
+}\
+\
 .ace-tomorrow .ace_marker-layer .ace_step {\
-  background: rgb(198, 219, 174);\
+  background: rgb(255, 255, 0);\
 }\
 \
 .ace-tomorrow .ace_marker-layer .ace_bracket {\
@@ -96,12 +101,12 @@ exports.cssText = "\
 .ace-tomorrow .ace_marker-layer .ace_selected_word {\
   border: 1px solid #D6D6D6;\
 }\
-       \
+\
 .ace-tomorrow .ace_invisible {\
   color: #D1D1D1;\
 }\
 \
-.ace-tomorrow .ace_keyword {\
+.ace-tomorrow .ace_keyword, .ace-tomorrow .ace_meta {\
   color:#8959A8;\
 }\
 \
@@ -117,6 +122,10 @@ exports.cssText = "\
   color:#F5871F;\
 }\
 \
+.ace-tomorrow .ace_constant.ace_other {\
+  color:#666969;\
+}\
+\
 .ace-tomorrow .ace_invalid {\
   color:#FFFFFF;\
 background-color:#C82829;\
@@ -127,6 +136,10 @@ background-color:#C82829;\
 background-color:#8959A8;\
 }\
 \
+.ace-tomorrow .ace_support.ace_constant {\
+  color:#F5871F;\
+}\
+\
 .ace-tomorrow .ace_fold {\
     background-color: #4271AE;\
     border-color: #4D4D4C;\
@@ -134,6 +147,22 @@ background-color:#8959A8;\
 \
 .ace-tomorrow .ace_support.ace_function {\
   color:#4271AE;\
+}\
+\
+.ace-tomorrow .ace_storage {\
+  color:#8959A8;\
+}\
+\
+.ace-tomorrow .ace_storage.ace_type,  .ace-tomorrow .ace_support.ace_type{\
+  color:#8959A8;\
+}\
+\
+.ace-tomorrow .ace_variable {\
+  color:#4271AE;\
+}\
+\
+.ace-tomorrow .ace_variable.ace_parameter {\
+  color:#F5871F;\
 }\
 \
 .ace-tomorrow .ace_string {\
@@ -172,16 +201,6 @@ background-color:#8959A8;\
   color:#718C00;\
 }";
 
-var dom = require("../lib/dom");
-dom.importCssString(exports.cssText, exports.cssClass);
+    var dom = require("../lib/dom");
+    dom.importCssString(exports.cssText, exports.cssClass);
 });
-;
-            (function() {
-                __ace_shadowed__.require(["ace/ext/textarea"], function(a) {
-                    if (!window.__ace_shadowed__)
-                        window.__ace_shadowed__ = {};
-                    for (var key in a) if (a.hasOwnProperty(key))
-                        __ace_shadowed__[key] = a[key];
-                });
-            })();
-        
