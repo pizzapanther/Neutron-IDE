@@ -35,8 +35,8 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
-__ace_shadowed__.define('ace/theme/eclipse', ['require', 'exports', 'module' ], function(require, exports, module) {
-"use strict";
+__ace_shadowed__.define('ace/theme/eclipse', ['require', 'exports', 'module', 'ace/lib/dom'], function(require, exports, module) {
+
 
 exports.isDark = false;
 exports.cssText = ".ace-eclipse .ace_editor {\
@@ -67,10 +67,12 @@ exports.cssText = ".ace-eclipse .ace_editor {\
 }\
 \
 .ace-eclipse .ace_cursor {\
-  border-left: 1px solid black;\
+  border-left: 2px solid black;\
 }\
 \
-.ace-eclipse .ace_line .ace_keyword, .ace-eclipse .ace_line .ace_variable {\
+.ace-eclipse .ace_line .ace_storage,\
+.ace-eclipse .ace_line .ace_keyword,\
+.ace-eclipse .ace_line .ace_variable {\
   color: rgb(127, 0, 85);\
 }\
 \
@@ -133,6 +135,9 @@ exports.cssText = ".ace-eclipse .ace_editor {\
 .ace-eclipse .ace_entity.ace_other.ace_attribute-name {\
   color:rgb(127, 0, 127);\
 }\
+.ace-eclipse .ace_marker-layer .ace_step {\
+  background: rgb(255, 255, 0);\
+}\
 \
 .ace-eclipse .ace_marker-layer .ace_active_line {\
   background: rgb(232, 242, 254);\
@@ -143,13 +148,3 @@ exports.cssClass = "ace-eclipse";
 var dom = require("../lib/dom");
 dom.importCssString(exports.cssText, exports.cssClass);
 });
-;
-            (function() {
-                __ace_shadowed__.require(["ace/ext/textarea"], function(a) {
-                    if (!window.__ace_shadowed__)
-                        window.__ace_shadowed__ = {};
-                    for (var key in a) if (a.hasOwnProperty(key))
-                        __ace_shadowed__[key] = a[key];
-                });
-            })();
-        

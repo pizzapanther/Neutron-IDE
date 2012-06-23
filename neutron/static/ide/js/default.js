@@ -108,6 +108,7 @@ function set_edit_pref (sess, id) {
   editor_global.setShowInvisibles(pref.invisibles);
   editor_global.setBehavioursEnabled(pref.behave);
   
+  editor_global.renderer.setFadeFoldWidgets(false);
   editor_global.renderer.setShowGutter(pref.gutter);
   editor_global.renderer.setShowPrintMargin(pref.pmargin);
   
@@ -311,7 +312,7 @@ function uploadFile(id, onComplete) {
   xhr.addEventListener("error", function (evt) { alert('Upload Failed'); }, false);
   xhr.addEventListener("abort", function (evt) { alert('Upload Cancel'); }, false);
   
-  xhr.open("POST", "/temp_file/?name=" + encodeURIComponent(fd.fileName));
+  xhr.open("POST", "/temp_file/?name=" + encodeURIComponent(fd.name));
   xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
   xhr.send(fd);
 }
@@ -378,9 +379,9 @@ function middleClick (e, ele) {
     else {
       var p = $(ele).parent();
       
-      if ($(p).hasClass('ui-tabs-selected')) {
-        stopMiddle = true;
-      }
+      //if ($(p).hasClass('ui-tabs-selected')) {
+      stopMiddle = true;
+      //}
       
       var index = $("li", $tabs ).index(p);
       $tabs.tabs("remove", index );
@@ -396,7 +397,7 @@ $(document).ready( function() {
     file_browser();
     
     $tabs = $("#tabsinner").tabs({
-      tabTemplate: "<li><a class='middle' href='#{href}' onclick='return middleClick(event, this)'>#{label}</a> <span class='ui-icon ui-icon-close'><sup>x</sup></span></li>",
+      tabTemplate: "<li><a class='middle' href='#{href}' onmouseup='return middleClick(event, this)' onmousedown='return middleClick(event, this)'>#{label}</a> <span class='ui-icon ui-icon-close'><sup>x</sup></span></li>",
       show: function( event, ui) { resize_editor(); },
 			add: function( event, ui) {
         $(ui.panel).append( "<div class=\"editor\" id=\"editor_" + tab_counter + "\"></div>" );

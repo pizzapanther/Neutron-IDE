@@ -10,7 +10,7 @@
   </ul>\
 </div>' 
   );
-  $("#{{ fid }} > a").rightClick( function(e) {
+  $("#{{ fid }} > a").bind('contextmenu rightclick', function(e) {
     $(".right_menu").css("display", 'none');
     
     $("#{{ fid }}_right").css("display", 'block');
@@ -25,5 +25,7 @@
     
     var ol = e.pageX - 20;
     $("#{{ fid }}_right").css("left", ol + 'px');
+    e.preventDefault();
+    return false;
   });
 </script>

@@ -3,5 +3,5 @@ south==0.7.3
 django-celery==2.4.2
 django-kombu==0.9.4
 pyte==0.4.5
-tornado==2.2
+tornado==2.3
 python-daemon==1.5.5

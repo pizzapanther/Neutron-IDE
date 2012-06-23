@@ -1,7 +1,35 @@
 #!/bin/bash
 
-source ~/env/ide/bin/activate
-cd ~/git/Neutron-IDE/neutron
-/usr/bin/authbind --deep ~/git/Neutron-IDE/neutron/neutronide.py start
-~/git/Neutron-IDE/neutron/manage.py celeryd 1> ~/neutron/logs/celery.log 2> ~/neutron/logs/celery.log &
+. /etc/environment
 
+HOME=/home/user
+PYENV=$HOME/pyenv/ide
+PROJ=$HOME/git/Neutron-IDE
+LOGS=$HOME/neutron/logs
+
+mkdir -p "$LOGS"
+
+if [ -f /etc/profile ]
+then
+  . /etc/profile
+fi
+
+if [ -f "$HOME/.bash_profile" ]
+then
+  . "$HOME/.bash_profile"
+fi
+
+if [ -f "$HOME/.bash_login" ]
+then
+  . "$HOME/.bash_login"
+fi
+
+if [ -f "$HOME/.profile" ]
+then
+  . "$HOME/.profile"
+fi
+
+source "$PYENV/bin/activate"
+cd "$PROJ/neutron"
+authbind --deep ./neutronide.py start
+./manage.py celeryd 1> "$LOGS/celery.log" 2> "$LOGS/celery.log" &

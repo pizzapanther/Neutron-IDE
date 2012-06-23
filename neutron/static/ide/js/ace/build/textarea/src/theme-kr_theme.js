@@ -35,7 +35,7 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
-__ace_shadowed__.define('ace/theme/kr_theme', ['require', 'exports', 'module' ], function(require, exports, module) {
+__ace_shadowed__.define('ace/theme/kr_theme', ['require', 'exports', 'module', 'ace/lib/dom'], function(require, exports, module) {
 
 exports.isDark = true;
 exports.cssClass = "ace-kr-theme";
@@ -75,13 +75,18 @@ exports.cssText = "\
   border-left: 0px;\
   border-bottom: 1px solid #FF9900;\
 }\
- \
+\
 .ace-kr-theme .ace_marker-layer .ace_selection {\
   background: rgba(170, 0, 255, 0.45);\
 }\
 \
+.ace-kr-theme.multiselect .ace_selection.start {\
+  box-shadow: 0 0 3px 0px #0B0A09;\
+  border-radius: 2px;\
+}\
+\
 .ace-kr-theme .ace_marker-layer .ace_step {\
-  background: rgb(198, 219, 174);\
+  background: rgb(102, 82, 0);\
 }\
 \
 .ace-kr-theme .ace_marker-layer .ace_bracket {\
@@ -96,16 +101,24 @@ exports.cssText = "\
 .ace-kr-theme .ace_marker-layer .ace_selected_word {\
   border: 1px solid rgba(170, 0, 255, 0.45);\
 }\
-       \
+\
 .ace-kr-theme .ace_invisible {\
   color: rgba(255, 177, 111, 0.32);\
 }\
 \
-.ace-kr-theme .ace_keyword {\
+.ace-kr-theme .ace_keyword, .ace-kr-theme .ace_meta {\
   color:#949C8B;\
 }\
 \
-.ace-kr-theme .ace_constant {\
+.ace-kr-theme .ace_constant, .ace-kr-theme .ace_constant.ace_other {\
+  color:rgba(210, 117, 24, 0.76);\
+}\
+\
+.ace-kr-theme .ace_constant.ace_character,  {\
+  color:rgba(210, 117, 24, 0.76);\
+}\
+\
+.ace-kr-theme .ace_constant.ace_character.ace_escape,  {\
   color:rgba(210, 117, 24, 0.76);\
 }\
 \
@@ -118,6 +131,10 @@ background-color:#A41300;\
   color:#9FC28A;\
 }\
 \
+.ace-kr-theme .ace_support.ace_constant {\
+  color:#C27E66;\
+}\
+\
 .ace-kr-theme .ace_fold {\
     background-color: #949C8B;\
     border-color: #FCFFE0;\
@@ -125,6 +142,10 @@ background-color:#A41300;\
 \
 .ace-kr-theme .ace_support.ace_function {\
   color:#85873A;\
+}\
+\
+.ace-kr-theme .ace_storage {\
+  color:#FFEE80;\
 }\
 \
 .ace-kr-theme .ace_string.ace_regexp {\
@@ -156,16 +177,6 @@ color:#706D5B;\
   background-color:#0F0040;\
 }";
 
-var dom = require("../lib/dom");
-dom.importCssString(exports.cssText, exports.cssClass);
+    var dom = require("../lib/dom");
+    dom.importCssString(exports.cssText, exports.cssClass);
 });
-;
-            (function() {
-                __ace_shadowed__.require(["ace/ext/textarea"], function(a) {
-                    if (!window.__ace_shadowed__)
-                        window.__ace_shadowed__ = {};
-                    for (var key in a) if (a.hasOwnProperty(key))
-                        __ace_shadowed__[key] = a[key];
-                });
-            })();
-        

@@ -38,7 +38,7 @@
 * ***** END LICENSE BLOCK ***** */
 
 __ace_shadowed__.define('ace/mode/lua', ['require', 'exports', 'module' , 'ace/lib/oop', 'ace/mode/text', 'ace/tokenizer', 'ace/mode/lua_highlight_rules'], function(require, exports, module) {
-"use strict";
+
 
 var oop = require("../lib/oop");
 var TextMode = require("./text").Mode;
@@ -56,7 +56,7 @@ oop.inherits(Mode, TextMode);
 
         var tokenizedLine = this.$tokenizer.getLineTokens(line, state);
         var tokens = tokenizedLine.tokens;
-	
+    
         var chunks = ["function", "then", "do", "repeat"];
         
         if (state == "start") {
@@ -84,48 +84,8 @@ oop.inherits(Mode, TextMode);
 exports.Mode = Mode;
 });
 
-
-/* ***** BEGIN LICENSE BLOCK *****
-* Version: MPL 1.1/GPL 2.0/LGPL 2.1
-*
-* The contents of this file are subject to the Mozilla Public License Version
-* 1.1 (the "License"); you may not use this file except in compliance with
-* the License. You may obtain a copy of the License at
-* http://www.mozilla.org/MPL/
-*
-* Software distributed under the License is distributed on an "AS IS" basis,
-* WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
-* for the specific language governing rights and limitations under the
-* License.
-*
-* The Original Code is Ajax.org Code Editor (ACE).
-*
-* The Initial Developer of the Original Code is
-* Ajax.org B.V.
-* Portions created by the Initial Developer are Copyright (C) 2010
-* the Initial Developer. All Rights Reserved.
-*
-* Contributor(s):
-*      Fabian Jakobs <fabian AT ajax DOT org>
-*      Colin Gourlay <colin DOT j DOT gourlay AT gmail DOT com>
-*      Lee Gao
-*
-* Alternatively, the contents of this file may be used under the terms of
-* either the GNU General Public License Version 2 or later (the "GPL"), or
-* the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
-* in which case the provisions of the GPL or the LGPL are applicable instead
-* of those above. If you wish to allow use of your version of this file only
-* under the terms of either the GPL or the LGPL, and not to allow others to
-* use your version of this file under the terms of the MPL, indicate your
-* decision by deleting the provisions above and replace them with the notice
-* and other provisions required by the GPL or the LGPL. If you do not delete
-* the provisions above, a recipient may use your version of this file under
-* the terms of any one of the MPL, the GPL or the LGPL.
-*
-* ***** END LICENSE BLOCK ***** */
-
 __ace_shadowed__.define('ace/mode/lua_highlight_rules', ['require', 'exports', 'module' , 'ace/lib/oop', 'ace/lib/lang', 'ace/mode/text_highlight_rules'], function(require, exports, module) {
-"use strict";
+
 
 var oop = require("../lib/oop");
 var lang = require("../lib/lang");
@@ -198,7 +158,7 @@ var LuaHighlightRules = function() {
     this.$rules = {
         "start" : 
 
-		
+        
         // bracketed comments
         [{
             token : "comment",           // --[[ comment
@@ -219,9 +179,9 @@ var LuaHighlightRules = function() {
             token : "comment",           // --[====+[ comment
             regex : strPre + '\\-\\-\\[\\={5}\\=*\\[.*\\]\\={5}\\=*\\]'
         },
-		
-		// multiline bracketed comments
-		{
+        
+        // multiline bracketed comments
+        {
             token : "comment",           // --[[ comment
             regex : strPre + '\\-\\-\\[\\[.*$',
             merge : true,
@@ -271,7 +231,7 @@ var LuaHighlightRules = function() {
         }, 
         
         // bracketed strings
-		{
+        {
             token : "string",           // [[ string
             regex : strPre + '\\[\\[.*\\]\\]'
         }, {
@@ -290,8 +250,8 @@ var LuaHighlightRules = function() {
             token : "string",           // [====+[ string
             regex : strPre + '\\[\\={5}\\=*\\[.*\\]\\={5}\\=*\\]'
         },
-		
-		// multiline bracketed strings
+        
+        // multiline bracketed strings
         {
             token : "string",           // [[ string
             regex : strPre + '\\[\\[.*$',
@@ -521,13 +481,3 @@ oop.inherits(LuaHighlightRules, TextHighlightRules);
 
 exports.LuaHighlightRules = LuaHighlightRules;
 });
-;
-            (function() {
-                __ace_shadowed__.require(["ace/ext/textarea"], function(a) {
-                    if (!window.__ace_shadowed__)
-                        window.__ace_shadowed__ = {};
-                    for (var key in a) if (a.hasOwnProperty(key))
-                        __ace_shadowed__[key] = a[key];
-                });
-            })();
-        

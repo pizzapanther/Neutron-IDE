@@ -10,12 +10,12 @@ body {
   margin: 0 10px 0 5px;
 }
 
-.mono, .ace_editor {
-  font-family: 'Droid Sans Mono', "Courier New", courier, monospace;
+.mono, #neutron_ui .ace_editor {
+  font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;
 }
 
 textarea {
-  font-family: 'Droid Sans Mono', "Courier New", courier, monospace;
+  font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;
 }
 
 a {

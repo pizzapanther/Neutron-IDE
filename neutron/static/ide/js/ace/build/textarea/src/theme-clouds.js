@@ -35,7 +35,7 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
-__ace_shadowed__.define('ace/theme/clouds', ['require', 'exports', 'module' ], function(require, exports, module) {
+__ace_shadowed__.define('ace/theme/clouds', ['require', 'exports', 'module', 'ace/lib/dom'], function(require, exports, module) {
 
 exports.isDark = false;
 exports.cssClass = "ace-clouds";
@@ -75,13 +75,18 @@ exports.cssText = "\
   border-left: 0px;\
   border-bottom: 1px solid #000000;\
 }\
- \
+\
 .ace-clouds .ace_marker-layer .ace_selection {\
   background: #BDD5FC;\
 }\
 \
+.ace-clouds.multiselect .ace_selection.start {\
+  box-shadow: 0 0 3px 0px #FFFFFF;\
+  border-radius: 2px;\
+}\
+\
 .ace-clouds .ace_marker-layer .ace_step {\
-  background: rgb(198, 219, 174);\
+  background: rgb(255, 255, 0);\
 }\
 \
 .ace-clouds .ace_marker-layer .ace_bracket {\
@@ -96,12 +101,12 @@ exports.cssText = "\
 .ace-clouds .ace_marker-layer .ace_selected_word {\
   border: 1px solid #BDD5FC;\
 }\
-       \
+\
 .ace-clouds .ace_invisible {\
   color: #BFBFBF;\
 }\
 \
-.ace-clouds .ace_keyword {\
+.ace-clouds .ace_keyword, .ace-clouds .ace_meta {\
   color:#AF956F;\
 }\
 \
@@ -130,6 +135,10 @@ exports.cssText = "\
   color:#C52727;\
 }\
 \
+.ace-clouds .ace_storage {\
+  color:#C52727;\
+}\
+\
 .ace-clouds .ace_string {\
   color:#5D90CD;\
 }\
@@ -146,17 +155,6 @@ exports.cssText = "\
     text-decoration:underline;\
 }";
 
-var dom = require("../lib/dom");
-dom.importCssString(exports.cssText, exports.cssClass);
-
+    var dom = require("../lib/dom");
+    dom.importCssString(exports.cssText, exports.cssClass);
 });
-;
-            (function() {
-                __ace_shadowed__.require(["ace/ext/textarea"], function(a) {
-                    if (!window.__ace_shadowed__)
-                        window.__ace_shadowed__ = {};
-                    for (var key in a) if (a.hasOwnProperty(key))
-                        __ace_shadowed__[key] = a[key];
-                });
-            })();
-        
