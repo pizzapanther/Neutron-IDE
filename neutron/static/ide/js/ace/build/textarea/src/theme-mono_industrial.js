@@ -35,7 +35,7 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
-__ace_shadowed__.define('ace/theme/mono_industrial', ['require', 'exports', 'module' ], function(require, exports, module) {
+__ace_shadowed__.define('ace/theme/mono_industrial', ['require', 'exports', 'module', 'ace/lib/dom'], function(require, exports, module) {
 
 exports.isDark = true;
 exports.cssClass = "ace-mono-industrial";
@@ -75,13 +75,18 @@ exports.cssText = "\
   border-left: 0px;\
   border-bottom: 1px solid #FFFFFF;\
 }\
- \
+\
 .ace-mono-industrial .ace_marker-layer .ace_selection {\
   background: rgba(145, 153, 148, 0.40);\
 }\
 \
+.ace-mono-industrial.multiselect .ace_selection.start {\
+  box-shadow: 0 0 3px 0px #222C28;\
+  border-radius: 2px;\
+}\
+\
 .ace-mono-industrial .ace_marker-layer .ace_step {\
-  background: rgb(198, 219, 174);\
+  background: rgb(102, 82, 0);\
 }\
 \
 .ace-mono-industrial .ace_marker-layer .ace_bracket {\
@@ -96,12 +101,12 @@ exports.cssText = "\
 .ace-mono-industrial .ace_marker-layer .ace_selected_word {\
   border: 1px solid rgba(145, 153, 148, 0.40);\
 }\
-       \
+\
 .ace-mono-industrial .ace_invisible {\
   color: rgba(102, 108, 104, 0.50);\
 }\
 \
-.ace-mono-industrial .ace_keyword {\
+.ace-mono-industrial .ace_keyword, .ace-mono-industrial .ace_meta {\
   color:#A39E64;\
 }\
 \
@@ -109,7 +114,15 @@ exports.cssText = "\
   color:#A8B3AB;\
 }\
 \
-.ace-mono-industrial .ace_constant {\
+.ace-mono-industrial .ace_constant, .ace-mono-industrial .ace_constant.ace_other {\
+  color:#E98800;\
+}\
+\
+.ace-mono-industrial .ace_constant.ace_character,  {\
+  color:#E98800;\
+}\
+\
+.ace-mono-industrial .ace_constant.ace_character.ace_escape,  {\
   color:#E98800;\
 }\
 \
@@ -122,6 +135,10 @@ exports.cssText = "\
 background-color:rgba(153, 0, 0, 0.68);\
 }\
 \
+.ace-mono-industrial .ace_support.ace_constant {\
+  color:#C87500;\
+}\
+\
 .ace-mono-industrial .ace_fold {\
     background-color: #A8B3AB;\
     border-color: #FFFFFF;\
@@ -129,6 +146,18 @@ background-color:rgba(153, 0, 0, 0.68);\
 \
 .ace-mono-industrial .ace_support.ace_function {\
   color:#588E60;\
+}\
+\
+.ace-mono-industrial .ace_storage {\
+  color:#C23B00;\
+}\
+\
+.ace-mono-industrial .ace_variable {\
+  color:#A8B3AB;\
+}\
+\
+.ace-mono-industrial .ace_variable.ace_parameter {\
+  color:#648BD2;\
 }\
 \
 .ace-mono-industrial .ace_comment {\
@@ -156,16 +185,6 @@ background-color:#151C19;\
     text-decoration:underline;\
 }";
 
-var dom = require("../lib/dom");
-dom.importCssString(exports.cssText, exports.cssClass);
+    var dom = require("../lib/dom");
+    dom.importCssString(exports.cssText, exports.cssClass);
 });
-;
-            (function() {
-                __ace_shadowed__.require(["ace/ext/textarea"], function(a) {
-                    if (!window.__ace_shadowed__)
-                        window.__ace_shadowed__ = {};
-                    for (var key in a) if (a.hasOwnProperty(key))
-                        __ace_shadowed__[key] = a[key];
-                });
-            })();
-        

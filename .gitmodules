@@ -1,0 +1,3 @@
+[submodule "neutron/ide/static/ide/js/ace/build"]
+	path = neutron/ide/static/ide/js/ace/build
+	url = https://github.com/ajaxorg/ace-builds.git

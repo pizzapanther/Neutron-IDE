@@ -35,7 +35,7 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
-__ace_shadowed__.define('ace/theme/dawn', ['require', 'exports', 'module' ], function(require, exports, module) {
+__ace_shadowed__.define('ace/theme/dawn', ['require', 'exports', 'module', 'ace/lib/dom'], function(require, exports, module) {
 
 exports.isDark = false;
 exports.cssClass = "ace-dawn";
@@ -75,13 +75,18 @@ exports.cssText = "\
   border-left: 0px;\
   border-bottom: 1px solid #000000;\
 }\
- \
+\
 .ace-dawn .ace_marker-layer .ace_selection {\
   background: rgba(39, 95, 255, 0.30);\
 }\
 \
+.ace-dawn.multiselect .ace_selection.start {\
+  box-shadow: 0 0 3px 0px #F9F9F9;\
+  border-radius: 2px;\
+}\
+\
 .ace-dawn .ace_marker-layer .ace_step {\
-  background: rgb(198, 219, 174);\
+  background: rgb(255, 255, 0);\
 }\
 \
 .ace-dawn .ace_marker-layer .ace_bracket {\
@@ -96,16 +101,24 @@ exports.cssText = "\
 .ace-dawn .ace_marker-layer .ace_selected_word {\
   border: 1px solid rgba(39, 95, 255, 0.30);\
 }\
-       \
+\
 .ace-dawn .ace_invisible {\
   color: rgba(75, 75, 126, 0.50);\
 }\
 \
-.ace-dawn .ace_keyword {\
+.ace-dawn .ace_keyword, .ace-dawn .ace_meta {\
   color:#794938;\
 }\
 \
-.ace-dawn .ace_constant {\
+.ace-dawn .ace_constant, .ace-dawn .ace_constant.ace_other {\
+  color:#811F24;\
+}\
+\
+.ace-dawn .ace_constant.ace_character,  {\
+  color:#811F24;\
+}\
+\
+.ace-dawn .ace_constant.ace_character.ace_escape,  {\
   color:#811F24;\
 }\
 \
@@ -126,6 +139,10 @@ color:#B52A1D;\
   color:#691C97;\
 }\
 \
+.ace-dawn .ace_support.ace_constant {\
+  color:#B4371F;\
+}\
+\
 .ace-dawn .ace_fold {\
     background-color: #794938;\
     border-color: #080808;\
@@ -133,6 +150,11 @@ color:#B52A1D;\
 \
 .ace-dawn .ace_support.ace_function {\
   color:#693A17;\
+}\
+\
+.ace-dawn .ace_storage {\
+  font-style:italic;\
+color:#A71D5D;\
 }\
 \
 .ace-dawn .ace_string {\
@@ -164,16 +186,6 @@ color:#5A525F;\
   color:#693A17;\
 }";
 
-var dom = require("../lib/dom");
-dom.importCssString(exports.cssText, exports.cssClass);
+    var dom = require("../lib/dom");
+    dom.importCssString(exports.cssText, exports.cssClass);
 });
-;
-            (function() {
-                __ace_shadowed__.require(["ace/ext/textarea"], function(a) {
-                    if (!window.__ace_shadowed__)
-                        window.__ace_shadowed__ = {};
-                    for (var key in a) if (a.hasOwnProperty(key))
-                        __ace_shadowed__[key] = a[key];
-                });
-            })();
-        

@@ -1,5 +1,5 @@
 __ace_shadowed__.define('ace/mode/latex', ['require', 'exports', 'module' , 'ace/lib/oop', 'ace/mode/text', 'ace/tokenizer', 'ace/mode/latex_highlight_rules', 'ace/range'], function(require, exports, module) {
-"use strict";
+
 
 var oop = require("../lib/oop");
 var TextMode = require("./text").Mode;
@@ -56,7 +56,7 @@ exports.Mode = Mode;
 
 });
 __ace_shadowed__.define('ace/mode/latex_highlight_rules', ['require', 'exports', 'module' , 'ace/lib/oop', 'ace/mode/text_highlight_rules'], function(require, exports, module) {
-"use strict";
+
 
 var oop = require("../lib/oop");
 var TextHighlightRules = require("./text_highlight_rules").TextHighlightRules;
@@ -93,13 +93,3 @@ oop.inherits(LatexHighlightRules, TextHighlightRules);
 exports.LatexHighlightRules = LatexHighlightRules;
 
 });
-;
-            (function() {
-                __ace_shadowed__.require(["ace/ext/textarea"], function(a) {
-                    if (!window.__ace_shadowed__)
-                        window.__ace_shadowed__ = {};
-                    for (var key in a) if (a.hasOwnProperty(key))
-                        __ace_shadowed__[key] = a[key];
-                });
-            })();
-        
