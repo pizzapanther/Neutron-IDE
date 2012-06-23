@@ -378,9 +378,9 @@ function middleClick (e, ele) {
     else {
       var p = $(ele).parent();
       
-      if ($(p).hasClass('ui-tabs-selected')) {
-        stopMiddle = true;
-      }
+      //if ($(p).hasClass('ui-tabs-selected')) {
+      stopMiddle = true;
+      //}
       
       var index = $("li", $tabs ).index(p);
       $tabs.tabs("remove", index );
@@ -396,7 +396,7 @@ $(document).ready( function() {
     file_browser();
     
     $tabs = $("#tabsinner").tabs({
-      tabTemplate: "<li><a class='middle' href='#{href}' onclick='return middleClick(event, this)'>#{label}</a> <span class='ui-icon ui-icon-close'><sup>x</sup></span></li>",
+      tabTemplate: "<li><a class='middle' href='#{href}' onmouseup='return middleClick(event, this)' onmousedown='return middleClick(event, this)'>#{label}</a> <span class='ui-icon ui-icon-close'><sup>x</sup></span></li>",
       show: function( event, ui) { resize_editor(); },
 			add: function( event, ui) {
         $(ui.panel).append( "<div class=\"editor\" id=\"editor_" + tab_counter + "\"></div>" );
