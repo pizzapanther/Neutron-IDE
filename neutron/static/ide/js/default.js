@@ -158,6 +158,7 @@ function create_tab (data, textStatus, jqXHR, range) {
       $tabs.tabs('select', "#tabs-" + tab_counter);
       
       if (!editor_global) {
+        console.log('NARF');
         editor_global = ace.edit("editor_global");
         add_commands(editor_global);
       }
@@ -269,6 +270,13 @@ function remove_tab (ui) {
   var cnt = split_href(ui.tab.href);
   var dp = tab_counts[cnt];
   
+  var count = 0;
+  for(var prop in tab_paths) {  count++;  }
+  
+  if (count == 1) {
+    editor_global.setValue("Open A File to Continue");
+  }
+  
   if (tab_paths[dp] && tab_paths[dp].session) {
     tab_paths[dp].session.$stopWorker();
     delete tab_paths[dp].session;
@@ -287,11 +295,6 @@ function remove_tab (ui) {
   if (dp) {
     current_edit(dp);
     resize_editor();
-  }
-  
-  else {
-    editor_global = null;
-    $('#editor_global').html('');
   }
 }
 
