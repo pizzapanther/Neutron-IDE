@@ -158,7 +158,6 @@ function create_tab (data, textStatus, jqXHR, range) {
       $tabs.tabs('select', "#tabs-" + tab_counter);
       
       if (!editor_global) {
-        console.log('NARF');
         editor_global = ace.edit("editor_global");
         add_commands(editor_global);
       }
