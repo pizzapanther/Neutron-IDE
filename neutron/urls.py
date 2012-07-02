@@ -1,13 +1,17 @@
 from django.conf.urls.defaults import patterns, include, url
-
-# Uncomment the next two lines to enable the admin:
 from django.contrib import admin
+from django.conf import settings
+
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    # Uncomment the admin/doc line below to enable admin documentation:
-    #url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'', include('neutron.ide.urls')),
+  url(r'^admin/', include(admin.site.urls)),
+  url(r'', include('neutron.ide.urls')),
 )
+
+if settings.DJANGO_SERVE_STATIC_MEDIA:
+  urlpatterns += patterns('',
+    url(r'^%s(?P<path>.*)$' % settings.STATIC_URL[1:-1], 'django.views.static.serve',  {'document_root': settings.STATIC_ROOT, 'show_indexes': True}),
+    url(r'^%s(?P<path>.*)$' % settings.MEDIA_URL[1:-1], 'django.views.static.serve',  {'document_root': settings.MEDIA_ROOT, 'show_indexes': True}),
+  )
+  
