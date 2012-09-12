@@ -70,7 +70,7 @@ TEXT_EXTENSIONS_DEFAULT = {
   
   'cfm': 'coldfusion', 'cfc': 'coldfusion', 'cfml': 'coldfusion',
   
-  'cof': 'coffee',
+  'cof': 'coffee', 'coffee': 'coffee',
   
   'cs': 'csharp',
   
@@ -126,7 +126,7 @@ TEXT_EXTENSIONS_DEFAULT = {
   
   'xml': 'xml', 'rss': 'xml', 'atom': 'xml',
   
-  'xquery': 'xquery',
+  'xquery': 'xquery', 'xq': 'xquery',
   
   'yml': 'yaml', 'yaml': 'yaml',
   
