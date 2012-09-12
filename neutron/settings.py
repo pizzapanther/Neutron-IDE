@@ -142,6 +142,8 @@ CELERY_RESULT_BACKEND = "database"
 HTTP_PORT = 8000
 IMG_EDITOR_PORT = 8001
 
+DJANGO_SERVE_STATIC_MEDIA = False
+
 BG_IMG = 'ide/img/neutron.jpg'
 
 import djcelery
