@@ -15,6 +15,7 @@ class Grep (object):
     while 1:
       line = fh.readline()
       if line:
+        line = unicode(line, errors='ignore')
         if (linenum in rlines):
           newlines += self.needle.sub(rstr, line)
           
