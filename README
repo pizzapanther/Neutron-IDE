@@ -1,3 +1,8 @@
+This is project has been discontinued.  See Neutron Drive now: http://neutrondrive.com
+
+Using Neutron Drive and Neutron Beam you can have the same functionality as Neutron IDE.
+Neutron Beam: https://github.com/pizzapanther/Neutron-Beam
+
 Neutron IDE is a web based integrated development environment.
 
 Neutron IDE was created to be a web IDE that satisfies the following:
@@ -14,12 +19,6 @@ Neutron IDE is based on Ace Editor (http://ace.ajax.org/) and currentely has the
   * Tabbed interface
   * Search and Replace in current tab, all tabs, or in a directory
   * Terminal Emulator
-
-In the near future I hope to:
-  * Add a plugin system (integrate tools like Git, SVN via plugins)
-  * Integrate more 3rd Party tools for editing binary files.
-
-Demo: http://demo.neutronide.com/
 
 --- Notes on terminal ---
 Some browsers, like Chrome in particular, do not send all keyboard signals through to javascript.  So if you press key combinations like Ctrl-W, it will close your tab and send nothing to the terminal.  Sorry :-(
